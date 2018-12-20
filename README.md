@@ -2,7 +2,7 @@
 A small class project for a systems dynamics model of mechanisms for a Dutch clean energy transition.
 
 ## Authors
-* Ingo Schonwandt
+* Ingo Schönwandt
 * Bor Ditewig
 * Jason R Wang
 
