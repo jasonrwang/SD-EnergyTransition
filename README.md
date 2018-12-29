@@ -16,5 +16,3 @@ The Dutch clean energy transition in the sectors of:
 * Transportation: *Jason*
 * Household Heating: *Bor*
 * Electricity Production: *Ingo*
-
-Test
