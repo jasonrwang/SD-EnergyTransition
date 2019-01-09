@@ -1,4 +1,177 @@
 {UTF-8}
+Alternative transportation methods  = A FUNCTION OF( )
+	~	
+	~		|
+
+Avg fuel efficiency electric  = A FUNCTION OF( )
+	~	
+	~		|
+
+Avg fuel efficiency ICE  = A FUNCTION OF( )
+	~	
+	~		|
+
+Development of smart grid=A FUNCTION OF(Development of smart grid) ~~|
+Development of smart grid=
+	~	
+	~	"In the Pathway, annual electric use from all EVs will reach 8% of total \
+		electricity demand by 2030, significant but manageable. Maximizing the \
+		utilization of existing grids and keeping them in balance as more \
+		renewable generation gets added to the mix will be crucial to ensuring a \
+		cost-effective transition to an electrified transportation fleet. For \
+		example, a modernized and digitized network can support intelligent \
+		management of EV charging so that it doesn’t overload the grid. Making \
+		electric rates more dynamic and transparent will facilitate this \
+		intelligent charging, and will increase savings for consumers opting to \
+		drive electric." - \
+		http://news.nationalgridus.com/wp-content/uploads/2018/06/80x50-White-Paper\
+		-FINAL.pdf
+	|
+
+Price of electricity=A FUNCTION OF(Price of electricity,Development of smart grid,Power demand from car charging\
+		) ~~|
+Price of electricity=
+	~	
+	~	Should be a function of demand (which could be smoothed out by the smart \
+		grid) and concentration of that demand
+	|
+
+Gov policy of manufacturer emissions=A FUNCTION OF(Gov policy of manufacturer emissions\
+		,Avg fuel efficiency electric,Avg fuel efficiency ICE,GHG Emissions) ~~|
+Gov policy of manufacturer emissions=
+	~	
+	~	California has successfully shaped US policy using these types of methods \
+		(e.g. overall weighted average emissions of a car company has to be >X \
+		mpg.)
+	|
+
+Driving population  = A FUNCTION OF( Alternative transportation methods,Distance required to be travelled\
+		)
+	~	
+	~		|
+
+Manufacturer ratio of vehicle types  = A FUNCTION OF( Gov policy of manufacturer emissions\
+		)
+	~	
+	~		|
+
+New electric cars  = A FUNCTION OF( Manufacturer ratio of vehicle types,Shortage of cars\
+		,Willingness to purchase electric cars)
+	~	
+	~		|
+
+New ICE cars  = A FUNCTION OF( Manufacturer ratio of vehicle types,Shortage of cars,Willingness to purchase electric cars\
+		)
+	~	
+	~		|
+
+Distance required to be travelled  = A FUNCTION OF( )
+	~	
+	~		|
+
+ICE car range  = A FUNCTION OF( )
+	~	
+	~		|
+
+ICE car retirement rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+Car retirement age  = A FUNCTION OF( )
+	~	
+	~		|
+
+Price of fossil fuel  = A FUNCTION OF( Fossil fuel used by cars,Other fossil fuel demands\
+		)
+	~	
+	~		|
+
+Cost of electric car  = A FUNCTION OF( )
+	~	
+	~		|
+
+Cost of ICE car  = A FUNCTION OF( )
+	~	
+	~		|
+
+Number of charging stations  = A FUNCTION OF( )
+	~	
+	~		|
+
+Electric car breakeven period  = A FUNCTION OF( Cost of electric car,Cost of ICE car,\
+		Price of electricity,Price of fossil fuel)
+	~	
+	~		|
+
+Electric car range  = A FUNCTION OF( )
+	~	
+	~		|
+
+Electric car retirement rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+Perceived 'greeness' of electric cars  = A FUNCTION OF( Grid intensity of electricity\
+		)
+	~	
+	~		|
+
+Retired electric cars  = A FUNCTION OF( Car retirement age,Electric car retirement rate\
+		)
+	~	
+	~		|
+
+Power demand from car charging  = A FUNCTION OF( Number of electric cars)
+	~	
+	~		|
+
+Grid intensity of electricity  = A FUNCTION OF( )
+	~	
+	~		|
+
+Range anxiety  = A FUNCTION OF( Electric car range,ICE car range,Number of charging stations\
+		)
+	~	
+	~		|
+
+Shortage of cars  = A FUNCTION OF( Driving population,Number of electric cars,Number of ICE cars\
+		)
+	~	
+	~		|
+
+Willingness to purchase electric cars  = A FUNCTION OF( Electric car breakeven period\
+		,Perceived 'greeness' of electric cars,Range anxiety) ~~|
+Willingness to purchase electric cars=
+	~	
+	~	Expressed as a (percent) range from 0-1 where 1 is 100% of people will \
+		purchase electric cars
+	|
+
+Fossil fuel used by cars  = A FUNCTION OF( Number of ICE cars)
+	~	
+	~		|
+
+GHG Emissions  = A FUNCTION OF( Fossil fuel used by cars,Power demand from car charging\
+		)
+	~	
+	~		|
+
+Retired ICE cars  = A FUNCTION OF( Car retirement age,ICE car retirement rate)
+	~	
+	~		|
+
+Number of ICE cars  = A FUNCTION OF( New ICE cars,-Retired ICE cars)
+	~	
+	~		|
+
+Number of electric cars  = A FUNCTION OF( New electric cars,-Retired electric cars)
+	~	
+	~		|
+
+Other fossil fuel demands  = A FUNCTION OF( )
+	~	
+	~		|
+
 "Bio-Gas production"  = A FUNCTION OF( District Heating with renewable sources,"Replace LNG with bio-gas"\
 		)
 	~	
@@ -143,73 +316,168 @@ TIME STEP  = 1
 V300  Do not put anything below this section - it will be ignored
 *View 1
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
-10,1,Transportation,186,172,37,8,8,3,0,0,0,0,0,0
-10,2,Household heating,360,550,47,8,8,3,0,0,0,0,0,0
-10,3,Electricity Production,892,355,55,8,8,3,0,0,0,0,0,0
-10,4,Electricity Demand,719,356,49,8,8,3,0,0,0,0,0,0
-10,5,Electricity Price,763,416,41,8,8,3,0,0,0,0,0,0
-10,6,Electricity Supply,890,427,46,8,8,3,0,0,0,0,0,0
-10,7,Electricity Production Capacity,886,291,53,14,8,3,0,0,0,0,0,0
-10,8,Choice of Electricity Source,925,212,46,14,8,3,0,0,0,0,0,0
-10,9,Nuclear,1055,191,21,8,8,3,0,0,0,0,0,0
-10,10,"Traditional (fossil) source",1052,147,37,14,8,3,0,0,0,0,0,0
-10,11,Hydropower,1062,224,33,8,8,3,0,0,0,0,0,0
-10,12,Windpower,1069,253,30,8,8,3,0,0,0,0,0,0
-10,13,Photo Voltaic,1059,283,35,8,8,3,0,0,0,0,0,0
-10,14,Biomass,1053,316,23,8,8,3,0,0,0,0,0,0
-10,15,Hydrogen Production,544,216,54,8,8,3,0,0,0,0,0,0
-10,16,Hydrogen Car Technology,367,206,37,14,8,3,0,0,0,0,0,0
-10,17,Electrification,582,391,37,8,8,3,0,0,0,0,0,0
-10,18,Use of Electricity Cars,172,262,57,8,8,3,0,0,0,0,0,0
-10,19,Electric Heating,212,493,41,8,8,3,0,0,0,0,0,0
-10,20,Cost Factor,868,143,30,8,8,3,0,0,0,0,0,0
-10,21,Infrared Heating,167,622,42,8,8,3,0,0,0,0,0,0
-10,22,Other Alternatives,420,484,46,8,8,3,0,0,0,0,0,0
-10,23,Insolation,442,670,26,8,8,3,0,0,0,0,0,0
-10,24,District Heating with renewable sources,571,611,54,14,8,3,0,0,0,0,0,0
-10,25,"Replace LNG with bio-gas",554,520,36,14,8,3,0,0,0,0,0,0
-1,26,20,8,0,0,0,0,0,128,0,-1--1--1,,1|(889,169)|
-1,27,10,8,0,0,0,0,0,128,0,-1--1--1,,1|(994,176)|
-1,28,9,8,0,0,0,0,0,128,0,-1--1--1,,1|(1009,197)|
-1,29,11,8,0,0,0,0,0,128,0,-1--1--1,,1|(1006,219)|
-1,30,12,8,0,0,0,0,0,128,0,-1--1--1,,1|(1012,236)|
-1,31,13,8,0,0,0,0,0,128,0,-1--1--1,,1|(1003,253)|
-1,32,14,8,0,0,0,0,0,128,0,-1--1--1,,1|(998,271)|
-1,33,8,7,0,0,0,0,0,128,0,-1--1--1,,1|(908,245)|
-1,34,7,3,0,0,0,0,0,128,0,-1--1--1,,1|(888,319)|
-1,35,3,6,0,0,0,0,0,128,0,-1--1--1,,1|(891,384)|
-1,36,6,5,0,0,0,0,0,128,0,-1--1--1,,1|(830,422)|
-1,37,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(736,380)|
-1,38,4,3,0,0,0,0,0,128,0,-1--1--1,,1|(795,355)|
-1,39,17,4,0,0,0,0,0,128,0,-1--1--1,,1|(643,375)|
-10,40,Electricity stored in System,1043,393,44,14,8,3,0,0,0,0,0,0
-1,41,3,40,0,0,0,0,0,128,0,-1--1--1,,1|(954,370)|
-1,42,40,6,0,0,0,0,0,128,0,-1--1--1,,1|(969,408)|
-1,43,5,3,0,0,0,0,0,128,0,-1--1--1,,1|(820,388)|
-1,44,15,4,0,0,0,0,0,128,0,-1--1--1,,1|(626,281)|
-1,45,16,17,0,0,0,0,0,128,0,-1--1--1,,1|(472,296)|
-1,46,1,18,0,0,0,0,0,128,0,-1--1--1,,1|(180,210)|
-1,47,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(369,324)|
-1,48,19,17,1,0,0,0,0,128,0,-1--1--1,,1|(366,423)|
-1,49,2,19,0,0,0,0,0,128,0,-1--1--1,,1|(292,523)|
-1,50,2,21,0,0,0,0,0,128,0,-1--1--1,,1|(270,583)|
-1,51,2,22,0,0,0,0,0,128,0,-1--1--1,,1|(384,522)|
-1,52,2,23,0,0,0,0,0,128,0,-1--1--1,,1|(396,604)|
-1,53,2,24,0,0,0,0,0,128,0,-1--1--1,,1|(447,575)|
-1,54,2,25,0,0,0,0,0,128,0,-1--1--1,,1|(455,535)|
-10,55,"Bio-Gas production",827,585,50,8,8,3,0,0,0,0,0,0
-1,56,24,55,0,0,0,0,0,128,0,-1--1--1,,1|(694,598)|
-1,57,25,55,0,0,0,0,0,128,0,-1--1--1,,1|(684,550)|
-1,58,21,17,1,0,0,0,0,128,0,-1--1--1,,1|(319,500)|
-1,59,22,17,1,0,0,0,0,128,0,-1--1--1,,1|(527,440)|
-1,60,1,16,0,0,0,0,0,128,0,-1--1--1,,1|(269,187)|
-1,61,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(440,209)|
-12,62,0,343,220,267,90,3,131,0,0,-1,0,0,0
-12,63,0,499,582,395,115,3,131,0,1,-1,0,0,0,0-255-255,0-0-0,|12||0-0-0
-12,64,0,886,282,236,163,3,131,0,1,-1,0,0,0,128-0-0,0-0-0,|12||0-0-0
-12,65,0,541,95,40,20,3,7,0,0,-1,0,0,0
-Jason was here!!!!!!!
-12,66,0,491,88,40,20,8,3,0,0,-1,0,0,0
+10,1,Transportation,186,76,37,8,8,3,0,0,0,0,0,0
+10,2,Household heating,360,454,47,8,8,3,0,0,0,0,0,0
+10,3,Electricity Production,892,259,55,8,8,3,0,0,0,0,0,0
+10,4,Electricity Demand,719,260,49,8,8,3,0,0,0,0,0,0
+10,5,Electricity Price,763,320,41,8,8,3,0,0,0,0,0,0
+10,6,Electricity Supply,890,331,46,8,8,3,0,0,0,0,0,0
+10,7,Electricity Production Capacity,886,195,53,14,8,3,0,0,0,0,0,0
+10,8,Choice of Electricity Source,925,116,46,14,8,3,0,0,0,0,0,0
+10,9,Nuclear,1055,95,21,8,8,3,0,0,0,0,0,0
+10,10,"Traditional (fossil) source",1052,51,37,14,8,3,0,0,0,0,0,0
+10,11,Hydropower,1062,128,33,8,8,3,0,0,0,0,0,0
+10,12,Windpower,1069,157,30,8,8,3,0,0,0,0,0,0
+10,13,Photo Voltaic,1059,187,35,8,8,3,0,0,0,0,0,0
+10,14,Biomass,1053,220,23,8,8,3,0,0,0,0,0,0
+10,15,Hydrogen Production,544,120,54,8,8,3,0,0,0,0,0,0
+10,16,Hydrogen Car Technology,367,110,37,14,8,3,0,0,0,0,0,0
+10,17,Electrification,582,295,37,8,8,3,0,0,0,0,0,0
+10,18,Use of Electricity Cars,172,166,57,8,8,3,0,0,0,0,0,0
+10,19,Electric Heating,212,397,41,8,8,3,0,0,0,0,0,0
+10,20,Cost Factor,868,47,30,8,8,3,0,0,0,0,0,0
+10,21,Infrared Heating,167,526,42,8,8,3,0,0,0,0,0,0
+10,22,Other Alternatives,420,388,46,8,8,3,0,0,0,0,0,0
+10,23,Insolation,442,574,26,8,8,3,0,0,0,0,0,0
+10,24,District Heating with renewable sources,571,515,54,14,8,3,0,0,0,0,0,0
+10,25,"Replace LNG with bio-gas",554,424,36,14,8,3,0,0,0,0,0,0
+1,26,20,8,0,0,0,0,0,128,0,-1--1--1,,1|(889,73)|
+1,27,10,8,0,0,0,0,0,128,0,-1--1--1,,1|(994,80)|
+1,28,9,8,0,0,0,0,0,128,0,-1--1--1,,1|(1009,101)|
+1,29,11,8,0,0,0,0,0,128,0,-1--1--1,,1|(1006,123)|
+1,30,12,8,0,0,0,0,0,128,0,-1--1--1,,1|(1012,140)|
+1,31,13,8,0,0,0,0,0,128,0,-1--1--1,,1|(1003,157)|
+1,32,14,8,0,0,0,0,0,128,0,-1--1--1,,1|(998,175)|
+1,33,8,7,0,0,0,0,0,128,0,-1--1--1,,1|(908,149)|
+1,34,7,3,0,0,0,0,0,128,0,-1--1--1,,1|(888,223)|
+1,35,3,6,0,0,0,0,0,128,0,-1--1--1,,1|(891,288)|
+1,36,6,5,0,0,0,0,0,128,0,-1--1--1,,1|(830,326)|
+1,37,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(736,284)|
+1,38,4,3,0,0,0,0,0,128,0,-1--1--1,,1|(795,259)|
+1,39,17,4,0,0,0,0,0,128,0,-1--1--1,,1|(643,279)|
+10,40,Electricity stored in System,1043,297,44,14,8,3,0,0,0,0,0,0
+1,41,3,40,0,0,0,0,0,128,0,-1--1--1,,1|(954,274)|
+1,42,40,6,0,0,0,0,0,128,0,-1--1--1,,1|(969,312)|
+1,43,5,3,0,0,0,0,0,128,0,-1--1--1,,1|(820,292)|
+1,44,15,4,0,0,0,0,0,128,0,-1--1--1,,1|(626,185)|
+1,45,16,17,0,0,0,0,0,128,0,-1--1--1,,1|(472,200)|
+1,46,1,18,0,0,0,0,0,128,0,-1--1--1,,1|(180,114)|
+1,47,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(369,228)|
+1,48,19,17,1,0,0,0,0,128,0,-1--1--1,,1|(366,327)|
+1,49,2,19,0,0,0,0,0,128,0,-1--1--1,,1|(292,427)|
+1,50,2,21,0,0,0,0,0,128,0,-1--1--1,,1|(270,487)|
+1,51,2,22,0,0,0,0,0,128,0,-1--1--1,,1|(384,426)|
+1,52,2,23,0,0,0,0,0,128,0,-1--1--1,,1|(396,508)|
+1,53,2,24,0,0,0,0,0,128,0,-1--1--1,,1|(447,479)|
+1,54,2,25,0,0,0,0,0,128,0,-1--1--1,,1|(455,439)|
+10,55,"Bio-Gas production",827,489,50,8,8,3,0,0,0,0,0,0
+1,56,24,55,0,0,0,0,0,128,0,-1--1--1,,1|(694,502)|
+1,57,25,55,0,0,0,0,0,128,0,-1--1--1,,1|(684,454)|
+1,58,21,17,1,0,0,0,0,128,0,-1--1--1,,1|(319,404)|
+1,59,22,17,1,0,0,0,0,128,0,-1--1--1,,1|(527,344)|
+1,60,1,16,0,0,0,0,0,128,0,-1--1--1,,1|(269,91)|
+1,61,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(440,113)|
+12,62,0,1134,-49,267,90,3,131,0,0,-1,0,0,0
+12,63,0,499,486,395,115,3,131,0,1,-1,0,0,0,0-255-255,0-0-0,|12||0-0-0
+12,64,0,886,186,236,163,3,131,0,1,-1,0,0,0,128-0-0,0-0-0,|12||0-0-0
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 2
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+12,1,0,563,-128,393,28,3,135,0,4,-1,0,0,0,-1--1--1,0-255-0,|12||0-0-0
+Transportation Model (Preliminary)
+10,2,Number of electric cars,604,23,40,20,3,3,0,0,0,0,0,0
+10,3,Number of ICE cars,605,267,40,20,3,3,0,0,0,0,0,0
+10,4,Power demand from car charging,887,61,53,14,8,3,0,0,0,0,0,0
+10,5,Fossil fuel used by cars,866,246,59,8,8,3,0,0,0,0,0,0
+10,6,GHG Emissions,1045,148,41,8,8,3,0,0,0,0,0,0
+1,7,2,4,0,0,0,0,0,128,0,-1--1--1,,1|(732,39)|
+1,8,4,6,0,0,0,0,0,128,0,-1--1--1,,1|(964,104)|
+1,9,3,5,0,0,0,0,0,128,0,-1--1--1,,1|(719,257)|
+1,10,5,6,0,0,0,0,0,128,0,-1--1--1,,1|(948,200)|
+10,11,Price of electricity,729,-8,47,8,8,3,0,0,0,0,0,0
+10,12,Price of fossil fuel,701,401,46,8,8,3,0,0,0,0,0,0
+1,13,4,11,0,0,0,0,0,128,0,-1--1--1,,1|(807,26)|
+1,14,5,12,0,0,0,0,0,128,0,-1--1--1,,1|(788,318)|
+10,15,Other fossil fuel demands,949,422,42,14,8,3,0,0,0,0,0,0
+1,16,15,12,0,0,0,0,0,128,0,-1--1--1,,1|(833,412)|
+10,17,Electric car breakeven period,214,123,45,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|0||0-128-0
+10,18,Cost of electric car,138,42,48,8,8,3,0,0,0,0,0,0
+10,19,Cost of ICE car,113,135,40,8,8,3,0,0,0,0,0,0
+1,20,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(167,74)|
+1,21,11,17,1,0,0,0,0,128,0,-1--1--1,,1|(447,-54)|
+1,22,19,17,0,0,0,0,0,128,0,-1--1--1,,1|(154,130)|
+1,23,12,17,1,0,0,0,0,128,0,-1--1--1,,1|(306,370)|
+12,24,48,459,23,10,8,0,3,0,0,-1,0,0,0
+1,25,27,2,4,0,0,22,0,0,0,-1--1--1,,1|(537,22)|
+1,26,27,24,100,0,0,22,0,0,0,-1--1--1,,1|(483,22)|
+11,27,48,504,22,6,8,34,3,0,0,1,0,0,0
+10,28,New electric cars,504,51,29,21,40,131,0,0,-1,0,0,0
+12,29,48,452,256,10,8,0,3,0,0,-1,0,0,0
+1,30,32,3,4,0,0,22,0,0,0,-1--1--1,,1|(538,253)|
+1,31,32,29,100,0,0,22,0,0,0,-1--1--1,,1|(480,253)|
+11,32,48,505,253,6,8,34,3,0,0,1,0,0,0
+10,33,New ICE cars,505,269,36,8,40,3,0,0,-1,0,0,0
+10,34,Car retirement age,745,151,47,8,8,3,0,0,0,0,0,0
+10,35,Electric car retirement rate,756,95,38,14,8,3,0,0,0,0,0,0
+10,36,ICE car retirement rate,768,201,43,13,8,131,0,0,0,0,0,0
+12,37,48,601,180,10,8,0,3,0,0,-1,0,0,0
+1,38,40,37,4,0,0,22,0,0,0,-1--1--1,,1|(596,199)|
+1,39,40,3,100,0,0,22,0,0,0,-1--1--1,,1|(596,235)|
+11,40,48,596,217,8,6,33,3,0,0,4,0,0,0
+10,41,Retired ICE cars,633,217,29,19,40,131,0,0,-1,0,0,0
+12,42,48,601,134,10,8,0,3,0,0,-1,0,0,0
+1,43,45,42,4,0,0,22,0,0,0,-1--1--1,,1|(608,115)|
+1,44,45,2,100,0,0,22,0,0,0,-1--1--1,,1|(608,67)|
+11,45,48,608,98,8,6,33,3,0,0,4,0,0,0
+10,46,Retired electric cars,645,98,29,19,40,131,0,0,-1,0,0,0
+1,47,35,46,1,0,0,0,0,128,0,-1--1--1,,1|(691,74)|
+1,48,34,46,0,0,0,0,0,128,0,-1--1--1,,1|(708,131)|
+1,49,34,41,0,0,0,0,0,128,0,-1--1--1,,1|(703,175)|
+1,50,36,41,1,0,0,0,0,128,0,-1--1--1,,1|(700,208)|
+10,51,Electric car range,36,225,45,8,8,3,0,0,0,0,0,0
+10,52,ICE car range,38,282,36,8,8,3,0,0,0,0,0,0
+10,53,Range anxiety,171,263,37,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|0||0-128-0
+1,54,51,53,0,0,0,0,0,128,0,-1--1--1,,1|(96,242)|
+1,55,52,53,0,0,0,0,0,128,0,-1--1--1,,1|(97,273)|
+10,56,Willingness to purchase electric cars,348,69,55,14,8,3,0,0,0,0,0,0
+1,57,53,56,0,0,0,0,0,128,0,-1--1--1,,1|(251,174)|
+1,58,17,56,0,0,0,0,0,128,0,-1--1--1,,1|(274,98)|
+10,59,Driving population,340,242,48,8,8,3,0,0,0,0,0,0
+10,60,Shortage of cars,457,144,41,8,8,3,0,0,0,0,0,0
+1,61,59,60,0,0,0,0,0,128,0,-1--1--1,,1|(392,198)|
+1,62,3,60,0,0,0,0,0,128,0,-1--1--1,,1|(528,203)|
+1,63,2,60,0,0,0,0,0,128,0,-1--1--1,,1|(528,85)|
+1,64,60,28,0,0,0,0,0,128,0,-1--1--1,,1|(473,110)|
+1,65,60,33,0,0,0,0,0,128,0,-1--1--1,,1|(478,199)|
+1,66,56,28,0,0,0,0,0,128,0,-1--1--1,,1|(432,59)|
+1,67,56,33,1,0,0,0,0,128,0,-1--1--1,,1|(403,188)|
+10,68,Number of charging stations,40,348,44,14,8,3,0,0,0,0,0,0
+1,69,68,53,0,0,0,0,0,128,0,-1--1--1,,1|(103,306)|
+10,70,Grid intensity of electricity,728,-78,43,14,8,3,0,0,0,0,0,0
+10,71,Perceived 'greeness' of electric cars,307,-58,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|0||0-128-0
+1,72,70,71,0,0,0,0,0,128,0,-1--1--1,,1|(528,-68)|
+1,73,71,56,0,0,0,0,0,128,0,-1--1--1,,1|(324,-2)|
+12,74,0,1039,-52,52,33,3,135,0,4,-1,0,0,0,-1--1--1,0-128-255,|12||0-0-0
+Electricity Production Model
+12,75,0,1090,414,52,33,3,135,0,4,-1,0,0,0,-1--1--1,128-0-0,|12||0-0-0
+Household Energy Model
+10,76,Development of smart grid,872,-27,42,14,8,3,0,0,0,0,0,0
+1,77,76,11,0,0,0,0,0,128,0,-1--1--1,,1|(809,-20)|
+10,78,Distance required to be travelled,186,446,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|0||0-128-0
+10,79,Alternative transportation methods,179,356,36,21,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|0||0-128-0
+1,80,79,59,0,0,0,0,0,128,0,-1--1--1,,1|(262,296)|
+1,81,78,59,0,0,0,0,0,128,0,-1--1--1,,1|(260,346)|
+10,82,Manufacturer ratio of vehicle types,382,345,48,14,8,3,0,0,0,0,0,0
+1,83,82,33,0,0,0,0,0,128,0,-1--1--1,,1|(442,307)|
+1,84,82,28,1,0,0,0,0,128,0,-1--1--1,,1|(395,183)|
+10,85,Gov policy of manufacturer emissions,377,502,39,22,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|0||0-128-0
+10,86,Avg fuel efficiency ICE,191,525,60,8,8,3,0,0,0,0,0,0
+10,87,Avg fuel efficiency electric,297,573,46,14,8,3,0,0,0,0,0,0
+1,88,85,82,0,0,0,0,0,128,0,-1--1--1,,1|(378,426)|
+1,89,86,85,0,0,0,0,0,128,0,-1--1--1,,1|(287,512)|
+1,90,87,85,0,0,0,0,0,128,0,-1--1--1,,1|(326,546)|
+1,91,6,85,1,0,0,0,0,128,0,-1--1--1,,1|(794,405)|
 ///---\\\
 :L<%^E!@
 9:Current
@@ -222,10 +490,10 @@ Jason was here!!!!!!!
 22:Week,Weeks
 22:Year,Years
 15:0,0,0,0,0,0
-19:100,0
+19:100,1
 27:0,
 34:0,
-5:Hydrogen Production
+5:Alternative transportation methods
 24:0
 25:0
 26:0
