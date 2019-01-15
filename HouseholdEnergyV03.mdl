@@ -1,4 +1,34 @@
 {UTF-8}
+efficiency rate=A FUNCTION OF(efficiency rate) ~~|
+efficiency rate=
+	~	
+	~		|
+
+electric transition  = A FUNCTION OF( )
+	~	
+	~		|
+
+household energy demand  = A FUNCTION OF( -increasing efficiency,more energy using devices\
+		)
+	~	
+	~		|
+
+increasing efficiency=A FUNCTION OF(increasing efficiency,efficiency rate,household energy demand\
+		) ~~|
+increasing efficiency=
+	~	
+	~		|
+
+more energy using devices  = A FUNCTION OF( )
+	~	
+	~		|
+
+share sustainable supply=A FUNCTION OF(share sustainable supply,electric transition,household energy demand\
+		) ~~|
+share sustainable supply=
+	~	
+	~		|
+
 ********************************************************
 	.Control
 ********************************************************~
@@ -32,8 +62,27 @@ V300  Do not put anything below this section - it will be ignored
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
 12,1,0,390,51,163,27,3,135,0,4,-1,0,0,0,0-0-0,255-160-0,|0||0-0-0
 Household energy model - next sketch
+10,2,household energy demand,369,287,40,20,3,3,0,0,0,0,0,0
+10,3,efficiency rate,476,211,39,8,8,131,0,0,0,0,0,0
+10,4,share sustainable supply,372,173,34,17,8,131,0,0,0,0,0,0
+10,5,electric transition,225,172,44,8,8,3,0,0,0,0,0,0
+1,6,5,4,0,0,0,0,0,128,0,-1--1--1,,1|(296,172)|
+1,9,2,4,0,0,0,0,0,128,0,-1--1--1,,1|(369,235)|
+12,10,48,225,290,10,8,0,3,0,0,-1,0,0,0
+1,12,14,2,4,0,0,22,0,0,0,-1--1--1,,1|(308,290)|
+1,13,14,10,100,0,0,22,0,0,0,-1--1--1,,1|(255,290)|
+11,14,0,282,290,6,8,34,3,0,0,1,0,0,0
+10,15,more energy using devices,282,312,35,14,40,3,0,0,-1,0,0,0
+12,16,48,558,287,10,8,0,3,0,0,-1,0,0,0
+1,18,20,16,4,0,0,22,0,0,0,-1--1--1,,1|(516,287)|
+1,19,20,2,100,0,0,22,0,0,0,-1--1--1,,1|(440,287)|
+11,20,0,478,287,6,8,34,3,0,0,1,0,0,0
+10,21,increasing efficiency,478,303,52,8,40,3,0,0,-1,0,0,0
+1,22,3,20,0,0,0,0,0,128,0,-1--1--1,,1|(476,243)|
+1,23,2,20,1,0,0,0,2,128,0,-1--1--1,|0||-1--1--1,1|(425,253)|
 ///---\\\
 :L<%^E!@
+9:Current
 22:$,Dollar,Dollars,$s
 22:Hour,Hours
 22:Month,Months
@@ -46,7 +95,7 @@ Household energy model - next sketch
 19:100,0
 27:0,
 34:0,
-5:FINAL TIME
+5:increasing efficiency
 35:Date
 36:YYYY-MM-DD
 37:2000
