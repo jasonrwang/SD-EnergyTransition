@@ -1,4 +1,864 @@
 {UTF-8}
+insulation improvement investment=
+	5000*human energy behavior
+	~	E
+	~		|
+
+average batterie life expectancy  = A FUNCTION OF( technological improvement rate)
+	~	
+	~		|
+
+average construction year of households=
+	Time-0.5*average time of house use
+	~	
+	~		|
+
+Increase energy demand=A FUNCTION OF(Increase energy demand,energy efficiency of electrical heating equipment\
+		) ~~|
+Increase energy demand=
+	Number of households/
+	~	
+	~		|
+
+average time of house use=
+	120.8
+	~	
+	~	http://www.bestaandewoningbouw.nl/wp-content/uploads/2008/01/resultaten-vra\
+		genlijst.pdf
+	|
+
+Increase HHH electricty demand  = A FUNCTION OF( HHH by electricity)
+	~	
+	~		|
+
+increase in HHH by electricity=
+	IF THEN ELSE( Time<2019 , New households*0.25 , New households*0.99)
+	~	
+	~		|
+
+increase in HHH by LNG=
+	IF THEN ELSE( Time<2019 , New households*0.75 , New households*0.01 )
+	~	
+	~		|
+
+Increased efficiency=
+	rate of efficiency
+	~	
+	~		|
+
+Decrease HHH electricity demand  = A FUNCTION OF( Increased efficiency)
+	~	
+	~		|
+
+Initial HHH by electricity=
+	0
+	~	
+	~		|
+
+Initial number of households=
+	7.59023e+06
+	~	
+	~		|
+
+Retrofit to HHH by electricity=
+	Number of households*0.001*human energy behavior
+	~	
+	~		|
+
+Population size(
+	[(2014,0)-(2060,1.85e+07)],(2014,1.68293e+07),(2015,1.69007e+07),(2016,1.69791e+07),\
+		(2017,1.70815e+07),(2018,1.71811e+07),(2031,1.8e+07),(2060,1.84e+07))
+	~	persons
+	~	CBS
+	|
+
+HHH by electricity= INTEG (
+	increase in HHH by electricity+Retrofit to HHH by electricity-decrease in HHH by electricity\
+		,
+		Initial HHH by electricity)
+	~	
+	~		|
+
+LNG demand HHH=A FUNCTION OF(LNG demand HHH,Decrease GHG HHH,Increase GHG HHH) ~~|
+LNG demand HHH= INTEG (
+	Increase GHG HHH-Decrease GHG HHH,
+		)
+	~	
+	~		|
+
+Shortage of households=
+	Population size/Average household size-Number of households
+	~	
+	~		|
+
+Societal pressure=
+	Time
+	~	
+	~		|
+
+Number of households= INTEG (
+	New households-Retired households,
+		Initial number of households)
+	~	
+	~		|
+
+citizen costs=
+	insulation improvement investment+Retrofit to HHH by electricity*5000-Increased efficiency\
+		*80
+	~	
+	~		|
+
+new batteries  = A FUNCTION OF( average batterie life expectancy,House batteries for backup capacity\
+		,human energy behavior,technological improvement rate)
+	~	
+	~		|
+
+Decrease GHG HHH  = A FUNCTION OF( Increased efficiency,Retrofit to HHH by electricity\
+		)
+	~	
+	~		|
+
+New households=
+	Shortage of households+Retired households
+	~	
+	~		|
+
+Retired households=
+	Number of households*(1/average time of house use)
+	~	
+	~		|
+
+technological improvement rate=A FUNCTION OF(technological improvement rate) ~~|
+technological improvement rate=
+	~	
+	~		|
+
+Increase GHG HHH  = A FUNCTION OF( HHH by LNG)
+	~	
+	~		|
+
+rate of efficiency=
+	(dynamic efficiency+static efficiency)/2
+	~	
+	~		|
+
+retired batteries  = A FUNCTION OF( average batterie life expectancy)
+	~	
+	~		|
+
+HHH by LNG= INTEG (
+	increase in HHH by LNG-Retired HH-Retrofit to HHH by electricity,
+		0.95*Initial number of households)
+	~	
+	~		|
+
+House batteries for backup capacity  = A FUNCTION OF( new batteries,-retired batteries\
+		)
+	~	
+	~		|
+
+Electricity demand HHH  = A FUNCTION OF( -Decrease HHH electricity demand,Increase HHH electricty demand\
+		)
+	~	
+	~		|
+
+Household heating energy demand= INTEG (
+	Increase energy demand-Increased efficiency,
+		Household heating energy demand)
+	~	
+	~		|
+
+human energy behavior=
+	Societal pressure-citizen costs/100
+	~	
+	~		|
+
+Alternative transportation methods  = A FUNCTION OF( )
+	~	
+	~		|
+
+ICE car retirement rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+Shortage of cars  = A FUNCTION OF( Driving population,Number of electric cars,Number of ICE cars\
+		)
+	~	
+	~		|
+
+Number of ICE cars  = A FUNCTION OF( New ICE cars,-Retired ICE cars)
+	~	
+	~		|
+
+Avg fuel efficiency electric  = A FUNCTION OF( )
+	~	
+	~		|
+
+Avg fuel efficiency ICE  = A FUNCTION OF( )
+	~	
+	~		|
+
+Power demand from car charging  = A FUNCTION OF( Number of electric cars)
+	~	
+	~		|
+
+Retired electric cars  = A FUNCTION OF( Car retirement age,Electric car retirement rate\
+		)
+	~	
+	~		|
+
+GHG Emissions  = A FUNCTION OF( Fossil fuel used by cars,Power demand from car charging\
+		)
+	~	
+	~		|
+
+Gov policy of manufacturer emissions  = A FUNCTION OF( Avg fuel efficiency electric,Avg fuel efficiency ICE\
+		,GHG Emissions) ~~|
+Gov policy of manufacturer emissions=
+	~	
+	~	California has successfully shaped US policy using these types of methods \
+		(e.g. overall weighted average emissions of a car company has to be >X \
+		mpg.)
+	|
+
+Retired ICE cars  = A FUNCTION OF( Car retirement age,ICE car retirement rate)
+	~	
+	~		|
+
+Distance required to be travelled  = A FUNCTION OF( )
+	~	
+	~		|
+
+Number of charging stations  = A FUNCTION OF( )
+	~	
+	~		|
+
+Manufacturer ratio of vehicle types  = A FUNCTION OF( Gov policy of manufacturer emissions\
+		)
+	~	
+	~		|
+
+Fossil fuel used by cars  = A FUNCTION OF( Number of ICE cars)
+	~	
+	~		|
+
+Driving population  = A FUNCTION OF( Alternative transportation methods,Distance required to be travelled\
+		)
+	~	
+	~		|
+
+Electric car breakeven period  = A FUNCTION OF( Cost of electric car,Cost of ICE car,\
+		Price of electricity,Price of fossil fuel)
+	~	
+	~		|
+
+New electric cars  = A FUNCTION OF( Manufacturer ratio of vehicle types,Shortage of cars\
+		,Willingness to purchase electric cars)
+	~	
+	~		|
+
+Cost of ICE car  = A FUNCTION OF( )
+	~	
+	~		|
+
+New ICE cars  = A FUNCTION OF( Manufacturer ratio of vehicle types,Shortage of cars,Willingness to purchase electric cars\
+		)
+	~	
+	~		|
+
+Other fossil fuel demands  = A FUNCTION OF( )
+	~	
+	~		|
+
+Car retirement age  = A FUNCTION OF( )
+	~	
+	~		|
+
+Number of electric cars  = A FUNCTION OF( New electric cars,-Retired electric cars)
+	~	
+	~		|
+
+Electric car range  = A FUNCTION OF( )
+	~	
+	~		|
+
+Grid intensity of electricity  = A FUNCTION OF( )
+	~	
+	~		|
+
+Electric car retirement rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+Range anxiety  = A FUNCTION OF( Electric car range,ICE car range,Number of charging stations\
+		)
+	~	
+	~		|
+
+Perceived 'greeness' of electric cars  = A FUNCTION OF( Grid intensity of electricity\
+		)
+	~	
+	~		|
+
+Cost of electric car  = A FUNCTION OF( )
+	~	
+	~		|
+
+Willingness to purchase electric cars  = A FUNCTION OF( Electric car breakeven period\
+		,Perceived 'greeness' of electric cars,Range anxiety) ~~|
+Willingness to purchase electric cars=
+	~	
+	~	Expressed as a (percent) range from 0-1 where 1 is 100% of people will \
+		purchase electric cars
+	|
+
+Price of fossil fuel  = A FUNCTION OF( Fossil fuel used by cars,Other fossil fuel demands\
+		)
+	~	
+	~		|
+
+ICE car range  = A FUNCTION OF( )
+	~	
+	~		|
+
+Development of smart grid  = A FUNCTION OF( ) ~~|
+Development of smart grid=
+	~	
+	~	"In the Pathway, annual electric use from all EVs will reach 8% of total \
+		electricity demand by 2030, significant but manageable. Maximizing the \
+		utilization of existing grids and keeping them in balance as more \
+		renewable generation gets added to the mix will be crucial to ensuring a \
+		cost-effective transition to an electrified transportation fleet. For \
+		example, a modernized and digitized network can support intelligent \
+		management of EV charging so that it doesn’t overload the grid. Making \
+		electric rates more dynamic and transparent will facilitate this \
+		intelligent charging, and will increase savings for consumers opting to \
+		drive electric." - \
+		http://news.nationalgridus.com/wp-content/uploads/2018/06/80x50-White-Paper\
+		-FINAL.pdf
+	|
+
+Price of electricity  = A FUNCTION OF( Development of smart grid,Power demand from car charging\
+		) ~~|
+Price of electricity=
+	~	
+	~	Should be a function of demand (which could be smoothed out by the smart \
+		grid) and concentration of that demand
+	|
+
+Average household size(
+	[(2014,2)-(2060,2.2)],(2014,2.18),(2015,2.17),(2016,2.17),(2017,2.16),(2018,2.15),(2060\
+		,2.07))
+	~	persons/household
+	~	CBS
+	|
+
+insulation rate of households=
+	(average construction year of households*0.05)-95+insulation improvement investment/\
+		2000
+	~	
+	~	RC-value, measures isolation of total construction, higher is better
+		extremely energy efficient houses have a value of ±10
+		legal condition in NL is >3.5
+	|
+
+energy efficiency of electrical heating equipment=A FUNCTION OF(energy efficiency of electrical heating equipment\
+		,human energy behavior,technological improvement rate) ~~|
+energy efficiency of electrical heating equipment=
+	~	
+	~		|
+
+Retired HH  = A FUNCTION OF( average time of house use)
+	~	
+	~		|
+
+dynamic efficiency  = A FUNCTION OF( energy efficiency of electrical heating equipment\
+		,human energy behavior)
+	~	
+	~		|
+
+share of HHH by electricity  = A FUNCTION OF( HHH by electricity,HHH by LNG)
+	~	
+	~		|
+
+decrease in HHH by electricity  = A FUNCTION OF( )
+	~	
+	~		|
+
+static efficiency  = A FUNCTION OF( insulation rate of households)
+	~	
+	~		|
+
+"b-f-plants out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"bio-fuel energy potential (m^3/intensity)"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"bio-fuel plant capacity"  = A FUNCTION OF( -"b-f-plants out of service","building bio-fuel plants"\
+		)
+	~	
+	~		|
+
+electricity from renewable sources  = A FUNCTION OF( "bio-fuel energy potential (m^3/intensity)"\
+		,"bio-fuel plant capacity",hydro plant capacity,ocean energy potential,ocean hours,\
+		ocean plant capacity,solar plant capacity,"sunshine energy potential (h/intensity)"\
+		,sunshing hours,using water1,water energy potential,wind energy potential,wind hours\
+		,wind plant capacity)
+	~	
+	~		|
+
+"sunshine energy potential (h/intensity)"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"building bio-fuel plants"  = A FUNCTION OF( )
+	~	
+	~		|
+
+building coal plants  = A FUNCTION OF( )
+	~	
+	~		|
+
+building gas plants  = A FUNCTION OF( )
+	~	
+	~		|
+
+building hydro plants  = A FUNCTION OF( )
+	~	
+	~		|
+
+building nuclear reactors  = A FUNCTION OF( )
+	~	
+	~		|
+
+building ocean plants  = A FUNCTION OF( )
+	~	
+	~		|
+
+building oil plant  = A FUNCTION OF( )
+	~	
+	~		|
+
+building solar farms  = A FUNCTION OF( )
+	~	
+	~		|
+
+building wind farms  = A FUNCTION OF( )
+	~	
+	~		|
+
+"c-plants out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+carbon intensity 0  = A FUNCTION OF( )
+	~	
+	~		|
+
+"o-plants out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+coal energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
+coal plant capacity  = A FUNCTION OF( building coal plants,-"c-plants out of service"\
+		)
+	~	
+	~		|
+
+coal resources  = A FUNCTION OF( mining coal,-using coal)
+	~	
+	~		|
+
+ocean plants out of service  = A FUNCTION OF( )
+	~	
+	~		|
+
+decarbonization 0  = A FUNCTION OF( efficiency gains 0,stopping use of fossil fuel equipment 0\
+		,transition to other energy forms 0)
+	~	
+	~		|
+
+decrease 0  = A FUNCTION OF( efficiency gains 0)
+	~	
+	~		|
+
+demand  = A FUNCTION OF( energy need construction fossil plants,"energy need mining/drilling"\
+		,energy needed for construction,energy needed for nuclear construction,energy needed for nuclear mining\
+		,"Household E-demand",household fossil fuel demand,"Transportation E-demand",Transportation fossil fuel demand\
+		)
+	~	
+	~		|
+
+fossil fuel demand 0  = A FUNCTION OF( decarbonization 0,use of fossil fuel equipment 0\
+		)
+	~	
+	~		|
+
+drilling gas  = A FUNCTION OF( )
+	~	
+	~		|
+
+drilling oil  = A FUNCTION OF( )
+	~	
+	~		|
+
+economy of electricity  = A FUNCTION OF( demand,supply)
+	~	
+	~		|
+
+"economy of fossil fuels?"  = A FUNCTION OF( demand,supply)
+	~	
+	~		|
+
+economy of nuclear fuels  = A FUNCTION OF( demand,supply)
+	~	
+	~		|
+
+efficiency gains 0  = A FUNCTION OF( )
+	~	
+	~		|
+
+eission factor hydro production  = A FUNCTION OF( )
+	~	
+	~		|
+
+resources needed for nuclear construction  = A FUNCTION OF( building nuclear reactors\
+		)
+	~	
+	~		|
+
+resources needed for reneable construction  = A FUNCTION OF( "building bio-fuel plants"\
+		,building hydro plants,building ocean plants,building solar farms,building wind farms\
+		)
+	~	
+	~		|
+
+electricity demand 1 0  = A FUNCTION OF( decrease 0,use of electric equipment 0)
+	~	
+	~		|
+
+electricity from fossil  = A FUNCTION OF( "bio-fuel energy potential (m^3/intensity)"\
+		,"bio-fuel plant capacity",coal energy potential,coal plant capacity,gas energy potential\
+		,gas plant capacity,oil plant capacity,using coal,using gas,using oil,using unconventional\
+		)
+	~	
+	~		|
+
+hydro plant capacity  = A FUNCTION OF( building hydro plants,-"h-plants out of service"\
+		)
+	~	
+	~		|
+
+stopping use of fossil fuel equipment 0  = A FUNCTION OF( )
+	~	
+	~		|
+
+sunshing hours  = A FUNCTION OF( )
+	~	
+	~		|
+
+supply  = A FUNCTION OF( total electricity production)
+	~	
+	~		|
+
+total electricity production  = A FUNCTION OF( electricity from fossil,electricity from renewable sources\
+		,"nuclear energy potential (tons/intensity)",nuclear plant capacity,using nuclear mat\
+		)
+	~	
+	~		|
+
+oil resources  = A FUNCTION OF( drilling oil,-using oil)
+	~	
+	~		|
+
+transition to other energy forms 0  = A FUNCTION OF( )
+	~	
+	~		|
+
+electrification factor  = A FUNCTION OF( )
+	~	
+	~		|
+
+emission factor ocean production  = A FUNCTION OF( )
+	~	
+	~		|
+
+emission factor solar production  = A FUNCTION OF( )
+	~	
+	~		|
+
+emission factor wind production  = A FUNCTION OF( )
+	~	
+	~		|
+
+emissions absorbed  = A FUNCTION OF( )
+	~	
+	~		|
+
+emissions from reneable construction  = A FUNCTION OF( "building bio-fuel plants",building hydro plants\
+		,building ocean plants,building solar farms,building wind farms)
+	~	
+	~		|
+
+"emissions from renewable e-production"  = A FUNCTION OF( eission factor hydro production\
+		,electricity from renewable sources,emission factor ocean production,emission factor solar production\
+		,emission factor wind production,ocean hours,sunshing hours,using water1,wind hours\
+		)
+	~	
+	~		|
+
+energy need construction fossil plants  = A FUNCTION OF( building coal plants,building gas plants\
+		,building oil plant)
+	~	
+	~		|
+
+"energy need mining/drilling"  = A FUNCTION OF( drilling gas,drilling oil,mining coal\
+		,unconventional drilling)
+	~	
+	~		|
+
+energy needed for construction  = A FUNCTION OF( "building bio-fuel plants",building hydro plants\
+		,building ocean plants,building solar farms,building wind farms)
+	~	
+	~		|
+
+energy needed for nuclear construction  = A FUNCTION OF( building nuclear reactors)
+	~	
+	~		|
+
+energy needed for nuclear mining  = A FUNCTION OF( mining nuclear material)
+	~	
+	~		|
+
+"energy stock (GJ)"  = A FUNCTION OF( -demand,supply)
+	~	
+	~		|
+
+extraction  = A FUNCTION OF( )
+	~	
+	~		|
+
+oil plant capacity  = A FUNCTION OF( building oil plant,-"o-plants out of service")
+	~	
+	~		|
+
+"g-plants out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+gas energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
+gas plant capacity  = A FUNCTION OF( building gas plants,-"g-plants out of service")
+	~	
+	~		|
+
+gas resources  = A FUNCTION OF( drilling gas,-using gas)
+	~	
+	~		|
+
+GHG Emission Rate  = A FUNCTION OF( -emissions absorbed,GHG produced)
+	~	
+	~		|
+
+GHG produced  = A FUNCTION OF( emissions from reneable construction,"emissions from renewable e-production"\
+		,household fossil fuel demand,Transportation fossil fuel demand) ~~|
+GHG produced=
+	~	
+	~		|
+
+"h-plants out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"Household E-demand"  = A FUNCTION OF( electrification factor,Household heating Services\
+		)
+	~	
+	~		|
+
+household fossil fuel demand  = A FUNCTION OF( electrification factor,Household heating Services\
+		)
+	~	
+	~		|
+
+use of electric equipment 0  = A FUNCTION OF( transition to other energy forms 0)
+	~	
+	~		|
+
+Household heating Services  = A FUNCTION OF( )
+	~	
+	~		|
+
+solar plant capacity  = A FUNCTION OF( building solar farms,-"s-farms out of service"\
+		)
+	~	
+	~		|
+
+ocean plant capacity  = A FUNCTION OF( building ocean plants,-ocean plants out of service\
+		)
+	~	
+	~		|
+
+using gas  = A FUNCTION OF( )
+	~	
+	~		|
+
+oil energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
+using nuclear mat  = A FUNCTION OF( )
+	~	
+	~		|
+
+using resources  = A FUNCTION OF( resources needed for construction,resources needed for mining nuclear\
+		,resources needed for mining operations,resources needed for nuclear construction,resources needed for reneable construction\
+		)
+	~	
+	~		|
+
+mining coal  = A FUNCTION OF( )
+	~	
+	~		|
+
+mining nuclear material  = A FUNCTION OF( )
+	~	
+	~		|
+
+"n-reactors out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"Transportation E-demand"  = A FUNCTION OF( electrification factor,Transportation Services\
+		)
+	~	
+	~		|
+
+"nuclear energy potential (tons/intensity)"  = A FUNCTION OF( )
+	~	
+	~		|
+
+nuclear plant capacity  = A FUNCTION OF( building nuclear reactors,-"n-reactors out of service"\
+		)
+	~	
+	~		|
+
+nuclear resources  = A FUNCTION OF( mining nuclear material,-using nuclear mat)
+	~	
+	~		|
+
+number of equipment 0  = A FUNCTION OF( )
+	~	
+	~		|
+
+wind plant capacity  = A FUNCTION OF( building wind farms,-"w-farms out of service")
+	~	
+	~		|
+
+ocean energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
+ocean hours  = A FUNCTION OF( )
+	~	
+	~		|
+
+use of fossil fuel equipment 0  = A FUNCTION OF( carbon intensity 0,number of equipment 0\
+		)
+	~	
+	~		|
+
+using coal  = A FUNCTION OF( )
+	~	
+	~		|
+
+resources needed for construction  = A FUNCTION OF( building coal plants,building gas plants\
+		,building oil plant)
+	~	
+	~		|
+
+resources needed for mining nuclear  = A FUNCTION OF( mining nuclear material)
+	~	
+	~		|
+
+using oil  = A FUNCTION OF( )
+	~	
+	~		|
+
+using unconventional  = A FUNCTION OF( )
+	~	
+	~		|
+
+using water1  = A FUNCTION OF( )
+	~	
+	~		|
+
+precipitation1  = A FUNCTION OF( )
+	~	
+	~		|
+
+water energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
+resources  = A FUNCTION OF( extraction,-using resources)
+	~	
+	~		|
+
+Transportation fossil fuel demand  = A FUNCTION OF( electrification factor,Transportation Services\
+		)
+	~	
+	~		|
+
+Transportation Services  = A FUNCTION OF( )
+	~	
+	~		|
+
+resources needed for mining operations  = A FUNCTION OF( drilling gas,drilling oil,mining coal\
+		,unconventional drilling)
+	~	
+	~		|
+
+unconventional fossil resources  = A FUNCTION OF( unconventional drilling,-using unconventional\
+		)
+	~	
+	~		|
+
+water reservoir  = A FUNCTION OF( )
+	~	
+	~		|
+
+"s-farms out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+"w-farms out of service"  = A FUNCTION OF( )
+	~	
+	~		|
+
+wind hours  = A FUNCTION OF( )
+	~	
+	~		|
+
+unconventional drilling  = A FUNCTION OF( )
+	~	
+	~		|
+
+water reservoir1  = A FUNCTION OF( precipitation1,-using water1)
+	~	
+	~		|
+
+wind energy potential  = A FUNCTION OF( )
+	~	
+	~		|
+
 "Bio-Gas production"  = A FUNCTION OF( District Heating with renewable sources,"Replace LNG with bio-gas"\
 		)
 	~	
@@ -118,98 +978,714 @@ Windpower  = A FUNCTION OF( )
 		Simulation Control Parameters
 	|
 
-FINAL TIME  = 100
-	~	Month
+FINAL TIME  = 2060
+	~	Year
 	~	The final time for the simulation.
 	|
 
-INITIAL TIME  = 0
-	~	Month
+INITIAL TIME  = 2014
+	~	Year
 	~	The initial time for the simulation.
 	|
 
 SAVEPER  = 
-        TIME STEP
-	~	Month [0,?]
+        TIME STEP 
+	~	Year [0,?]
 	~	The frequency with which output is stored.
 	|
 
-TIME STEP  = 1
-	~	Month [0,?]
+TIME STEP  = 0.25
+	~	Year [0,?]
 	~	The time step for the simulation.
 	|
 
 \\\---/// Sketch information - do not modify anything except names
 V300  Do not put anything below this section - it will be ignored
-*View 1
+*overall model
 $192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
-10,1,Transportation,186,172,37,8,8,3,0,0,0,0,0,0
-10,2,Household heating,360,550,47,8,8,3,0,0,0,0,0,0
-10,3,Electricity Production,892,355,55,8,8,3,0,0,0,0,0,0
-10,4,Electricity Demand,719,356,49,8,8,3,0,0,0,0,0,0
-10,5,Electricity Price,763,416,41,8,8,3,0,0,0,0,0,0
-10,6,Electricity Supply,890,427,46,8,8,3,0,0,0,0,0,0
-10,7,Electricity Production Capacity,886,291,53,14,8,3,0,0,0,0,0,0
-10,8,Choice of Electricity Source,925,212,46,14,8,3,0,0,0,0,0,0
-10,9,Nuclear,1055,191,21,8,8,3,0,0,0,0,0,0
-10,10,"Traditional (fossil) source",1052,147,37,14,8,3,0,0,0,0,0,0
-10,11,Hydropower,1062,224,33,8,8,3,0,0,0,0,0,0
-10,12,Windpower,1069,253,30,8,8,3,0,0,0,0,0,0
-10,13,Photo Voltaic,1059,283,35,8,8,3,0,0,0,0,0,0
-10,14,Biomass,1053,316,23,8,8,3,0,0,0,0,0,0
-10,15,Hydrogen Production,544,216,54,8,8,3,0,0,0,0,0,0
-10,16,Hydrogen Car Technology,367,206,37,14,8,3,0,0,0,0,0,0
-10,17,Electrification,582,391,37,8,8,3,0,0,0,0,0,0
-10,18,Use of Electricity Cars,172,262,57,8,8,3,0,0,0,0,0,0
-10,19,Electric Heating,212,493,41,8,8,3,0,0,0,0,0,0
-10,20,Cost Factor,868,143,30,8,8,3,0,0,0,0,0,0
-10,21,Infrared Heating,167,622,42,8,8,3,0,0,0,0,0,0
-10,22,Other Alternatives,420,484,46,8,8,3,0,0,0,0,0,0
-10,23,Insolation,442,670,26,8,8,3,0,0,0,0,0,0
-10,24,District Heating with renewable sources,571,611,54,14,8,3,0,0,0,0,0,0
-10,25,"Replace LNG with bio-gas",554,520,36,14,8,3,0,0,0,0,0,0
-1,26,20,8,0,0,0,0,0,128,0,-1--1--1,,1|(889,169)|
-1,27,10,8,0,0,0,0,0,128,0,-1--1--1,,1|(994,176)|
-1,28,9,8,0,0,0,0,0,128,0,-1--1--1,,1|(1009,197)|
-1,29,11,8,0,0,0,0,0,128,0,-1--1--1,,1|(1006,219)|
-1,30,12,8,0,0,0,0,0,128,0,-1--1--1,,1|(1012,236)|
-1,31,13,8,0,0,0,0,0,128,0,-1--1--1,,1|(1003,253)|
-1,32,14,8,0,0,0,0,0,128,0,-1--1--1,,1|(998,271)|
-1,33,8,7,0,0,0,0,0,128,0,-1--1--1,,1|(908,245)|
-1,34,7,3,0,0,0,0,0,128,0,-1--1--1,,1|(888,319)|
-1,35,3,6,0,0,0,0,0,128,0,-1--1--1,,1|(891,384)|
-1,36,6,5,0,0,0,0,0,128,0,-1--1--1,,1|(830,422)|
-1,37,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(736,380)|
-1,38,4,3,0,0,0,0,0,128,0,-1--1--1,,1|(795,355)|
-1,39,17,4,0,0,0,0,0,128,0,-1--1--1,,1|(643,375)|
-10,40,Electricity stored in System,1043,393,44,14,8,3,0,0,0,0,0,0
-1,41,3,40,0,0,0,0,0,128,0,-1--1--1,,1|(954,370)|
-1,42,40,6,0,0,0,0,0,128,0,-1--1--1,,1|(969,408)|
-1,43,5,3,0,0,0,0,0,128,0,-1--1--1,,1|(820,388)|
-1,44,15,4,0,0,0,0,0,128,0,-1--1--1,,1|(626,281)|
-1,45,16,17,0,0,0,0,0,128,0,-1--1--1,,1|(472,296)|
-1,46,1,18,0,0,0,0,0,128,0,-1--1--1,,1|(180,210)|
-1,47,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(369,324)|
-1,48,19,17,1,0,0,0,0,128,0,-1--1--1,,1|(366,423)|
-1,49,2,19,0,0,0,0,0,128,0,-1--1--1,,1|(292,523)|
-1,50,2,21,0,0,0,0,0,128,0,-1--1--1,,1|(270,583)|
-1,51,2,22,0,0,0,0,0,128,0,-1--1--1,,1|(384,522)|
-1,52,2,23,0,0,0,0,0,128,0,-1--1--1,,1|(396,604)|
-1,53,2,24,0,0,0,0,0,128,0,-1--1--1,,1|(447,575)|
-1,54,2,25,0,0,0,0,0,128,0,-1--1--1,,1|(455,535)|
-10,55,"Bio-Gas production",827,585,50,8,8,3,0,0,0,0,0,0
-1,56,24,55,0,0,0,0,0,128,0,-1--1--1,,1|(694,598)|
-1,57,25,55,0,0,0,0,0,128,0,-1--1--1,,1|(684,550)|
-1,58,21,17,1,0,0,0,0,128,0,-1--1--1,,1|(319,500)|
-1,59,22,17,1,0,0,0,0,128,0,-1--1--1,,1|(527,440)|
-1,60,1,16,0,0,0,0,0,128,0,-1--1--1,,1|(269,187)|
-1,61,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(440,209)|
-12,62,0,343,220,267,90,3,131,0,0,-1,0,0,0
-12,63,0,499,582,395,115,3,131,0,1,-1,0,0,0,0-255-255,0-0-0,|12||0-0-0
-12,64,0,886,282,236,163,3,131,0,1,-1,0,0,0,128-0-0,0-0-0,|12||0-0-0
-12,65,0,541,95,40,20,3,7,0,0,-1,0,0,0
-Jason was here!!!!!!!
-12,66,0,491,88,40,20,8,3,0,0,-1,0,0,0
+10,1,Transportation,186,76,37,8,8,3,0,0,0,0,0,0
+10,2,Household heating,360,454,47,8,8,3,0,0,0,0,0,0
+10,3,Electricity Production,892,259,55,8,8,3,0,0,0,0,0,0
+10,4,Electricity Demand,719,260,49,8,8,3,0,0,0,0,0,0
+10,5,Electricity Price,763,320,41,8,8,3,0,0,0,0,0,0
+10,6,Electricity Supply,890,331,46,8,8,3,0,0,0,0,0,0
+10,7,Electricity Production Capacity,886,195,53,14,8,3,0,0,0,0,0,0
+10,8,Choice of Electricity Source,925,116,46,14,8,3,0,0,0,0,0,0
+10,9,Nuclear,1055,95,21,8,8,3,0,0,0,0,0,0
+10,10,"Traditional (fossil) source",1052,51,37,14,8,3,0,0,0,0,0,0
+10,11,Hydropower,1062,128,33,8,8,3,0,0,0,0,0,0
+10,12,Windpower,1069,157,30,8,8,3,0,0,0,0,0,0
+10,13,Photo Voltaic,1059,187,35,8,8,3,0,0,0,0,0,0
+10,14,Biomass,1053,220,23,8,8,3,0,0,0,0,0,0
+10,15,Hydrogen Production,544,120,54,8,8,3,0,0,0,0,0,0
+10,16,Hydrogen Car Technology,367,110,37,14,8,3,0,0,0,0,0,0
+10,17,Electrification,582,295,37,8,8,3,0,0,0,0,0,0
+10,18,Use of Electricity Cars,172,166,57,8,8,3,0,0,0,0,0,0
+10,19,Electric Heating,212,397,41,8,8,3,0,0,0,0,0,0
+10,20,Cost Factor,868,47,30,8,8,3,0,0,0,0,0,0
+10,21,Infrared Heating,167,526,42,8,8,3,0,0,0,0,0,0
+10,22,Other Alternatives,420,388,46,8,8,3,0,0,0,0,0,0
+10,23,Insolation,442,574,26,8,8,3,0,0,0,0,0,0
+10,24,District Heating with renewable sources,571,515,54,14,8,3,0,0,0,0,0,0
+10,25,"Replace LNG with bio-gas",554,424,36,14,8,3,0,0,0,0,0,0
+1,26,20,8,0,0,0,0,0,128,0,-1--1--1,,1|(889,73)|
+1,27,10,8,0,0,0,0,0,128,0,-1--1--1,,1|(994,80)|
+1,28,9,8,0,0,0,0,0,128,0,-1--1--1,,1|(1009,101)|
+1,29,11,8,0,0,0,0,0,128,0,-1--1--1,,1|(1006,123)|
+1,30,12,8,0,0,0,0,0,128,0,-1--1--1,,1|(1012,140)|
+1,31,13,8,0,0,0,0,0,128,0,-1--1--1,,1|(1003,157)|
+1,32,14,8,0,0,0,0,0,128,0,-1--1--1,,1|(998,175)|
+1,33,8,7,0,0,0,0,0,128,0,-1--1--1,,1|(908,149)|
+1,34,7,3,0,0,0,0,0,128,0,-1--1--1,,1|(888,223)|
+1,35,3,6,0,0,0,0,0,128,0,-1--1--1,,1|(891,288)|
+1,36,6,5,0,0,0,0,0,128,0,-1--1--1,,1|(830,326)|
+1,37,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(736,284)|
+1,38,4,3,0,0,0,0,0,128,0,-1--1--1,,1|(795,259)|
+1,39,17,4,0,0,0,0,0,128,0,-1--1--1,,1|(643,279)|
+10,40,Electricity stored in System,1043,297,44,14,8,3,0,0,0,0,0,0
+1,41,3,40,0,0,0,0,0,128,0,-1--1--1,,1|(954,274)|
+1,42,40,6,0,0,0,0,0,128,0,-1--1--1,,1|(969,312)|
+1,43,5,3,0,0,0,0,0,128,0,-1--1--1,,1|(820,292)|
+1,44,15,4,0,0,0,0,0,128,0,-1--1--1,,1|(626,185)|
+1,45,16,17,0,0,0,0,0,128,0,-1--1--1,,1|(472,200)|
+1,46,1,18,0,0,0,0,0,128,0,-1--1--1,,1|(180,114)|
+1,47,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(369,228)|
+1,48,19,17,1,0,0,0,0,128,0,-1--1--1,,1|(366,327)|
+1,49,2,19,0,0,0,0,0,128,0,-1--1--1,,1|(292,427)|
+1,50,2,21,0,0,0,0,0,128,0,-1--1--1,,1|(270,487)|
+1,51,2,22,0,0,0,0,0,128,0,-1--1--1,,1|(384,426)|
+1,52,2,23,0,0,0,0,0,128,0,-1--1--1,,1|(396,508)|
+1,53,2,24,0,0,0,0,0,128,0,-1--1--1,,1|(447,479)|
+1,54,2,25,0,0,0,0,0,128,0,-1--1--1,,1|(455,439)|
+10,55,"Bio-Gas production",827,489,50,8,8,3,0,0,0,0,0,0
+1,56,24,55,0,0,0,0,0,128,0,-1--1--1,,1|(694,502)|
+1,57,25,55,0,0,0,0,0,128,0,-1--1--1,,1|(684,454)|
+1,58,21,17,1,0,0,0,0,128,0,-1--1--1,,1|(319,404)|
+1,59,22,17,1,0,0,0,0,128,0,-1--1--1,,1|(527,344)|
+1,60,1,16,0,0,0,0,0,128,0,-1--1--1,,1|(269,91)|
+1,61,16,15,0,0,0,0,0,128,0,-1--1--1,,1|(440,113)|
+12,62,0,343,124,267,90,3,131,0,0,-1,0,0,0
+12,63,0,499,486,395,115,3,131,0,1,-1,0,0,0,0-255-255,0-0-0,|12||0-0-0
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*draft_e-production
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,0
+10,1,"Household E-demand",-77,148,54,8,8,3,0,0,0,0,0,0
+10,2,"Transportation E-demand",-32,-215,38,14,8,3,0,0,0,0,0,0
+10,3,Household heating Services,-142,224,40,20,3,3,0,0,0,0,0,0
+10,4,Transportation Services,-170,-223,40,20,3,3,0,0,0,0,0,0
+10,5,Transportation fossil fuel demand,-153,-140,53,14,8,3,0,0,0,0,0,0
+10,6,household fossil fuel demand,-3,244,42,14,8,3,0,0,0,0,0,0
+1,7,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(-162,-185)|
+1,8,4,2,0,0,0,0,0,128,0,-1--1--1,,1|(-106,-219)|
+1,9,3,6,0,0,0,0,0,128,0,-1--1--1,,1|(-80,232)|
+1,10,3,1,0,0,0,0,0,128,0,-1--1--1,,1|(-108,185)|
+10,11,GHG Emission Rate,139,409,40,20,3,3,0,0,0,0,0,0
+12,12,48,15,413,10,8,0,3,0,0,-1,0,0,0
+1,13,15,11,4,0,0,22,0,0,0,-1--1--1,,1|(83,413)|
+1,14,15,12,100,0,0,22,0,0,0,-1--1--1,,1|(40,413)|
+11,15,48,62,413,6,8,34,3,0,0,1,0,0,0
+10,16,GHG produced,62,435,41,14,40,3,0,0,-1,0,0,0
+12,17,48,279,410,10,8,0,3,0,0,-1,0,0,0
+1,18,20,17,4,0,0,22,0,0,0,-1--1--1,,1|(249,410)|
+1,19,20,11,100,0,0,22,0,0,0,-1--1--1,,1|(198,410)|
+11,20,48,224,410,6,8,34,3,0,0,1,0,0,0
+10,21,emissions absorbed,224,426,49,8,40,3,0,0,-1,0,0,0
+1,22,5,16,1,0,0,0,0,128,0,-1--1--1,,1|(-197,250)|
+1,23,6,16,1,0,0,0,0,128,0,-1--1--1,,1|(-10,327)|
+10,24,electrification factor,-65,15,51,8,8,3,0,0,0,0,0,0
+1,25,24,5,0,0,0,0,0,128,0,-1--1--1,,1|(-103,-53)|
+1,26,24,2,0,0,0,0,0,128,0,-1--1--1,,1|(-49,-90)|
+1,27,24,1,0,0,0,0,0,128,0,-1--1--1,,1|(-69,74)|
+1,28,24,6,0,0,0,0,0,128,0,-1--1--1,,1|(-36,119)|
+10,29,economy of electricity,299,-386,56,8,8,3,0,0,0,0,0,0
+10,30,"economy of fossil fuels?",305,-427,32,14,8,3,0,0,0,0,0,0
+10,31,"energy stock (GJ)",298,-303,40,20,3,3,0,0,0,0,0,0
+12,32,48,162,-300,10,8,0,3,0,0,-1,0,0,0
+1,33,35,31,4,0,0,22,0,0,0,-1--1--1,,1|(239,-300)|
+1,34,35,32,100,0,0,22,0,0,0,-1--1--1,,1|(190,-300)|
+11,35,48,215,-300,6,8,34,3,0,0,1,0,0,0
+10,36,supply,215,-284,18,8,40,3,0,0,-1,0,0,0
+12,37,48,495,-299,10,8,0,3,0,0,-1,0,0,0
+1,38,40,37,4,0,0,22,0,0,0,-1--1--1,,1|(448,-303)|
+1,39,40,31,100,0,0,22,0,0,0,-1--1--1,,1|(368,-303)|
+11,40,48,405,-303,6,8,34,3,0,0,1,0,0,0
+10,41,demand,405,-287,21,8,40,3,0,0,-1,0,0,0
+10,42,solar plant capacity,1092,-200,40,20,3,3,0,0,0,0,0,0
+10,43,wind plant capacity,1094,-116,40,20,3,3,0,0,0,0,0,0
+10,44,hydro plant capacity,1092,-52,40,20,3,3,0,0,0,0,0,0
+10,45,ocean plant capacity,1090,9,40,20,3,3,0,0,0,0,0,0
+10,46,"bio-fuel plant capacity",1092,126,40,20,3,3,0,0,0,0,0,0
+10,47,nuclear plant capacity,761,320,40,20,3,3,0,0,0,0,0,0
+10,48,coal plant capacity,748,555,40,20,3,3,0,0,0,0,0,0
+10,49,gas plant capacity,748,616,40,20,3,3,0,0,0,0,0,0
+12,50,48,1220,-204,10,8,0,3,0,0,-1,0,0,0
+1,51,53,42,4,0,0,22,0,0,0,-1--1--1,,1|(1148,-204)|
+1,52,53,50,100,0,0,22,0,0,0,-1--1--1,,1|(1193,-204)|
+11,53,48,1171,-204,6,8,34,3,0,0,1,0,0,0
+10,54,building solar farms,1171,-188,51,8,40,3,0,0,-1,0,0,0
+12,55,48,903,-200,10,8,0,3,0,0,-1,0,0,0
+1,56,58,55,4,0,0,22,0,0,0,-1--1--1,,1|(944,-200)|
+1,57,58,42,100,0,0,22,0,0,0,-1--1--1,,1|(1020,-200)|
+11,58,48,982,-200,6,8,34,3,0,0,1,0,0,0
+10,59,"s-farms out of service",982,-184,54,8,40,3,0,0,-1,0,0,0
+1,60,42,229,1,0,0,0,0,128,0,-1--1--1,,1|(897,-145)|
+12,61,48,1218,-118,10,8,0,3,0,0,-1,0,0,0
+1,62,64,43,4,0,0,22,0,0,0,-1--1--1,,1|(1149,-118)|
+1,63,64,61,100,0,0,22,0,0,0,-1--1--1,,1|(1192,-118)|
+11,64,48,1171,-118,6,8,34,3,0,0,1,0,0,0
+10,65,building wind farms,1171,-102,51,8,40,3,0,0,-1,0,0,0
+12,66,48,904,-119,10,8,0,3,0,0,-1,0,0,0
+1,67,69,66,4,0,0,22,0,0,0,-1--1--1,,1|(946,-119)|
+1,68,69,43,100,0,0,22,0,0,0,-1--1--1,,1|(1022,-119)|
+11,69,48,984,-119,6,8,34,3,0,0,1,0,0,0
+10,70,"w-farms out of service",984,-103,56,8,40,3,0,0,-1,0,0,0
+1,71,43,229,1,0,0,0,0,128,0,-1--1--1,,1|(767,-60)|
+12,72,48,1217,-54,10,8,0,3,0,0,-1,0,0,0
+1,73,75,44,4,0,0,22,0,0,0,-1--1--1,,1|(1147,-54)|
+1,74,75,72,100,0,0,22,0,0,0,-1--1--1,,1|(1191,-54)|
+11,75,48,1169,-54,6,8,34,3,0,0,1,0,0,0
+10,76,building hydro plants,1169,-38,54,8,40,3,0,0,-1,0,0,0
+12,77,48,906,-49,10,8,0,3,0,0,-1,0,0,0
+1,78,80,77,4,0,0,22,0,0,0,-1--1--1,,1|(947,-49)|
+1,79,80,44,100,0,0,22,0,0,0,-1--1--1,,1|(1021,-49)|
+11,80,48,984,-49,6,8,34,3,0,0,1,0,0,0
+10,81,"h-plants out of service",984,-33,56,8,40,3,0,0,-1,0,0,0
+1,82,44,229,1,0,0,0,0,128,0,-1--1--1,,1|(690,12)|
+12,83,48,1213,9,10,8,0,3,0,0,-1,0,0,0
+1,84,86,45,4,0,0,22,0,0,0,-1--1--1,,1|(1145,9)|
+1,85,86,83,100,0,0,22,0,0,0,-1--1--1,,1|(1187,9)|
+11,86,48,1166,9,6,8,34,3,0,0,1,0,0,0
+10,87,building ocean plants,1166,25,54,8,40,3,0,0,-1,0,0,0
+12,88,48,912,11,10,8,0,3,0,0,-1,0,0,0
+1,89,91,88,4,0,0,22,0,0,0,-1--1--1,,1|(951,11)|
+1,90,91,45,100,0,0,22,0,0,0,-1--1--1,,1|(1021,11)|
+11,91,48,986,11,6,8,34,3,0,0,1,0,0,0
+10,92,ocean plants out of service,986,33,42,14,40,3,0,0,-1,0,0,0
+1,93,45,229,1,0,0,0,0,128,0,-1--1--1,,1|(695,63)|
+1,94,2,41,1,0,0,0,0,128,0,-1--1--1,,1|(214,-203)|
+1,95,6,41,1,0,0,0,0,128,0,-1--1--1,,1|(198,-18)|
+1,96,36,29,1,0,0,0,0,128,0,-1--1--1,,1|(226,-338)|
+1,97,41,29,1,0,0,0,0,128,0,-1--1--1,,1|(389,-349)|
+12,98,48,1218,126,10,8,0,3,0,0,-1,0,0,0
+1,99,101,46,4,0,0,22,0,0,0,-1--1--1,,1|(1148,126)|
+1,100,101,98,100,0,0,22,0,0,0,-1--1--1,,1|(1192,126)|
+11,101,48,1170,126,6,8,34,3,0,0,1,0,0,0
+10,102,"building bio-fuel plants",1170,142,59,8,40,3,0,0,-1,0,0,0
+12,103,48,926,126,10,8,0,3,0,0,-1,0,0,0
+1,104,106,103,4,0,0,22,0,0,0,-1--1--1,,1|(962,126)|
+1,105,106,46,100,0,0,22,0,0,0,-1--1--1,,1|(1026,126)|
+11,106,48,994,126,6,8,34,3,0,0,1,0,0,0
+10,107,"b-f-plants out of service",994,142,60,8,40,3,0,0,-1,0,0,0
+12,108,48,888,318,10,8,0,3,0,0,-1,0,0,0
+1,109,111,47,4,0,0,22,0,0,0,-1--1--1,,1|(817,318)|
+1,110,111,108,100,0,0,22,0,0,0,-1--1--1,,1|(861,318)|
+11,111,48,839,318,6,8,34,3,0,0,1,0,0,0
+10,112,building nuclear reactors,839,334,42,14,40,3,0,0,-1,0,0,0
+12,113,48,604,321,10,8,0,3,0,0,-1,0,0,0
+1,114,116,113,4,0,0,22,0,0,0,-1--1--1,,1|(637,321)|
+1,115,116,47,100,0,0,22,0,0,0,-1--1--1,,1|(697,321)|
+11,116,48,667,321,6,8,34,3,0,0,1,0,0,0
+10,117,"n-reactors out of service",667,343,43,14,40,3,0,0,-1,0,0,0
+10,118,total electricity production,295,-6,39,14,8,3,0,0,0,0,0,0
+1,119,118,36,0,0,0,0,0,128,0,-1--1--1,,1|(255,-141)|
+10,120,"sunshine energy potential (h/intensity)",871,-236,56,14,8,3,0,0,0,0,0,0
+10,121,wind energy potential,874,-150,54,8,8,3,0,0,0,0,0,0
+10,122,water energy potential,869,-88,56,8,8,3,0,0,0,0,0,0
+10,123,ocean energy potential,868,-21,56,8,8,3,0,0,0,0,0,0
+10,124,"bio-fuel energy potential (m^3/intensity)",868,102,40,21,8,3,0,0,0,0,0,0
+10,125,"nuclear energy potential (tons/intensity)",584,375,39,21,8,3,0,0,0,0,0,0
+10,126,coal energy potential,536,537,52,8,8,3,0,0,0,0,0,0
+10,127,gas energy potential,529,594,50,8,8,3,0,0,0,0,0,0
+12,128,48,874,543,10,8,0,3,0,0,-1,0,0,0
+1,129,131,48,4,0,0,22,0,0,0,-1--1--1,,1|(804,543)|
+1,130,131,128,100,0,0,22,0,0,0,-1--1--1,,1|(848,543)|
+11,131,48,826,543,6,8,34,3,0,0,1,0,0,0
+10,132,building coal plants,826,559,50,8,40,3,0,0,-1,0,0,0
+12,133,48,876,613,10,8,0,3,0,0,-1,0,0,0
+1,134,136,49,4,0,0,22,0,0,0,-1--1--1,,1|(804,613)|
+1,135,136,133,100,0,0,22,0,0,0,-1--1--1,,1|(849,613)|
+11,136,48,827,613,6,8,34,3,0,0,1,0,0,0
+10,137,building gas plants,827,629,48,8,40,3,0,0,-1,0,0,0
+12,138,48,591,617,10,8,0,3,0,0,-1,0,0,0
+1,139,141,138,4,0,0,22,0,0,0,-1--1--1,,1|(624,617)|
+1,140,141,49,100,0,0,22,0,0,0,-1--1--1,,1|(684,617)|
+11,141,48,654,617,6,8,34,3,0,0,1,0,0,0
+10,142,"g-plants out of service",654,633,56,8,40,3,0,0,-1,0,0,0
+12,143,48,594,556,10,8,0,3,0,0,-1,0,0,0
+1,144,146,143,4,0,0,22,0,0,0,-1--1--1,,1|(627,556)|
+1,145,146,48,100,0,0,22,0,0,0,-1--1--1,,1|(685,556)|
+11,146,48,656,556,6,8,34,3,0,0,1,0,0,0
+10,147,"c-plants out of service",656,572,55,8,40,3,0,0,-1,0,0,0
+1,148,46,225,1,0,0,0,0,128,0,-1--1--1,,1|(919,172)|
+1,149,47,118,1,0,0,0,0,128,0,-1--1--1,,1|(595,180)|
+1,150,48,225,1,0,0,0,0,128,0,-1--1--1,,1|(499,554)|
+1,151,49,225,1,0,0,0,0,128,0,-1--1--1,,1|(485,416)|
+1,152,120,229,1,0,0,0,0,128,0,-1--1--1,,1|(685,-154)|
+1,153,121,229,1,0,0,0,0,128,0,-1--1--1,,1|(683,-120)|
+1,154,122,229,1,0,0,0,0,128,0,-1--1--1,,1|(738,-54)|
+1,155,123,229,1,0,0,0,0,128,0,-1--1--1,,1|(682,-22)|
+1,156,124,229,1,0,0,0,0,128,0,-1--1--1,,1|(641,59)|
+1,157,125,118,1,0,0,0,0,128,0,-1--1--1,,1|(440,101)|
+1,158,126,225,1,0,0,0,0,128,0,-1--1--1,,1|(367,409)|
+1,159,127,225,1,0,0,0,0,128,0,-1--1--1,,1|(408,473)|
+12,160,0,1160,99,51,14,8,7,0,4,-1,0,0,0,-1--1--1,255-255-0,|12||0-0-0
+is there a difference to gas plants??
+10,161,sunshing hours,698,-397,38,8,8,3,0,0,0,0,0,0
+10,162,wind hours,619,-403,29,8,8,3,0,0,0,0,0,0
+10,163,ocean hours,549,-408,31,8,8,3,0,0,0,0,0,0
+10,164,nuclear resources,1062,313,40,20,3,3,0,0,0,0,0,0
+10,165,coal resources,1400,546,40,20,3,3,0,0,0,0,0,0
+10,166,gas resources,1398,599,40,20,3,3,0,0,0,0,0,0
+12,167,48,936,309,10,8,0,3,0,0,-1,0,0,0
+1,168,170,164,4,0,0,22,0,0,0,-1--1--1,,1|(1006,309)|
+1,169,170,167,100,0,0,22,0,0,0,-1--1--1,,1|(962,309)|
+11,170,48,984,309,6,8,34,3,0,0,1,0,0,0
+10,171,mining nuclear material,984,325,60,8,40,3,0,0,-1,0,0,0
+12,172,48,1263,543,10,8,0,3,0,0,-1,0,0,0
+1,173,175,165,4,0,0,22,0,0,0,-1--1--1,,1|(1341,543)|
+1,174,175,172,100,0,0,22,0,0,0,-1--1--1,,1|(1291,543)|
+11,175,48,1316,543,6,8,34,3,0,0,1,0,0,0
+10,176,mining coal,1316,559,31,8,40,3,0,0,-1,0,0,0
+12,177,48,1264,601,10,8,0,3,0,0,-1,0,0,0
+1,178,180,166,4,0,0,22,0,0,0,-1--1--1,,1|(1340,601)|
+1,179,180,177,100,0,0,22,0,0,0,-1--1--1,,1|(1292,601)|
+11,180,48,1316,601,6,8,34,3,0,0,1,0,0,0
+10,181,drilling gas,1316,617,29,8,40,3,0,0,-1,0,0,0
+10,182,oil resources,1397,647,40,20,3,3,0,0,0,0,0,0
+10,183,unconventional fossil resources,1398,695,40,20,3,3,0,0,0,0,0,0
+12,184,48,1262,646,10,8,0,3,0,0,-1,0,0,0
+1,185,187,182,4,0,0,22,0,0,0,-1--1--1,,1|(1338,646)|
+1,186,187,184,100,0,0,22,0,0,0,-1--1--1,,1|(1290,646)|
+11,187,48,1314,646,6,8,34,3,0,0,1,0,0,0
+10,188,drilling oil,1314,662,28,8,40,3,0,0,-1,0,0,0
+12,189,48,1262,693,10,8,0,3,0,0,-1,0,0,0
+1,190,192,183,4,0,0,22,0,0,0,-1--1--1,,1|(1339,693)|
+1,191,192,189,100,0,0,22,0,0,0,-1--1--1,,1|(1290,693)|
+11,192,48,1315,693,6,8,34,3,0,0,1,0,0,0
+10,193,unconventional drilling,1315,709,58,8,40,3,0,0,-1,0,0,0
+12,194,48,1189,312,10,8,0,3,0,0,-1,0,0,0
+1,195,197,194,4,0,0,22,0,0,0,-1--1--1,,1|(1162,312)|
+1,196,197,164,100,0,0,22,0,0,0,-1--1--1,,1|(1118,312)|
+11,197,48,1140,312,6,8,34,3,0,0,1,0,0,0
+10,198,using nuclear mat,1140,328,45,8,40,3,0,0,-1,0,0,0
+12,199,48,1526,547,10,8,0,3,0,0,-1,0,0,0
+1,200,202,199,4,0,0,22,0,0,0,-1--1--1,,1|(1500,547)|
+1,201,202,165,100,0,0,22,0,0,0,-1--1--1,,1|(1456,547)|
+11,202,48,1478,547,6,8,34,3,0,0,1,0,0,0
+10,203,using coal,1478,563,27,8,40,3,0,0,-1,0,0,0
+12,204,48,1522,601,10,8,0,3,0,0,-1,0,0,0
+1,205,207,204,4,0,0,22,0,0,0,-1--1--1,,1|(1496,601)|
+1,206,207,166,100,0,0,22,0,0,0,-1--1--1,,1|(1453,601)|
+11,207,48,1475,601,6,8,34,3,0,0,1,0,0,0
+10,208,using gas,1475,617,25,8,40,3,0,0,-1,0,0,0
+12,209,48,1526,646,10,8,0,3,0,0,-1,0,0,0
+1,210,212,209,4,0,0,22,0,0,0,-1--1--1,,1|(1499,646)|
+1,211,212,182,100,0,0,22,0,0,0,-1--1--1,,1|(1453,646)|
+11,212,48,1476,646,6,8,34,3,0,0,1,0,0,0
+10,213,using oil,1476,662,23,8,40,3,0,0,-1,0,0,0
+12,214,48,1521,696,10,8,0,3,0,0,-1,0,0,0
+1,215,217,214,4,0,0,22,0,0,0,-1--1--1,,1|(1495,696)|
+1,216,217,183,100,0,0,22,0,0,0,-1--1--1,,1|(1453,696)|
+11,217,48,1474,696,6,8,34,3,0,0,1,0,0,0
+10,218,using unconventional,1474,712,54,8,40,3,0,0,-1,0,0,0
+1,219,161,229,0,0,0,0,0,128,0,-1--1--1,,1|(611,-266)|
+1,220,162,229,0,0,0,0,0,128,0,-1--1--1,,1|(569,-270)|
+1,221,163,229,1,0,0,0,0,128,0,-1--1--1,,1|(524,-259)|
+1,222,198,118,1,0,0,0,0,128,0,-1--1--1,,1|(731,166)|
+1,223,203,225,1,0,0,0,0,128,0,-1--1--1,,1|(574,420)|
+1,224,208,225,1,0,0,0,0,128,0,-1--1--1,,1|(565,464)|
+10,225,electricity from fossil,248,148,54,8,8,3,0,0,0,0,0,0
+1,226,213,225,1,0,0,0,0,128,0,-1--1--1,,1|(561,491)|
+1,227,218,225,1,0,0,0,0,128,0,-1--1--1,,1|(584,581)|
+1,228,225,118,0,0,0,0,0,128,0,-1--1--1,,1|(267,80)|
+10,229,electricity from renewable sources,513,-118,48,14,8,3,0,0,0,0,0,0
+1,230,229,118,0,0,0,0,0,128,0,-1--1--1,,1|(410,-65)|
+12,231,0,803,-448,296,16,8,135,0,4,-1,0,0,0,-1--1--1,64-160-98,|12||0-0-0
+Actual renewable energy sources
+12,232,0,1058,-275,192,21,8,135,0,4,-1,0,0,0,-1--1--1,64-160-98,|12||0-0-0
+Energy conversion capability from renewables (technology factor)
+12,233,0,863,252,249,18,8,135,0,4,-1,0,0,0,-1--1--1,255-192-0,|12||0-0-0
+Nuclear: energy conversion capability and actual nuclear resources
+12,234,0,733,490,134,15,8,135,0,4,-1,0,0,0,-1--1--1,255-128-192,|12||0-0-0
+Energy conversion potential from fossil sources
+1,235,124,225,0,0,0,0,0,128,0,-1--1--1,,1|(571,122)|
+1,236,46,229,1,0,0,0,0,128,0,-1--1--1,,1|(669,117)|
+12,237,0,1396,489,131,14,8,135,0,4,-1,0,0,0,-1--1--1,255-128-192,|12||0-0-0
+Actual fossil resources
+10,238,resources needed for reneable construction,1579,97,55,14,8,3,0,0,0,0,0,0
+10,239,water reservoir1,844,-399,40,20,3,3,0,0,0,0,0,0
+12,240,48,982,-404,10,8,0,3,0,0,-1,0,0,0
+1,241,243,239,4,0,0,22,0,0,0,-1--1--1,,1|(903,-404)|
+1,242,243,240,100,0,0,22,0,0,0,-1--1--1,,1|(953,-404)|
+11,243,48,928,-404,6,8,34,3,0,0,1,0,0,0
+10,244,precipitation1,928,-388,36,8,40,3,0,0,-1,0,0,0
+12,245,48,752,-398,10,8,0,3,0,0,-1,0,0,0
+1,246,248,245,4,0,0,22,0,0,0,-1--1--1,,1|(769,-398)|
+1,247,248,239,100,0,0,22,0,0,0,-1--1--1,,1|(796,-398)|
+11,248,48,783,-398,6,8,34,3,0,0,1,0,0,0
+10,249,using water1,783,-382,33,8,40,3,0,0,-1,0,0,0
+1,250,249,229,0,0,0,0,0,128,0,-1--1--1,,1|(656,-257)|
+10,251,energy needed for construction,1546,-313,46,14,8,3,0,0,0,0,0,0
+10,252,resources needed for nuclear construction,789,404,53,14,8,3,0,0,0,0,0,0
+10,253,oil plant capacity,746,664,40,20,3,3,0,0,0,0,0,0
+12,254,48,873,665,10,8,0,3,0,0,-1,0,0,0
+1,255,257,253,4,0,0,22,0,0,0,-1--1--1,,1|(802,665)|
+1,256,257,254,100,0,0,22,0,0,0,-1--1--1,,1|(846,665)|
+11,257,48,824,665,6,8,34,3,0,0,1,0,0,0
+10,258,building oil plant,824,681,44,8,40,3,0,0,-1,0,0,0
+12,259,48,602,666,10,8,0,3,0,0,-1,0,0,0
+1,260,262,259,4,0,0,22,0,0,0,-1--1--1,,1|(632,666)|
+1,261,262,253,100,0,0,22,0,0,0,-1--1--1,,1|(685,666)|
+11,262,48,659,666,6,8,34,3,0,0,1,0,0,0
+10,263,"o-plants out of service",659,682,56,8,40,3,0,0,-1,0,0,0
+1,264,253,225,1,0,0,0,0,128,0,-1--1--1,,1|(454,566)|
+10,265,oil energy potential,534,653,49,8,8,3,0,0,0,0,0,0
+10,266,"energy need mining/drilling",1044,478,40,14,8,3,0,0,0,0,0,0
+10,267,energy need construction fossil plants,1014,434,47,21,8,3,0,0,0,0,0,0
+1,268,132,267,0,0,0,0,0,128,0,-1--1--1,,1|(904,506)|
+1,269,137,267,0,0,0,0,0,128,0,-1--1--1,,1|(908,543)|
+1,270,258,267,0,0,0,0,0,128,0,-1--1--1,,1|(909,569)|
+1,271,176,266,0,0,0,0,0,128,0,-1--1--1,,1|(1193,522)|
+1,272,181,266,0,0,0,0,0,128,0,-1--1--1,,1|(1192,553)|
+1,273,188,266,0,0,0,0,0,128,0,-1--1--1,,1|(1189,576)|
+1,274,193,266,0,0,0,0,0,128,0,-1--1--1,,1|(1188,601)|
+10,275,resources needed for mining operations,1073,809,53,14,8,3,0,0,0,0,0,0
+10,276,resources needed for construction,1039,724,53,14,8,3,0,0,0,0,0,0
+1,277,132,276,0,0,0,0,0,128,0,-1--1--1,,1|(922,634)|
+1,278,137,276,0,0,0,0,0,128,0,-1--1--1,,1|(919,670)|
+1,279,258,276,0,0,0,0,0,128,0,-1--1--1,,1|(918,699)|
+1,280,176,275,0,0,0,0,0,128,0,-1--1--1,,1|(1202,675)|
+1,281,193,275,0,0,0,0,0,128,0,-1--1--1,,1|(1207,753)|
+1,282,188,275,0,0,0,0,0,128,0,-1--1--1,,1|(1203,728)|
+1,283,181,275,0,0,0,0,0,128,0,-1--1--1,,1|(1203,705)|
+1,284,267,41,0,0,0,0,0,128,0,-1--1--1,,1|(708,72)|
+1,285,266,41,0,0,0,0,0,128,0,-1--1--1,,1|(726,97)|
+1,286,1,41,0,0,0,0,0,128,0,-1--1--1,,1|(158,-64)|
+1,287,5,41,1,0,0,0,0,128,0,-1--1--1,,1|(220,-174)|
+1,288,36,30,1,0,0,0,0,128,0,-1--1--1,,1|(216,-394)|
+1,289,41,30,1,0,0,0,0,128,0,-1--1--1,,1|(395,-402)|
+10,290,economy of nuclear fuels,303,-478,34,14,8,3,0,0,0,0,0,0
+1,291,36,290,1,0,0,0,0,128,0,-1--1--1,,1|(173,-420)|
+1,292,41,290,1,0,0,0,0,128,0,-1--1--1,,1|(433,-429)|
+1,293,251,41,0,0,0,0,0,128,0,-1--1--1,,1|(969,-299)|
+1,294,54,251,0,0,0,0,0,128,0,-1--1--1,,1|(1342,-245)|
+1,295,65,251,0,0,0,0,0,128,0,-1--1--1,,1|(1346,-201)|
+1,296,76,251,0,0,0,0,0,128,0,-1--1--1,,1|(1346,-168)|
+1,297,87,251,0,0,0,0,0,128,0,-1--1--1,,1|(1346,-136)|
+1,298,102,251,0,0,0,0,0,128,0,-1--1--1,,1|(1350,-77)|
+1,299,54,238,0,0,0,0,0,128,0,-1--1--1,,1|(1364,-52)|
+1,300,65,238,0,0,0,0,0,128,0,-1--1--1,,1|(1362,-8)|
+1,301,76,238,0,0,0,0,0,128,0,-1--1--1,,1|(1357,24)|
+1,302,102,238,0,0,0,0,0,128,0,-1--1--1,,1|(1369,120)|
+1,303,87,238,0,0,0,0,0,128,0,-1--1--1,,1|(1360,58)|
+10,304,emissions from reneable construction,1536,-108,55,14,8,3,0,0,0,0,0,0
+1,305,54,304,0,0,0,0,0,128,0,-1--1--1,,1|(1337,-151)|
+1,306,65,304,0,0,0,0,0,128,0,-1--1--1,,1|(1344,-104)|
+1,307,76,304,0,0,0,0,0,128,0,-1--1--1,,1|(1338,-70)|
+1,308,87,304,0,0,0,0,0,128,0,-1--1--1,,1|(1335,-36)|
+1,309,102,304,0,0,0,0,0,128,0,-1--1--1,,1|(1342,23)|
+10,310,"emissions from renewable e-production",390,-141,60,14,8,3,0,0,0,0,0,0
+10,311,emission factor ocean production,546,-496,45,14,8,3,0,0,0,0,0,0
+10,312,emission factor wind production,619,-520,43,14,8,3,0,0,0,0,0,0
+10,313,emission factor solar production,690,-495,42,14,8,3,0,0,0,0,0,0
+10,314,eission factor hydro production,770,-526,51,14,8,3,0,0,0,0,0,0
+1,315,311,310,0,0,0,0,0,128,0,-1--1--1,,1|(470,-324)|
+1,316,312,310,0,0,0,0,0,128,0,-1--1--1,,1|(508,-336)|
+1,317,313,310,0,0,0,0,0,128,0,-1--1--1,,1|(544,-323)|
+1,318,314,310,0,0,0,0,0,128,0,-1--1--1,,1|(584,-338)|
+1,319,229,310,0,0,0,0,0,128,0,-1--1--1,,1|(464,-126)|
+1,320,310,16,0,0,0,0,0,128,0,-1--1--1,,1|(229,140)|
+1,321,304,16,0,0,0,0,0,128,0,-1--1--1,,1|(805,161)|
+10,322,resources needed for mining nuclear,1115,390,53,14,8,3,0,0,0,0,0,0
+1,323,163,310,0,0,0,0,0,128,0,-1--1--1,,1|(475,-283)|
+1,324,162,310,0,0,0,0,0,128,0,-1--1--1,,1|(512,-280)|
+1,325,161,310,0,0,0,0,0,128,0,-1--1--1,,1|(552,-276)|
+1,326,249,310,0,0,0,0,0,128,0,-1--1--1,,1|(596,-268)|
+10,327,energy needed for nuclear construction,875,416,53,14,8,3,0,0,0,0,0,0
+10,328,energy needed for nuclear mining,1106,426,46,14,8,3,0,0,0,0,0,0
+1,329,112,327,0,0,0,0,0,128,0,-1--1--1,,1|(853,368)|
+1,330,171,328,0,0,0,0,0,128,0,-1--1--1,,1|(1035,368)|
+1,331,112,252,0,0,0,0,0,128,0,-1--1--1,,1|(818,363)|
+1,332,171,322,0,0,0,0,0,128,0,-1--1--1,,1|(1036,351)|
+10,333,resources,1551,254,40,20,3,3,0,0,0,0,0,0
+12,334,48,1411,254,10,8,0,3,0,0,-1,0,0,0
+1,335,337,333,4,0,0,22,0,0,0,-1--1--1,,1|(1491,254)|
+1,336,337,334,100,0,0,22,0,0,0,-1--1--1,,1|(1440,254)|
+11,337,48,1466,254,6,8,34,3,0,0,1,0,0,0
+10,338,extraction,1466,270,26,8,40,3,0,0,-1,0,0,0
+12,339,48,1707,259,10,8,0,3,0,0,-1,0,0,0
+1,340,342,339,4,0,0,22,0,0,0,-1--1--1,,1|(1673,259)|
+1,341,342,333,100,0,0,22,0,0,0,-1--1--1,,1|(1614,259)|
+11,342,48,1644,259,6,8,34,3,0,0,1,0,0,0
+10,343,using resources,1644,275,39,8,40,3,0,0,-1,0,0,0
+1,344,238,343,0,0,0,0,0,128,0,-1--1--1,,1|(1610,182)|
+1,345,322,343,0,0,0,0,0,128,0,-1--1--1,,1|(1380,332)|
+1,346,252,343,0,0,0,0,0,128,0,-1--1--1,,1|(1216,339)|
+1,347,276,343,0,0,0,0,0,128,0,-1--1--1,,1|(1339,500)|
+1,348,275,343,0,0,0,0,0,128,0,-1--1--1,,1|(1355,543)|
+1,349,328,41,0,0,0,0,0,128,0,-1--1--1,,1|(757,71)|
+1,350,327,41,0,0,0,0,0,128,0,-1--1--1,,1|(641,67)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Draft_Housing
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,0
+10,1,Number of households,314,196,40,20,3,3,0,0,0,0,0,0
+12,2,48,115,199,10,8,0,3,0,0,-1,0,0,0
+1,3,5,1,4,0,0,22,0,0,0,-1--1--1,,1|(240,199)|
+1,4,5,2,100,0,0,22,0,0,0,-1--1--1,,1|(159,199)|
+11,5,48,200,199,6,8,34,3,0,0,1,0,0,0
+10,6,New households,200,215,42,8,40,3,0,0,-1,0,0,0
+12,7,48,530,195,10,8,0,3,0,0,-1,0,0,0
+1,8,10,7,4,0,0,22,0,0,0,-1--1--1,,1|(480,195)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(391,195)|
+11,10,48,434,195,6,8,34,3,0,0,1,0,0,0
+10,11,Retired households,434,211,48,8,40,3,0,0,-1,0,0,0
+10,12,Household heating energy demand,428,393,40,20,3,3,0,0,0,0,0,0
+12,13,48,662,393,10,8,0,3,0,0,-1,0,0,0
+1,14,16,13,4,0,0,22,0,0,0,-1--1--1,,1|(609,393)|
+1,15,16,12,100,0,0,22,0,0,0,-1--1--1,,1|(511,393)|
+11,16,48,560,393,6,8,34,3,0,0,1,0,0,0
+10,17,Increased efficiency,560,409,51,8,40,3,0,0,-1,0,0,0
+12,18,48,229,399,10,8,0,3,0,0,-1,0,0,0
+1,19,21,12,4,0,0,22,0,0,0,-1--1--1,,1|(353,399)|
+1,20,21,18,100,0,0,22,0,0,0,-1--1--1,,1|(273,399)|
+11,21,48,313,399,6,8,34,3,0,0,1,0,0,0
+10,22,Increase energy demand,313,420,41,14,40,131,0,0,-1,0,0,0
+10,24,rate of efficiency,560,509,43,8,8,3,0,0,0,0,0,0
+1,25,24,16,0,0,0,0,0,128,0,-1--1--1,,1|(560,457)|
+10,26,average time of house use,434,110,41,14,8,3,0,0,0,0,0,0
+1,27,26,10,0,0,0,0,0,128,0,-1--1--1,,1|(434,149)|
+10,28,Shortage of households,200,110,59,8,8,3,0,0,0,0,0,0
+1,29,28,5,0,0,0,0,0,128,0,-1--1--1,,1|(200,148)|
+10,30,Average household size,142,43,59,8,8,3,0,0,0,0,0,0
+1,31,30,28,1,0,0,0,0,128,0,-1--1--1,,1|(177,63)|
+10,32,Population size,282,43,39,8,8,3,0,0,0,0,0,0
+1,33,32,28,1,0,0,0,0,128,0,-1--1--1,,1|(226,69)|
+10,40,static efficiency,718,455,40,8,8,3,0,0,0,0,0,0
+10,41,dynamic efficiency,718,566,48,8,8,3,0,0,0,0,0,0
+1,42,40,24,1,0,0,0,0,128,0,-1--1--1,,1|(634,460)|
+1,43,41,24,1,0,0,0,0,128,0,-1--1--1,,1|(628,555)|
+10,44,insulation rate of households,893,455,44,14,8,131,0,0,0,0,0,0
+1,45,44,40,0,0,0,0,0,128,0,-1--1--1,,1|(810,455)|
+10,47,human energy behavior,893,596,59,8,8,3,0,0,0,0,0,0
+1,52,47,41,1,0,0,0,0,128,0,-1--1--1,,1|(816,575)|
+10,53,Societal pressure,1032,681,43,8,8,3,0,0,0,0,0,0
+1,54,53,47,1,0,0,0,0,128,0,-1--1--1,,1|(938,644)|
+10,55,energy efficiency of electrical heating equipment,892,526,52,20,8,131,0,0,0,0,0,0
+1,56,55,41,1,0,0,0,0,128,0,-1--1--1,,1|(809,549)|
+10,57,average construction year of households,893,328,54,14,8,3,0,0,0,0,0,0
+10,58,Time,893,180,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,59,58,57,0,0,0,0,0,128,0,-1--1--1,,1|(893,244)|
+1,60,26,57,1,0,0,0,0,128,0,-1--1--1,,1|(684,176)|
+1,61,57,44,0,0,0,0,0,128,0,-1--1--1,,1|(893,384)|
+10,62,insulation improvement investment,1065,463,64,16,8,131,0,0,0,0,0,0
+1,63,62,44,0,0,0,0,0,128,0,-1--1--1,,1|(975,459)|
+1,65,47,55,0,0,0,0,0,128,0,-1--1--1,,1|(892,573)|
+10,66,citizen costs,1154,769,32,8,8,3,0,0,0,0,0,0
+1,67,66,47,1,0,0,0,0,128,0,-1--1--1,,1|(980,763)|
+1,68,17,66,1,0,0,0,0,128,0,-1--1--1,,1|(1060,314)|
+1,70,62,66,0,0,0,0,0,128,0,-1--1--1,,1|(1108,613)|
+1,71,47,62,1,0,0,0,0,128,0,-1--1--1,,1|(970,530)|
+10,72,HHH by LNG,295,569,40,20,3,3,0,0,0,0,0,0
+10,73,HHH by electricity,513,659,40,20,3,3,0,0,0,0,0,0
+12,74,48,732,660,10,8,0,3,0,0,-1,0,0,0
+1,75,77,74,4,0,0,22,0,0,0,-1--1--1,,1|(682,660)|
+1,76,77,73,100,0,0,22,0,0,0,-1--1--1,,1|(592,660)|
+11,77,48,637,660,6,8,34,3,0,0,1,0,0,0
+10,78,decrease in HHH by electricity,637,682,45,14,40,3,0,0,-1,0,0,0
+12,79,48,355,662,10,8,0,3,0,0,-1,0,0,0
+1,80,82,73,4,0,0,22,0,0,0,-1--1--1,,1|(449,662)|
+1,81,82,79,100,0,0,22,0,0,0,-1--1--1,,1|(389,662)|
+11,82,48,419,662,6,8,34,3,0,0,1,0,0,0
+10,83,increase in HHH by electricity,419,684,44,14,40,3,0,0,-1,0,0,0
+12,84,48,100,579,10,8,0,3,0,0,-1,0,0,0
+1,85,87,72,4,0,0,22,0,0,0,-1--1--1,,1|(221,579)|
+1,86,87,84,100,0,0,22,0,0,0,-1--1--1,,1|(143,579)|
+11,87,48,182,579,6,8,34,3,0,0,1,0,0,0
+10,88,increase in HHH by LNG,182,601,44,14,40,3,0,0,-1,0,0,0
+10,90,share of HHH by electricity,441,782,44,14,8,3,0,0,0,0,0,0
+1,91,72,90,1,0,0,0,0,128,0,-1--1--1,,1|(265,677)|
+1,92,73,90,1,0,0,0,0,128,0,-1--1--1,,1|(547,687)|
+10,95,Initial HHH by electricity,486,739,40,14,8,3,0,0,0,0,0,0
+1,96,95,73,1,0,0,0,0,128,1,-1--1--1,,1|(521,711)|
+12,97,0,967,21,40,20,3,7,0,5,-1,0,0,0,255-160-0,255-255-0,|12||0-0-0
+HHH = HouseHoldHeating
+12,98,0,970,72,40,20,3,7,0,5,-1,0,0,0,255-160-0,255-255-0,|12||0-0-0
+LNG = Natural Gas
+10,100,technological improvement rate,1302,573,41,18,8,131,0,0,0,0,0,0
+1,101,100,55,1,0,0,0,0,128,0,-1--1--1,,1|(1118,516)|
+1,102,104,73,4,0,0,22,0,0,0,-1--1--1,,1|(513,608)|
+1,103,104,72,100,0,0,22,0,0,0,-1--1--1,,1|(421,569)|
+11,104,1036,513,569,6,8,34,3,0,0,1,0,0,0
+10,105,Retrofit to HHH by electricity,513,591,50,14,40,3,0,0,-1,0,0,0
+12,106,48,296,683,10,8,0,3,0,0,-1,0,0,0
+1,107,109,106,4,0,0,22,0,0,0,-1--1--1,,1|(296,656)|
+1,108,109,72,100,0,0,22,0,0,0,-1--1--1,,1|(296,607)|
+11,109,48,296,632,8,6,33,3,0,0,4,0,0,0
+10,110,Retired HH,334,632,30,8,40,3,0,0,-1,0,0,0
+1,111,26,109,0,0,0,0,0,128,0,-1--1--1,,1|(365,368)|
+1,112,47,104,0,0,0,0,0,128,0,-1--1--1,,1|(682,581)|
+1,116,55,21,1,0,0,0,0,128,0,-1--1--1,,1|(643,338)|
+1,117,104,66,1,0,0,0,0,128,0,-1--1--1,,1|(823,639)|
+10,118,House batteries for backup capacity,1452,807,40,20,3,3,0,0,0,0,0,0
+12,119,48,1684,804,10,8,0,3,0,0,-1,0,0,0
+1,121,123,119,4,0,0,22,0,0,0,-1--1--1,,1|(1631,804)|
+1,122,123,118,100,0,0,22,0,0,0,-1--1--1,,1|(1534,804)|
+11,123,0,1583,804,6,8,34,3,0,0,1,0,0,0
+10,124,retired batteries,1583,820,40,8,40,3,0,0,-1,0,0,0
+10,125,average batterie life expectancy,1468,920,51,14,8,3,0,0,0,0,0,0
+1,126,125,123,1,0,0,0,0,128,0,-1--1--1,,1|(1561,879)|
+12,127,48,1262,803,10,8,0,3,0,0,-1,0,0,0
+1,129,131,118,4,0,0,22,0,0,0,-1--1--1,,1|(1380,803)|
+1,130,131,127,100,0,0,22,0,0,0,-1--1--1,,1|(1304,803)|
+11,131,0,1342,803,6,8,34,3,0,0,1,0,0,0
+10,132,new batteries,1342,819,34,8,40,3,0,0,-1,0,0,0
+1,133,47,132,1,0,0,0,0,128,0,-1--1--1,,1|(1233,609)|
+1,135,100,132,1,0,0,0,0,128,0,-1--1--1,,1|(1340,710)|
+1,136,118,131,1,0,0,0,0,128,0,-1--1--1,,1|(1390,767)|
+1,137,125,131,1,0,0,0,0,128,0,-1--1--1,,1|(1378,890)|
+10,138,Electricity demand HHH,755,797,40,20,3,3,0,0,0,0,0,0
+12,139,48,552,786,10,8,0,3,0,0,-1,0,0,0
+1,141,143,138,4,0,0,22,0,0,0,-1--1--1,,1|(679,786)|
+1,142,143,139,100,0,0,22,0,0,0,-1--1--1,,1|(597,786)|
+11,143,0,638,786,6,8,34,3,0,0,1,0,0,0
+10,144,Increase HHH electricty demand,638,808,46,14,40,3,0,0,-1,0,0,0
+12,145,48,957,794,10,8,0,3,0,0,-1,0,0,0
+1,147,149,145,4,0,0,22,0,0,0,-1--1--1,,1|(912,794)|
+1,148,149,138,100,0,0,22,0,0,0,-1--1--1,,1|(830,794)|
+11,149,0,871,794,6,8,34,3,0,0,1,0,0,0
+10,150,Decrease HHH electricity demand,871,816,48,14,40,3,0,0,-1,0,0,0
+1,151,73,143,1,0,0,0,0,128,0,-1--1--1,,1|(591,706)|
+1,153,17,149,1,0,0,0,0,128,0,-1--1--1,,1|(698,622)|
+10,154,LNG demand HHH,165,823,40,20,3,3,0,0,0,0,0,0
+12,155,48,13,828,10,8,0,3,0,0,-1,0,0,0
+1,157,159,154,4,0,0,22,0,0,0,-1--1--1,,1|(102,828)|
+1,158,159,155,100,0,0,22,0,0,0,-1--1--1,,1|(45,828)|
+11,159,0,74,828,6,8,34,3,0,0,1,0,0,0
+10,160,Increase GHG HHH,74,844,51,8,40,3,0,0,-1,0,0,0
+12,161,48,313,822,10,8,0,3,0,0,-1,0,0,0
+1,163,165,161,4,0,0,22,0,0,0,-1--1--1,,1|(281,822)|
+1,164,165,154,100,0,0,22,0,0,0,-1--1--1,,1|(226,822)|
+11,165,0,254,822,6,8,34,3,0,0,1,0,0,0
+10,166,Decrease GHG HHH,254,838,53,8,40,3,0,0,-1,0,0,0
+1,167,72,159,1,0,0,0,0,128,0,-1--1--1,,1|(139,677)|
+1,168,105,165,1,0,0,0,0,128,0,-1--1--1,,1|(334,667)|
+1,169,16,165,1,0,0,0,0,128,0,-1--1--1,,1|(374,591)|
+1,170,1,28,1,0,0,0,0,128,0,-1--1--1,,1|(300,147)|
+1,171,11,6,1,0,0,0,0,128,0,-1--1--1,,1|(320,251)|
+1,172,1,11,1,0,0,0,0,64,0,-1--1--1,,1|(356,149)|
+1,174,100,125,1,0,0,0,0,128,0,-1--1--1,,1|(1263,872)|
+10,175,Time,1032,756,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,176,175,53,0,0,0,0,0,64,0,-1--1--1,,1|(1032,725)|
+1,177,6,88,1,0,0,0,0,64,0,-1--1--1,,1|(116,399)|
+10,178,Time,123,649,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,179,178,88,0,0,0,0,0,64,0,-1--1--1,,1|(142,632)|
+10,181,Initial number of households,65,388,44,14,8,3,0,0,-1,0,0,0
+1,182,181,1,0,0,0,0,0,64,1,-1--1--1,,1|(179,299)|
+1,183,181,72,0,0,0,0,0,64,1,-1--1--1,,1|(169,471)|
+1,184,1,105,0,0,0,0,0,64,0,-1--1--1,,1|(411,390)|
+1,185,6,83,0,0,0,0,0,64,0,-1--1--1,,1|(304,440)|
+10,186,Time,395,725,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,187,186,83,0,0,0,0,0,64,0,-1--1--1,,1|(400,713)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Draft_Transportation
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,0
+12,1,0,563,-32,393,28,3,135,0,4,-1,0,0,0,-1--1--1,0-255-0,|12||0-0-0
+Transportation Model (Preliminary)
+10,2,Number of electric cars,604,119,40,20,3,3,0,0,0,0,0,0
+10,3,Number of ICE cars,605,363,40,20,3,3,0,0,0,0,0,0
+10,4,Power demand from car charging,887,157,53,14,8,3,0,0,0,0,0,0
+10,5,Fossil fuel used by cars,866,342,59,8,8,3,0,0,0,0,0,0
+10,6,GHG Emissions,1045,244,41,8,8,3,0,0,0,0,0,0
+1,7,2,4,0,0,0,0,0,128,0,-1--1--1,,1|(732,135)|
+1,8,4,6,0,0,0,0,0,128,0,-1--1--1,,1|(964,200)|
+1,9,3,5,0,0,0,0,0,128,0,-1--1--1,,1|(719,353)|
+1,10,5,6,0,0,0,0,0,128,0,-1--1--1,,1|(948,296)|
+10,11,Price of electricity,729,88,47,8,8,3,0,0,0,0,0,0
+10,12,Price of fossil fuel,701,497,46,8,8,3,0,0,0,0,0,0
+1,13,4,11,0,0,0,0,0,128,0,-1--1--1,,1|(807,122)|
+1,14,5,12,0,0,0,0,0,128,0,-1--1--1,,1|(788,414)|
+10,15,Other fossil fuel demands,949,518,42,14,8,3,0,0,0,0,0,0
+1,16,15,12,0,0,0,0,0,128,0,-1--1--1,,1|(833,508)|
+10,17,Electric car breakeven period,214,219,45,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,18,Cost of electric car,138,138,48,8,8,3,0,0,0,0,0,0
+10,19,Cost of ICE car,113,231,40,8,8,3,0,0,0,0,0,0
+1,20,18,17,0,0,0,0,0,128,0,-1--1--1,,1|(167,170)|
+1,21,11,17,1,0,0,0,0,128,0,-1--1--1,,1|(447,42)|
+1,22,19,17,0,0,0,0,0,128,0,-1--1--1,,1|(154,226)|
+1,23,12,17,1,0,0,0,0,128,0,-1--1--1,,1|(306,466)|
+12,24,48,459,119,10,8,0,3,0,0,-1,0,0,0
+1,25,27,2,4,0,0,22,0,0,0,-1--1--1,,1|(537,118)|
+1,26,27,24,100,0,0,22,0,0,0,-1--1--1,,1|(483,118)|
+11,27,48,504,118,6,8,34,3,0,0,1,0,0,0
+10,28,New electric cars,504,147,44,8,40,131,0,0,-1,0,0,0
+12,29,48,452,352,10,8,0,3,0,0,-1,0,0,0
+1,30,32,3,4,0,0,22,0,0,0,-1--1--1,,1|(538,349)|
+1,31,32,29,100,0,0,22,0,0,0,-1--1--1,,1|(480,349)|
+11,32,48,505,349,6,8,34,3,0,0,1,0,0,0
+10,33,New ICE cars,505,365,36,8,40,3,0,0,-1,0,0,0
+10,34,Car retirement age,745,247,47,8,8,3,0,0,0,0,0,0
+10,35,Electric car retirement rate,756,191,38,14,8,3,0,0,0,0,0,0
+10,36,ICE car retirement rate,768,297,57,8,8,131,0,0,0,0,0,0
+12,37,48,601,276,10,8,0,3,0,0,-1,0,0,0
+1,38,40,37,4,0,0,22,0,0,0,-1--1--1,,1|(596,295)|
+1,39,40,3,100,0,0,22,0,0,0,-1--1--1,,1|(596,331)|
+11,40,48,596,313,8,6,33,3,0,0,4,0,0,0
+10,41,Retired ICE cars,633,313,42,8,40,131,0,0,-1,0,0,0
+12,42,48,601,230,10,8,0,3,0,0,-1,0,0,0
+1,43,45,42,4,0,0,22,0,0,0,-1--1--1,,1|(608,211)|
+1,44,45,2,100,0,0,22,0,0,0,-1--1--1,,1|(608,163)|
+11,45,48,608,194,8,6,33,3,0,0,4,0,0,0
+10,46,Retired electric cars,645,194,50,8,40,131,0,0,-1,0,0,0
+1,47,35,46,1,0,0,0,0,128,0,-1--1--1,,1|(691,170)|
+1,48,34,46,0,0,0,0,0,128,0,-1--1--1,,1|(701,223)|
+1,49,34,41,0,0,0,0,0,128,0,-1--1--1,,1|(695,276)|
+1,50,36,41,1,0,0,0,0,128,0,-1--1--1,,1|(700,304)|
+10,51,Electric car range,36,321,45,8,8,3,0,0,0,0,0,0
+10,52,ICE car range,38,378,36,8,8,3,0,0,0,0,0,0
+10,53,Range anxiety,171,359,37,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,54,51,53,0,0,0,0,0,128,0,-1--1--1,,1|(96,338)|
+1,55,52,53,0,0,0,0,0,128,0,-1--1--1,,1|(97,369)|
+10,56,Willingness to purchase electric cars,348,165,55,14,8,3,0,0,0,0,0,0
+1,57,53,56,0,0,0,0,0,128,0,-1--1--1,,1|(251,270)|
+1,58,17,56,0,0,0,0,0,128,0,-1--1--1,,1|(274,194)|
+10,59,Driving population,340,338,48,8,8,3,0,0,0,0,0,0
+10,60,Shortage of cars,457,240,41,8,8,3,0,0,0,0,0,0
+1,61,59,60,0,0,0,0,0,128,0,-1--1--1,,1|(392,294)|
+1,62,3,60,0,0,0,0,0,128,0,-1--1--1,,1|(528,299)|
+1,63,2,60,0,0,0,0,0,128,0,-1--1--1,,1|(528,181)|
+1,64,60,28,0,0,0,0,0,128,0,-1--1--1,,1|(476,199)|
+1,65,60,33,0,0,0,0,0,128,0,-1--1--1,,1|(478,295)|
+1,66,56,28,0,0,0,0,0,128,0,-1--1--1,,1|(424,156)|
+1,67,56,33,1,0,0,0,0,128,0,-1--1--1,,1|(403,284)|
+10,68,Number of charging stations,40,444,44,14,8,3,0,0,0,0,0,0
+1,69,68,53,0,0,0,0,0,128,0,-1--1--1,,1|(103,402)|
+10,70,Grid intensity of electricity,728,18,43,14,8,3,0,0,0,0,0,0
+10,71,Perceived 'greeness' of electric cars,307,38,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,72,70,71,0,0,0,0,0,128,0,-1--1--1,,1|(528,27)|
+1,73,71,56,0,0,0,0,0,128,0,-1--1--1,,1|(324,94)|
+12,74,0,1039,44,52,33,3,135,0,4,-1,0,0,0,-1--1--1,0-128-255,|12||0-0-0
+Electricity Production Model
+12,75,0,1090,510,52,33,3,135,0,4,-1,0,0,0,-1--1--1,128-0-0,|12||0-0-0
+Household Energy Model
+10,76,Development of smart grid,872,69,42,14,8,3,0,0,0,0,0,0
+1,77,76,11,0,0,0,0,0,128,0,-1--1--1,,1|(809,76)|
+10,78,Distance required to be travelled,186,542,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,79,Alternative transportation methods,179,452,36,21,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,80,79,59,0,0,0,0,0,128,0,-1--1--1,,1|(262,392)|
+1,81,78,59,0,0,0,0,0,128,0,-1--1--1,,1|(260,442)|
+10,82,Manufacturer ratio of vehicle types,382,441,48,14,8,3,0,0,0,0,0,0
+1,83,82,33,0,0,0,0,0,128,0,-1--1--1,,1|(442,403)|
+1,84,82,28,1,0,0,0,0,128,0,-1--1--1,,1|(395,279)|
+10,85,Gov policy of manufacturer emissions,377,598,36,21,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,86,Avg fuel efficiency ICE,191,621,60,8,8,3,0,0,0,0,0,0
+10,87,Avg fuel efficiency electric,297,669,46,14,8,3,0,0,0,0,0,0
+1,88,85,82,0,0,0,0,0,128,0,-1--1--1,,1|(378,522)|
+1,89,86,85,0,0,0,0,0,128,0,-1--1--1,,1|(289,608)|
+1,90,87,85,0,0,0,0,0,128,0,-1--1--1,,1|(327,642)|
+1,91,6,85,1,0,0,0,0,128,0,-1--1--1,,1|(794,501)|
 ///---\\\
 :L<%^E!@
 9:Current
@@ -221,11 +1697,19 @@ Jason was here!!!!!!!
 22:Unit,Units
 22:Week,Weeks
 22:Year,Years
-15:0,0,0,0,0,0
-19:100,0
+15:0,0,0,1,0,0
+19:75,2
 27:0,
 34:0,
-5:Hydrogen Production
+5:Time
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:0
+41:0
+42:0
 24:0
 25:0
 26:0
