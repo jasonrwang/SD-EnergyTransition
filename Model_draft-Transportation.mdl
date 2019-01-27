@@ -1,0 +1,480 @@
+{UTF-8}
+Lifetime cost EV=
+	Avg Cost of EV sale + Price of electricity*Distance required to be travelled*Car retirement age
+	~	Euros
+	~		|
+
+EV cost compared to to ICE=
+	IF THEN ELSE( Lifetime cost EV < Lifetime cost ICE ,
+	1 - (Lifetime cost EV - Lifetime cost ICE)/Lifetime cost ICE , 1 )
+	~	
+	~		|
+
+Availability of charging stations=
+	1
+	~	Dmnl
+	~	The Netherlands has by far the densest electric charger network in the world, so we \
+		are just going to assume this number is 1! \
+		https://www.forbes.com/sites/niallmccarthy/2018/10/08/netherlands-top-for-e\
+		lectric-vehicle-charger-density-infographic/
+		
+		Otherwise, The Netherlands has 19.5 charging stations per 100 km, and \
+		assume that 25 is sufficient to resolve range anxiety with an inversely \
+		proportional relationship.
+	|
+
+Distance required to be travelled=
+	6000
+	~	km/Persons/Year
+	~	http://internationalcomparisons.org/environment/transportation.html
+		Lee Schipper, Improving Vehicle Fuel Economy, EMBARQ, 2007, and Automobile \
+		Fuel; "Economy and CO2 Emissions in Industrialized Countries: Troubling \
+		Trends through 2005/6," EMBARQ, 2007
+	|
+
+Fossil emissions per car=
+	Number of ICE cars * Avg emissions intensity ICE * Distance required to be travelled
+	~	tCO2e
+	~		|
+
+New electric cars=
+	MAX( 0 , Shortage of cars*Willingness to purchase electric cars )
+	~	Vehicles/Years
+	~	Cannot be negative
+	|
+
+Power demand from car charging=
+	Avg energy efficiency EV*Distance required to be travelled*Number of EVs*per Vehicle
+	~	kWh
+	~	[kWh/km]*[km]*[#]
+	|
+
+Avg emission intensity electric=
+	Avg energy efficiency EV*Grid intensity of electricity
+	~	tCO2e/km
+	~	[kWh/km]*[tCO2e/kWh]
+	|
+
+Avg emissions intensity ICE=
+	0.00012
+	~	tCO2e/km
+	~	80 gCO2e/km was the EU target for 2020 at some point \
+		(https://en.wikipedia.org/wiki/ACEA_agreement; \
+		https://www.transportenvironment.org/docs/Press/2007/2007_02_12_te_letter_e\
+		nvironment_council.pdf).
+		
+		This could be turned into a lookup table!
+	|
+
+Avg energy efficiency EV=
+	0.215
+	~	kWh/km
+	~	From ICCT 2012 report Table 1 for 2012 Nissan Leaf \
+		https://www.theicct.org/sites/default/files/publications/ICCT_CalculatingEd\
+		riveGHG_082012_0.pdf
+	|
+
+Retired electric cars=
+	DELAY3I( New electric cars, Car retirement age , Number of EVs/Car retirement age )
+	~	
+	~		|
+
+Battery capacity per EV=
+	50
+	~	kWh/Vehicles
+	~	Not sourced
+	|
+
+Battery to Grid power capacity=
+	Number of EVs*Battery capacity per EV*0.6
+	~	
+	~	Assume that cars are only 60% full when they can provide battery to the \
+		grid
+	|
+
+Lifetime cost ICE=
+	Avg Cost of ICE car + Price of fossil fuel*Distance required to be travelled*Car retirement age
+	~	Euros
+	~		|
+
+Perceived 'greeness' of electric cars=
+	1-Grid intensity of electricity/600
+	~	Dmnl
+	~	Assumes grid intensity near 600 kg/MWh is the upper limit and then \
+		perceived greeness goes down **linearlly* from there
+	|
+
+Grid intensity of electricity=
+	0.00045
+	~	tCO2e/kWh
+	~	Based on 450 kg/MWh
+	|
+
+per Vehicle=
+	1
+	~	1/Vehicles
+	~		|
+
+Price of electricity=
+	0.19
+	~	Euros/kWh
+	~	Should be a function of demand (which could be smoothed out by the smart grid) and \
+		concentration of that demand
+		
+		0.18 EUR/kWh for June 2018 from \
+		https://www.globalpetrolprices.com/Netherlands/electricity_prices/
+	|
+
+Price of fossil fuel=
+	0.1353
+	~	Euros/km
+	~	1.65 Euros/Litre and the VW Golf is 8.2 L/100 km (ICCT source)... therefore
+	|
+
+Other fossil fuel demands=
+	0
+	~	
+	~	Don't know!
+	|
+
+New ICE cars=
+	MAX(0,Shortage of cars*(1-Willingness to purchase electric cars))
+	~	Vehicles/Years
+	~		|
+
+EV manufacturer ratio=
+	IF THEN ELSE( Gov policy of manufacturer emissions < Avg emission intensity electric\
+		, 1 , Avg emissions intensity ICE/Avg emission intensity electric - Gov policy of manufacturer emissions\
+		/Avg emission intensity electric)
+	~	
+	~	This should go from 0-1 but will never be 1 unless the government mandate matches or \
+		is below this number (could use MAX instead to implement this requirement)
+		This also assumes that people will likely purchase if there are more \
+		electric cars being produced
+	|
+
+Number of ICE cars= INTEG (
+	New ICE cars-Retired ICE cars,
+		9.19424e+06)
+	~	Vehicles
+	~		|
+
+Gov policy of manufacturer emissions=
+	9.5e-05
+	~	
+	~	California has successfully shaped US policy using these types of methods (e.g. \
+		overall weighted average emissions of a car company has to be >X mpg.)
+		
+		From ICCT report: "e.u. values from announced 95 g/km tailpipe standard \
+		(eucar/concaWe/jrc/ies, 2006, p. 60)"
+	|
+
+Vehicles per capita=
+	0.444
+	~	Vehicles/Persons
+	~	https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita#cite_note-32
+		https://www.ceicdata.com/en/indicator/netherlands/motor-vehicle-registered
+	|
+
+GHG Emissions=
+	Power demand from car charging*Grid intensity of electricity + Fossil emissions per car
+	~	
+	~		|
+
+Retired ICE cars=
+	DELAY3I( New ICE cars, Car retirement age , Number of ICE cars/Car retirement age )
+	~	
+	~		|
+
+Alternative transportation methods=
+	1-Vehicles per capita
+	~	Vehicles/Persons
+	~		|
+
+Driving population=
+	Population*(1-Alternative transportation methods)
+	~	Persons
+	~		|
+
+Avg Cost of EV sale= INTEG (
+	-Falling cost of electric car,
+		35000)
+	~	Euros
+	~		|
+
+Avg Cost of ICE car=
+	25000
+	~	Euros/Vehicles
+	~		|
+
+Falling cost of electric car=
+	Avg Cost of EV sale*Rate of falling cost of EV
+	~	
+	~		|
+
+Range anxiety=
+	(Proportion of cars available with more than 400 km range + MAX(1, Availability of charging stations\
+		) )/2
+	~	
+	~	Divide by 2 to normalize the factors
+	|
+
+Rate of falling cost of EV=
+	0.02
+	~	
+	~		|
+
+Shortage of cars=
+	Driving population-(Number of EVs+Number of ICE cars)
+	~	
+	~	Assume one car per driver
+	|
+
+Population= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,2e+07)],(2014,1.6868e+07),(2015,1.69249e+07),(2020.38,1.71851e+07)\
+		,(2035,1.77155e+07),(2040,1.774e+07),(2045,1.76863e+07),(2050,1.76016e+07) ))
+	~	
+	~	https://www.populationpyramid.net/netherlands/2035/
+	|
+
+Car retirement age=
+	10
+	~	Years
+	~	https://www.quora.com/What-is-the-average-lifespan-of-a-car
+	|
+
+Electric car subsidy= WITH LOOKUP (
+	Time,
+		([(0,0)-(3000,10)],(2014,0),(2050,0) ))
+	~	Euros
+	~		|
+
+Number of EVs= INTEG (
+	New electric cars-Retired electric cars,
+		43762)
+	~	Vehicles
+	~		|
+
+Proportion of cars available with more than 400 km range= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,1)],(2014,0.2),(2018,0.4),(2022,0.7),(2030,0.8),(2050,0.9) ))
+	~	
+	~	Is over 400 km?
+	|
+
+Willingness to purchase electric cars=
+	(Range anxiety+Perceived 'greeness' of electric cars+EV cost compared to to ICE+EV manufacturer ratio\
+		)/4
+	~	
+	~	Expressed as a (percent) range from 0-1 where 1 is 100% of people will purchase \
+		electric cars
+		Divided by 4 since there are 4 factors ;)
+	|
+
+Development of smart grid=
+	1
+	~	
+	~	This factor should reduce the price of electricity "In the Pathway, annual \
+		electric use from all EVs will reach 8% of total electricity demand by \
+		2030, significant but manageable. Maximizing the utilization of existing \
+		grids and keeping them in balance as more renewable generation gets added \
+		to the mix will be crucial to ensuring a cost-effective transition to an \
+		electrified transportation fleet. For example, a modernized and digitized \
+		network can support intelligent management of EV charging so that it \
+		doesn’t overload the grid. Making electric rates more dynamic and \
+		transparent will facilitate this intelligent charging, and will increase \
+		savings for consumers opting to drive electric." - \
+		http://news.nationalgridus.com/wp-content/uploads/2018/06/80x50-White-Paper\
+		-FINAL.pdf
+	|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2050
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 2014
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.0625
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Draft_Transportation
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,3
+12,1,0,627,78,393,28,3,135,0,4,-1,0,0,0,-1--1--1,0-255-0,|12||0-0-0
+Transportation Model (Preliminary)
+10,2,Number of EVs,688,320,40,20,3,3,0,0,0,0,0,0
+10,3,Number of ICE cars,740,621,40,20,3,3,0,0,0,0,0,0
+10,4,Power demand from car charging,927,266,53,14,8,3,0,0,0,0,0,0
+10,5,GHG Emissions,1109,354,41,8,8,3,0,0,0,0,0,0
+10,6,Price of electricity,793,198,47,8,8,3,0,0,0,0,0,0
+10,7,Price of fossil fuel,1087,665,46,8,8,3,0,0,0,0,0,0
+10,8,Other fossil fuel demands,1300,770,42,14,8,3,0,0,0,0,0,0
+10,9,EV cost compared to to ICE,315,288,45,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,10,Avg Cost of ICE car,159,424,37,18,8,131,0,0,0,0,0,0
+12,11,48,566,201,10,8,0,3,0,0,-1,0,0,0
+1,12,14,2,4,0,0,22,0,0,0,-1--1--1,,1|(568,320)|
+1,13,14,11,100,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(568,214)|
+11,14,48,568,228,6,8,34,3,0,0,2,0,0,0
+10,15,New electric cars,525,228,37,17,40,131,0,0,-1,0,0,0
+12,16,48,527,625,10,8,0,3,0,0,-1,0,0,0
+1,17,19,3,4,0,0,22,0,0,0,-1--1--1,,1|(670,624)|
+1,18,19,16,100,0,0,22,0,0,0,-1--1--1,,1|(583,624)|
+11,19,48,635,624,6,8,34,3,0,0,1,0,0,0
+10,20,New ICE cars,635,649,31,17,40,131,0,0,-1,0,0,0
+12,21,48,953,622,10,8,0,3,0,0,-1,0,0,0
+1,22,24,21,4,0,0,22,0,0,0,-1--1--1,,1|(911,619)|
+1,23,24,3,100,0,0,22,0,0,0,-1--1--1,,1|(821,619)|
+11,24,48,871,619,8,6,33,3,0,0,1,0,0,0
+10,25,Retired ICE cars,871,644,29,19,40,131,0,0,-1,0,0,0
+12,26,48,901,371,10,8,0,3,0,0,-1,0,0,0
+1,27,29,26,4,0,0,22,0,0,0,-1--1--1,,1|(859,365)|
+1,28,29,2,100,0,0,22,0,0,0,-1--1--1,,1|(688,365)|
+11,29,48,819,365,8,6,33,3,0,0,1,0,0,0
+10,30,Retired electric cars,819,388,31,17,40,131,0,0,-1,0,0,0
+10,31,Proportion of cars available with more than 400 km range,66,449,38,27,8,131,0,0,0,0,0,0
+10,32,Range anxiety,144,527,37,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,33,31,32,0,0,0,0,0,128,0,-1--1--1,,1|(109,492)|
+10,34,Willingness to purchase electric cars,408,352,55,14,8,3,0,0,0,0,0,0
+1,35,32,34,0,0,0,0,0,128,0,-1--1--1,,1|(265,446)|
+1,36,9,34,0,0,0,0,0,128,0,-1--1--1,,1|(355,316)|
+10,37,Driving population,571,442,28,21,8,131,0,0,0,0,0,0
+10,38,Shortage of cars,684,441,29,19,8,131,0,0,0,0,0,0
+1,39,37,38,0,0,0,0,0,128,0,-1--1--1,,1|(620,441)|
+1,40,3,38,0,0,0,0,0,128,0,-1--1--1,,1|(713,537)|
+1,41,2,38,0,0,0,0,0,128,0,-1--1--1,,1|(686,374)|
+1,42,38,15,1,0,0,0,0,128,0,-1--1--1,,1|(559,371)|
+1,43,38,20,0,0,0,0,0,128,0,-1--1--1,,1|(661,539)|
+1,44,34,15,0,0,0,0,0,128,0,-1--1--1,,1|(459,296)|
+1,45,34,20,1,0,0,0,0,128,0,-1--1--1,,1|(424,565)|
+10,46,Grid intensity of electricity,792,128,43,14,8,3,0,0,0,0,0,0
+10,47,Perceived 'greeness' of electric cars,396,243,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,48,46,47,0,0,0,0,0,128,0,-1--1--1,,1|(603,182)|
+1,49,47,34,0,0,0,0,0,128,0,-1--1--1,,1|(400,290)|
+12,50,0,1103,154,52,33,3,135,0,4,-1,0,0,0,-1--1--1,0-128-255,|12||0-0-0
+Electricity Production Model
+12,51,0,1441,762,52,33,3,135,0,4,-1,0,0,0,-1--1--1,128-0-0,|12||0-0-0
+Household Energy Model
+10,52,Development of smart grid,936,179,42,14,8,3,0,0,0,0,0,0
+10,53,Distance required to be travelled,390,552,45,28,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,54,Alternative transportation methods,535,497,36,21,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,55,54,37,0,0,0,0,0,128,0,-1--1--1,,1|(548,475)|
+10,56,EV manufacturer ratio,248,674,48,14,8,3,0,0,0,0,0,0
+10,57,Gov policy of manufacturer emissions,70,821,36,21,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,58,Avg emissions intensity ICE,117,694,48,20,8,131,0,0,0,0,0,0
+10,59,Avg emission intensity electric,273,741,46,14,8,3,0,0,0,0,0,0
+1,60,57,56,0,0,0,0,0,128,0,-1--1--1,,1|(157,748)|
+10,61,Electric car subsidy,267,171,50,8,8,3,0,0,0,0,0,0
+10,62,Time,273,129,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,63,62,61,0,0,0,0,0,64,0,-1--1--1,,1|(271,143)|
+10,64,Avg Cost of EV sale,160,197,40,20,3,3,0,0,0,0,0,0
+12,65,48,160,314,10,8,0,3,0,0,-1,0,0,0
+1,66,68,65,4,0,0,22,0,0,0,-1--1--1,,1|(161,290)|
+1,67,68,64,100,0,0,22,0,0,0,-1--1--1,,1|(161,239)|
+11,68,48,161,268,8,6,33,3,0,0,2,0,0,0
+10,69,Falling cost of electric car,116,268,37,14,40,3,0,0,-1,0,0,0
+1,70,64,69,0,0,0,0,0,64,0,-1--1--1,,1|(139,229)|
+10,71,FINAL TIME,48,280,43,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,72,INITIAL TIME,64,256,47,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,73,Time,56,240,21,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,74,Rate of falling cost of EV,62,210,37,14,8,3,0,0,-1,0,0,0
+1,75,74,69,0,0,0,0,0,64,0,-1--1--1,,1|(83,233)|
+10,76,Population,495,408,28,8,8,3,0,0,-1,0,0,0
+1,77,76,37,0,0,0,0,0,64,0,-1--1--1,,1|(521,419)|
+10,78,Time,43,374,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,79,78,31,0,0,0,0,0,64,0,-1--1--1,,1|(48,395)|
+10,80,Availability of charging stations,116,604,52,14,8,3,0,0,-1,0,0,0
+1,81,80,32,0,0,0,0,0,64,0,-1--1--1,,1|(128,569)|
+10,82,Fossil emissions per car,886,741,45,14,8,3,0,0,-1,0,0,0
+10,83,Time,485,382,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,84,83,76,0,0,0,0,0,64,0,-1--1--1,,1|(487,388)|
+10,85,Car retirement age,901,485,47,8,8,3,0,0,0,0,0,0
+1,86,85,30,0,0,0,0,0,128,0,-1--1--1,,1|(868,446)|
+1,87,85,25,0,0,0,0,0,128,0,-1--1--1,,1|(888,552)|
+1,88,15,30,1,0,0,0,0,128,0,-1--1--1,,1|(711,283)|
+1,89,20,25,1,0,0,0,0,128,0,-1--1--1,,1|(744,655)|
+1,90,58,56,0,0,0,0,0,128,0,-1--1--1,,1|(175,685)|
+10,91,Avg energy efficiency EV,203,833,36,14,8,3,0,0,0,0,0,0
+1,92,91,59,0,0,0,0,0,128,0,-1--1--1,,1|(233,792)|
+1,93,46,59,1,0,0,0,0,128,0,-1--1--1,,1|(1543,791)|
+1,94,59,56,0,0,0,0,0,128,0,-1--1--1,,1|(263,714)|
+10,95,Vehicles per capita,459,494,31,18,8,131,0,0,-1,0,0,0
+1,96,95,54,0,0,0,0,0,64,0,-1--1--1,,1|(487,495)|
+1,97,56,34,0,0,0,0,0,64,0,-1--1--1,,1|(324,519)|
+10,98,Lifetime cost EV,213,280,44,8,8,3,0,0,0,0,0,0
+10,99,Lifetime cost ICE,188,379,45,8,8,3,0,0,0,0,0,0
+1,100,85,98,0,0,0,0,0,64,0,-1--1--1,,1|(563,384)|
+1,101,53,98,0,0,0,0,0,64,0,-1--1--1,,1|(298,411)|
+1,102,6,98,0,0,0,0,0,64,0,-1--1--1,,1|(508,237)|
+1,103,10,99,0,0,0,0,0,64,0,-1--1--1,,1|(172,402)|
+1,104,85,99,0,0,0,0,0,64,0,-1--1--1,,1|(550,433)|
+1,105,53,99,0,0,0,0,0,64,0,-1--1--1,,1|(282,460)|
+1,106,7,99,0,0,0,0,0,64,0,-1--1--1,,1|(644,524)|
+1,107,98,9,0,0,0,0,0,64,0,-1--1--1,,1|(256,282)|
+1,108,99,9,0,0,0,0,0,64,0,-1--1--1,,1|(241,340)|
+1,109,2,30,0,0,0,0,0,64,0,-1--1--1,,1|(750,352)|
+1,110,3,25,0,0,0,0,0,64,0,-1--1--1,,1|(804,631)|
+10,111,Battery to Grid power capacity,1210,284,40,14,8,3,0,0,0,0,0,0
+1,112,2,111,0,0,0,0,0,128,0,-1--1--1,,1|(942,302)|
+1,113,2,4,0,0,0,0,0,128,0,-1--1--1,,1|(794,295)|
+1,114,4,5,0,0,0,0,0,128,0,-1--1--1,,1|(1017,309)|
+1,115,46,5,0,0,0,0,0,128,0,-1--1--1,,1|(948,239)|
+1,116,91,4,0,0,0,0,0,128,0,-1--1--1,,1|(558,553)|
+1,117,53,4,0,0,0,0,0,128,0,-1--1--1,,1|(661,407)|
+10,118,per Vehicle,826,244,29,8,8,3,0,0,-1,0,0,0
+1,119,118,4,0,0,0,0,0,64,0,-1--1--1,,1|(857,250)|
+10,120,Battery capacity per EV,1214,331,42,14,8,3,0,0,-1,0,0,0
+1,121,120,111,0,0,0,0,0,64,0,-1--1--1,,1|(1212,314)|
+1,122,58,82,0,0,0,0,0,64,0,-1--1--1,,1|(496,716)|
+1,123,3,82,0,0,0,0,0,64,0,-1--1--1,,1|(810,679)|
+1,124,53,82,0,0,0,0,0,64,0,-1--1--1,,1|(635,645)|
+1,125,82,5,0,0,0,0,0,128,0,-1--1--1,,1|(995,551)|
+1,126,64,98,0,0,0,0,0,128,0,-1--1--1,,1|(185,238)|
+///---\\\
+:L<%^E!@
+1:Current.vdf
+9:Current
+22:$,Dollar,Dollars,$s
+22:Day,Days
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+15:0,0,0,1,0,0
+19:75,0
+27:0,
+34:0,
+4:Time
+5:Avg Cost of EV sale
+35:Date
+36:YYYY-MM-DD
+37:2014
+38:1
+39:1
+40:2
+41:0
+42:0
+24:2014
+25:2050
+26:2050
