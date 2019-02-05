@@ -1,0 +1,1935 @@
+{UTF-8}
+"Household E-demand 0"=
+	Electricity demand by HHH*Units J to PJ
+	~	PJ/Year
+	~	[PJ]
+	|
+
+total electricity demand=
+	"Household E-demand 0"+"Transportation E-demand 0"*Units J to kWh*Units J to PJ+Battery power capacity\
+		*Units J to PJ +current base electricity demand per year
+	+Battery power capacity
+	~	PJ/Year
+	~	electricity demand in PJ per year based on 2014 total e-demand (remains \
+		constant) + changes from HHH and transportation electricity demand until \
+		2050
+	|
+
+Units J to PJ=
+	1/1e+15
+	~	
+	~		|
+
+Battery power capacity=
+	(Cumulative EV battery capacity*Units J to kWh+House batteries for backup capacity)*\
+		Units J to PJ
+	~	PJ/Year
+	~	total battery power demand
+	|
+
+"Transportation E-demand 0"=
+	Energy demand from car charging*Units J to kWh*Units J to PJ
+	~	PJ/Year
+	~	[PJ/year]
+	|
+
+demand for new capacity=
+	ABS(electricity deficit)* PJ per Year to MW
+	~	MW
+	~		|
+
+electricity deficit without batteries=
+	total electricity demand-total electricity production 0
+	~	PJ/Year
+	~		|
+
+Total GHGs per Year=
+	direct GHG Emissions per year from transportation+"GHG emissions per year from electricity-production"\
+		+GHG emissions per year from HHH
+	~	
+	~		|
+
+GHG emissions per year from HHH=
+	LNG demand by HHH/Units J to kWh/Unit kWh per MWh*ton co2e emissions of LNG per MWh
+	~	tCO2e/Year
+	~		|
+
+New households=
+	SMOOTH3I ( Shortage of households, (new HH construction time+time to find new areas to build HH\
+		),Shortage of households/(new HH construction time+time to find new areas to build HH\
+		))+ SMOOTH3( Retired households ,new HH construction time )
+	~	
+	~	--> include Smooth function using "new HH construction time" and "time to find new \
+		areas to build"
+		old:Shortage of households+Retired households
+	|
+
+total electricity production 0=
+	electricity from fossil 0+"electricity from renewable sources, excl. hydro"+electricity from other sources
+	~	PJ/Year
+	~		|
+
+electricity from other sources=
+	electricity from hydro+electricity from nuclear+other el
+	~	PJ/Year
+	~		|
+
+ton co2e emissions of LNG per MWh=
+	0.185
+	~	tCO2e/MWh
+	~		|
+
+battery buffer feed in=
+	MIN( Battery power capacity*Car and House battery contribution factor , ABS(MIN(0, electricity deficit without batteries\
+		)) )
+	~	
+	~		|
+
+"electricity from renewable sources, excl. hydro"=
+	-electricity from hydro+renewable capacity*renewableEL production factor/PJ per Year to MW
+	~	PJ/Year
+	~		|
+
+new renewable capacity=
+	MIN( 1000 , demand for new capacity*Renewable overcapacity factor*new electricity building rate\
+		)
+	~	MW/Year
+	~	a roof at a max building capacity of 1000 MW/year. Renewables are built in \
+		overcapacity to account for greater volatility
+	|
+
+renewableEL production factor=
+	1
+	~	
+	~		|
+
+share of HH with LNG heating=
+	WITH LOOKUP( Time , ([(2014,0)-(2050,1)],(2014,0.75),(2019,0.01),(2050,0.01)) )
+	~	
+	~		|
+
+time to find new areas to build HH=
+	RANDOM NORMAL( 2 , 10 , 5 , 1 , 1000 )
+	~	
+	~		|
+
+new HH construction time=
+	RANDOM NORMAL( 0.5 , 1 , 0.75 , 0.1 , 1000 )
+	~	years
+	~		|
+
+increase in HHH by electricity 0=
+	IF THEN ELSE( Time<2019 , New households 0*0.25 , New households 0*0.99)
+	~	
+	~		|
+
+Alternative transportation methods 0=
+	0.6
+	~	Dmnl
+	~		|
+
+increase in HHH by LNG 0=
+	IF THEN ELSE( Time<2019 , New households 0*0.75 , New households 0*0.01 )
+	~	
+	~		|
+
+Availability of charging stations 0=
+	1
+	~	Dmnl
+	~	The Netherlands has by far the densest electric charger network in the world, so we \
+		are just going to assume this number is 1! \
+		https://www.forbes.com/sites/niallmccarthy/2018/10/08/netherlands-top-for-e\
+		lectric-vehicle-charger-density-infographic/
+		
+		Otherwise, The Netherlands has 19.5 charging stations per 100 km, and \
+		assume that 25 is sufficient to resolve range anxiety with an inversely \
+		proportional relationship.
+	|
+
+increase of efficiency 0=
+	((dynamic efficiency 0+static efficiency 0)/2)/((Time-2004)/10)
+	~	
+	~		|
+
+average battery life expectancy 0=
+	7+technological improvement rate 0*(Time-2014)
+	~	
+	~		|
+
+Initial HHH by electricity 0=
+	0
+	~	
+	~		|
+
+average construction year of households 0=
+	Time-(0.5*average time of house use 0)
+	~	
+	~		|
+
+Initial number of households 0=
+	7.59023e+06
+	~	
+	~		|
+
+Average household size 0(
+	[(2014,2)-(2060,2.2)],(2014,2.18),(2015,2.17),(2016,2.17),(2017,2.16),(2018,2.15),(2060\
+		,2.07))
+	~	persons/household
+	~	CBS
+	|
+
+insulation improvement investment 0=
+	3000*human energy behavior 0
+	~	E
+	~		|
+
+average time of house use 0=
+	120.8
+	~	years
+	~	http://www.bestaandewoningbouw.nl/wp-content/uploads/2008/01/resultaten-vra\
+		genlijst.pdf
+	|
+
+insulation rate of households 0=
+	(average construction year of households 0*0.05)-95+insulation improvement investment 0\
+		/2000
+	~	
+	~	RC-value, measures isolation of total construction, higher is better
+		extremely energy efficient houses have a value of ±10
+		legal condition in NL is >3.5
+	|
+
+Avg Cost of EV sale 0= INTEG (
+	-Falling cost of electric car 0,
+		35000)
+	~	Euros
+	~		|
+
+Number of households 0= INTEG (
+	New households 0-Retired households 0,
+		Initial number of households 0)
+	~	
+	~		|
+
+Avg Cost of ICE car 0=
+	25000
+	~	Euros
+	~	Price per vehicle
+	|
+
+level of efficiency 0= INTEG (
+	increase of efficiency 0,
+		1)
+	~	
+	~		|
+
+Avg emission intensity electric 0=
+	Avg energy efficiency EV 0*Grid intensity of electricity 0/Unit kWh per MWh 0
+	~	tCO2e/km
+	~	[kWh/km]*[tCO2e/MWh]
+	|
+
+Lifetime cost EV 0=
+	Avg Cost of EV sale 0 + Distance required to be travelled 0*Avg energy efficiency EV 0\
+		*Price of electricity 0*Car retirement age 0 - Electric car subsidy 0
+	~	Euros
+	~		|
+
+Avg emissions intensity ICE 0=
+	0.00012
+	~	tCO2e/km
+	~	120 gCO2e/km was reached by some cars, like Fiat
+		80 gCO2e/km was the EU target for 2020 at some point \
+		(https://en.wikipedia.org/wiki/ACEA_agreement; \
+		https://www.transportenvironment.org/docs/Press/2007/2007_02_12_te_letter_e\
+		nvironment_council.pdf).
+		
+		This could be turned into a lookup table!
+	|
+
+Lifetime cost ICE 0=
+	Avg Cost of ICE car 0 + Price of fossil fuels per km 0*Distance required to be travelled 0\
+		*Car retirement age 0
+	~	Euros
+	~		|
+
+Avg energy efficiency EV 0=
+	0.215
+	~	kWh/km
+	~	From ICCT 2012 report Table 1 for 2012 Nissan Leaf \
+		https://www.theicct.org/sites/default/files/publications/ICCT_CalculatingEd\
+		riveGHG_082012_0.pdf
+	|
+
+Battery capacity per EV 0=
+	50
+	~	kWh/Vehicles
+	~	Not sourced
+	|
+
+Retired households 0=
+	Number of households 0*(1/average time of house use 0)
+	~	
+	~		|
+
+Battery to Grid power capacity 0=
+	EV demand for batteries*Battery capacity per EV 0*0.6+House batteries for backup capacity 0
+	~	
+	~	Assume that cars are only 60% full when they can provide battery to the \
+		grid
+	|
+
+Retired ICE cars 0=
+	DELAY3I( New ICE cars 0, Car retirement age 0 , Number of ICE cars 0/Car retirement age 0\
+		 )
+	~	Vehicles/years
+	~		|
+
+capacity factor 0=
+	renewable capacity 0/(total electricity production 0 0*PJ per Year to MW 0)
+	~	Dmnl
+	~		|
+
+Retrofit to HHH by electricity 0=
+	HHH by LNG 0*0.003*human energy behavior 0
+	~	
+	~		|
+
+new batteries 0=
+	human energy behavior 0*100*technological improvement rate 0*1000+House batteries for backup capacity 0\
+		*(1/average battery life expectancy 0)
+	~	Joule
+	~		|
+
+Car retirement age 0=
+	10
+	~	years
+	~	https://www.quora.com/What-is-the-average-lifespan-of-a-car
+	|
+
+New electric cars 0=
+	MAX( 0 , Shortage of cars 0*Willingness to purchase electric cars 0 )
+	~	Vehicles/years
+	~	Cannot be negative
+	|
+
+citizen yearly costs 0=
+	HHH energy demand per HH per year 0*Price of electricity 0/3.6e+06
+	~	EUR
+	~		|
+
+new electricity building rate 0=
+	IF THEN ELSE( capacity factor 0 < target share of renewables in electricity production 0\
+		 , 1 , 0.5 )
+	~	Dmnl
+	~		|
+
+current base electricity demand per year 0=
+	369
+	~	PJ/Year
+	~		|
+
+new fossil cap 0=
+	demand for new capacity 0*(1-new electricity building rate 0)
+	~	MW/Year
+	~		|
+
+Decrease demand 0=
+	level of efficiency 0*2e+06
+	~	
+	~		|
+
+New households 0=
+	Shortage of households 0+Retired households 0
+	~	
+	~		|
+
+decrease in HHH by electricity 0=
+	Retired households 0 * 0.2 * share of HHH by electricity 0
+	~	
+	~		|
+
+New ICE cars 0=
+	MAX(0,Shortage of cars 0*(1-Willingness to purchase electric cars 0))
+	~	Vehicles/years
+	~		|
+
+demand for new capacity 0=
+	ABS(electricity deficit 0)* PJ per Year to MW 0*Renewable overcapacity factor 0
+	~	MW
+	~		|
+
+new renewable cap 0=
+	MIN( 1000 , demand for new capacity 0*new electricity building rate 0)
+	~	MW/Year
+	~		|
+
+Distance required to be travelled 0=
+	6000
+	~	km/Year
+	~	http://internationalcomparisons.org/environment/transportation.html
+		Lee Schipper, Improving Vehicle Fuel Economy, EMBARQ, 2007, and Automobile \
+		Fuel; "Economy and CO2 Emissions in Industrialized Countries: Troubling \
+		Trends through 2005/6," EMBARQ, 2007
+	|
+
+Number of EVs 0= INTEG (
+	New electric cars 0-Retired electric cars 0,
+		43762)
+	~	Vehicles
+	~		|
+
+Driving population 0=
+	Population 0*(1-Alternative transportation methods 0)
+	~	persons
+	~		|
+
+Grid intensity of electricity 0=
+	(Renewable elec intensity 0*renewable capacity 0+Fossil elec intensity 0*fossil capacity 0\
+		)/(fossil capacity 0+renewable capacity 0)
+	~	tCO2e/MWh
+	~	Based on 35kg/MWh for renewables (mostly wind) and 650 kg/MWh for a mix of gas and \
+		coal (tendency towards gas)
+		
+		Assumes that all electricity sources operate 365days/24h
+	|
+
+dynamic efficiency 0=
+	(energy efficiency of electrical heating usage 0+human energy behavior 0)/2
+	~	
+	~		|
+
+Number of ICE cars 0= INTEG (
+	New ICE cars 0-Retired ICE cars 0,
+		9.19424e+06)
+	~	Vehicles
+	~		|
+
+el coal 0=
+	153.17
+	~	PJ
+	~		|
+
+per Vehicle 0=
+	1
+	~	1/Vehicles
+	~		|
+
+el gas 0=
+	167.53
+	~	PJ p
+	~		|
+
+Perceived 'greeness' of electric cars 0=
+	1-Grid intensity of electricity 0/0.6
+	~	Dmnl
+	~	Assumes grid intensity near 600 kg/MWh is the upper limit and then \
+		perceived greeness goes down **linearlly* from there
+	|
+
+el hydro 0=
+	0.33
+	~	PJ
+	~		|
+
+PJ per Year to MW 0=
+	31.71
+	~	MW/PJ
+	~		|
+
+el oil 0=
+	5.15
+	~	PJ
+	~		|
+
+Population 0= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,2e+07)],(2014,1.6868e+07),(2015,1.69249e+07),(2020,1.71851e+07),(2035\
+		,1.77155e+07),(2040,1.774e+07),(2045,1.76863e+07),(2050,1.76016e+07) ))
+	~	persons
+	~	https://www.populationpyramid.net/netherlands/2035/
+	|
+
+el other 0=
+	7
+	~	PJ
+	~		|
+
+human energy behavior 0=
+	Societal pressure 0+citizen yearly costs 0/10000
+	~	
+	~		|
+
+Electric car subsidy 0= WITH LOOKUP (
+	Time,
+		([(0,0)-(3000,10)],(2014,0),(2050,0) ))
+	~	Euros
+	~		|
+
+Increase demand 0=
+	1/Average household size 0(Time)*100000
+	~	
+	~		|
+
+electricity deficit 0=
+	total electricity demand 0-total electricity production 0 0
+	~	PJ
+	~		|
+
+Willingness to purchase electric cars 0=
+	(Range anxiety 0+Perceived 'greeness' of electric cars 0+EV cost compared to to ICE 0\
+		+EV manufacturer ratio 0)/4
+	~	Dmnl
+	~	Expressed as a (percent) range from 0-1 where 1 is 100% of people will purchase \
+		electric cars
+		Divided by 4 since there are 4 factors ;)
+	|
+
+Electricity demand by HHH 0=
+	HHH by electricity 0*HHH energy demand per HH per year 0
+	~	Joule/Year
+	~		|
+
+fossilEL production factor 0=
+	1
+	~	
+	~		|
+
+electricity from fossil 0 0=
+	fossil capacity 0*fossilEL production factor 0/ PJ per Year to MW 0
+	~	
+	~		|
+
+Retired electric cars 0=
+	DELAY3I( New electric cars 0, Car retirement age 0 , Number of EVs 0/Car retirement age 0\
+		 )
+	~	Vehicles/years
+	~		|
+
+electricity from nuclear 0=
+	13.91
+	~	PJ
+	~		|
+
+"electricity from renewable sources, excl. hydro 0"=
+	-el hydro 0+renewable capacity 0*RenEl production factor 0/PJ per Year to MW 0
+	~	PJ
+	~		|
+
+RenEl production factor 0=
+	1
+	~	
+	~		|
+
+Energy demand from car charging 0=
+	Avg energy efficiency EV 0*Distance required to be travelled 0*Number of EVs 0*per Vehicle 0\
+		+EV demand for batteries
+	~	kWh
+	~	[kWh/km]*[km]*[#]
+	|
+
+Gov policy of manufacturer emissions 0=
+	0.0001
+	~	
+	~	California has successfully shaped US policy using these types of methods (e.g. \
+		overall weighted average emissions of a car company has to be >X mpg.)
+		
+		From ICCT report: "e.u. values from announced 95 g/km tailpipe standard \
+		(eucar/concaWe/jrc/ies, 2006, p. 60)"
+	|
+
+energy efficiency of electrical heating usage 0=
+	0.4 * technological improvement rate 0 * human energy behavior 0
+	~	
+	~	Efficiency of electrical heting equipment is effectively always 100%. \
+		However, we artificially lower this rate because it is not effecient to \
+		heat the air, the walls everything. Infrared heating is considered more \
+		efficient which just heats what needs to be heated. Human behaviour \
+		(buying it) en technological improvement influence the amount of this more \
+		efficient way of heating.
+	|
+
+EV Battery capacity 0=
+	50
+	~	kWh/Vehicles
+	~	Tesla Model S is 85 kWh, Nissan Leaf 40
+		
+		https://en.wikipedia.org/wiki/Nissan_Leaf
+	|
+
+share of HHH by electricity 0=
+	HHH by electricity 0/(HHH by electricity 0+HHH by LNG 0)
+	~	
+	~	should be between 0 and 1
+	|
+
+EV cost compared to to ICE 0=
+	IF THEN ELSE( Lifetime cost EV 0 < Lifetime cost ICE 0 , 1,
+	1 - (Lifetime cost EV 0 - Lifetime cost ICE 0)/Lifetime cost ICE 0 )
+	~	Dmnl
+	~	Assumes willingness to purchase is linearly proportional to the price \
+		difference
+	|
+
+EV demand for batteries=
+	Number of EVs 0*EV Battery capacity 0
+	~	kWh
+	~	Assumes car batteries will begin empty and then be charged to full
+	|
+
+retired batteries 0=
+	House batteries for backup capacity 0*(1/average battery life expectancy 0)
+	~	
+	~		|
+
+EV manufacturer ratio 0=
+	IF THEN ELSE( Gov policy of manufacturer emissions 0 < Avg emission intensity electric 0\
+		, 1 , Avg emissions intensity ICE 0/Avg emission intensity electric 0 - Gov policy of manufacturer emissions 0\
+		/Avg emission intensity electric 0)
+	~	Dmnl
+	~	This should go from 0-1 but will never be 1 unless the government mandate matches or \
+		is below this number (could use MAX instead to implement this requirement)
+		This also assumes that people will likely purchase if there are more \
+		electric cars being produced
+	|
+
+Fossil elec intensity 0=
+	0.65
+	~	tCO2e/MWh
+	~		|
+
+Falling cost of electric car 0=
+	Avg Cost of EV sale 0*Rate of falling cost of EV 0
+	~	Euros
+	~		|
+
+Retired HH 0=
+	Retired households 0 * 0.8 * share of HHH by electricity 0
+	~	
+	~		|
+
+fossil capacity 0= INTEG (
+	(new fossil cap 0-fossil capacity decommission 0),
+		(el coal 0+el gas 0+el oil 0)*PJ per Year to MW 0)
+	~	MW
+	~		|
+
+"Household E-demand 0 0"=
+	Electricity demand by HHH 0/1e+15
+	~	
+	~	get values from Bor
+	|
+
+fossil capacity decommission 0=
+	MAX (DELAY1I(new fossil cap 0,lifetime fossil plants 0,fossil capacity 0/lifetime fossil plants 0\
+		 ), 0)
+	~	MW/Year
+	~		|
+
+Population size(
+	[(2014,0)-(2060,1.85e+07)],(2014,1.68293e+07),(2015,1.69007e+07),(2016,1.69791e+07),\
+		(2017,1.70815e+07),(2018,1.71811e+07),(2031,1.8e+07),(2060,1.84e+07))
+	~	persons
+	~	CBS
+	|
+
+Price of electricity 0=
+	0.19
+	~	Euros/kWh
+	~	Should be a function of demand (which could be smoothed out by the smart grid) and \
+		concentration of that demand
+		
+		0.18 EUR/kWh for June 2018 from \
+		https://www.globalpetrolprices.com/Netherlands/electricity_prices/
+	|
+
+Price of fossil fuels per km 0=
+	0.1353
+	~	Euros/km
+	~	1.65 Euros/Litre and the VW Golf is 8.2 L/100 km (ICCT source)... therefore
+	|
+
+Shortage of cars 0=
+	Driving population 0*Vehicles per capita 0-(Number of EVs 0+Number of ICE cars 0)
+	~	Vehicles
+	~	Assume one car per driver
+	|
+
+target share of renewables in electricity production 0=
+	0.14
+	~	Dmnl
+	~		|
+
+technological improvement rate 0=
+	0.1
+	~	
+	~		|
+
+Societal pressure 0=
+	(Time-2000)*0.1
+	~	
+	~		|
+
+static efficiency 0=
+	insulation rate of households 0
+	~	
+	~		|
+
+total electricity production 0 0=
+	el other 0+electricity from fossil 0 0+electricity from nuclear 0+"electricity from renewable sources, excl. hydro 0"\
+		+el hydro 0+
+	Battery to Grid power capacity 0
+	~	PJ/Year
+	~		|
+
+HHH by electricity 0= INTEG (
+	increase in HHH by electricity 0+Retrofit to HHH by electricity 0-decrease in HHH by electricity 0\
+		,
+		Initial HHH by electricity 0)
+	~	
+	~		|
+
+Proportion of cars available with more than 400 km range 0= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,1)],(2014,0.2),(2018,0.3),(2022,0.3),(2030.79,0.436019),(2050.88,0.511848\
+		) ))
+	~	Dmnl
+	~	Is over 400 km?
+	|
+
+HHH by LNG 0= INTEG (
+	increase in HHH by LNG 0-Retired HH 0-Retrofit to HHH by electricity 0,
+		0.95*Initial number of households 0)
+	~	
+	~		|
+
+Unit kWh per MWh 0=
+	1000
+	~	kWh/MWh
+	~		|
+
+total electricity demand 0=
+	"Household E-demand 0 0"+"Transportation E-demand 0 0"+Battery to Grid power capacity 0\
+		+current base electricity demand per year 0
+	~	PJ
+	~	look up total energy demand
+	|
+
+"Transportation E-demand 0 0"=
+	Energy demand from car charging 0
+	~	
+	~	get values from Jason
+	|
+
+House batteries for backup capacity 0= INTEG (
+	new batteries 0-retired batteries 0,
+		0)
+	~	
+	~		|
+
+renewables decommission 0=
+	DELAY1I(new renewable cap 0,lifetime renewable plants 0,renewable capacity 0/lifetime renewable plants 0\
+		)
+	~	MW/Year
+	~		|
+
+HHH energy demand per HH per year 0= INTEG (
+	Increase demand 0-Decrease demand 0,
+		2.4e+10)
+	~	
+	~		|
+
+renewable capacity 0= INTEG (
+	new renewable cap 0-renewables decommission 0,
+		49.3*PJ per Year to MW 0)
+	~	MW
+	~		|
+
+Range anxiety 0=
+	(Proportion of cars available with more than 400 km range 0 + MAX(1, Availability of charging stations 0\
+		) )/2
+	~	Dmnl
+	~	Divide by 2 to normalize the factors
+	|
+
+lifetime fossil plants 0=
+	100
+	~	
+	~		|
+
+Vehicles per capita 0=
+	0.444
+	~	Vehicles/persons
+	~	https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita#cite_note-32
+		https://www.ceicdata.com/en/indicator/netherlands/motor-vehicle-registered
+	|
+
+Renewable overcapacity factor 0=
+	1.2
+	~	
+	~		|
+
+lifetime renewable plants 0=
+	30
+	~	Year
+	~		|
+
+Renewable elec intensity 0=
+	0.035
+	~	tCO2e/MWh
+	~		|
+
+Rate of falling cost of EV 0=
+	0.02
+	~	Dmnl
+	~		|
+
+Shortage of households 0=
+	Population size(Time)/Average household size 0(Time)-Number of households 0
+	~	
+	~		|
+
+Units J to kWh=
+	3.6e+06
+	~	Dmnl
+	~		|
+
+Shortage of households=
+	Population/Average household size-Number of households
+	~	
+	~		|
+
+Car and House battery contribution factor=
+	0.6
+	~	Dmnl
+	~	Assume that cars and houses are only 60% full when they can provide \
+		battery to the grid
+	|
+
+Renewable overcapacity factor=
+	1.2
+	~	
+	~	renewables are built with overcapacity to counter greater volatility
+	|
+
+capacity factor=
+	renewable capacity/(total electricity production 0*PJ per Year to MW)
+	~	Dmnl
+	~		|
+
+EV Battery capacity=
+	50
+	~	kWh/Vehicles
+	~	Tesla Model S is 85 kWh, Nissan Leaf 40
+		
+		https://en.wikipedia.org/wiki/Nissan_Leaf
+	|
+
+direct GHG Emissions per year from transportation=
+	Fossil emissions from total cars
+	~	tCO2e
+	~	[kWh]/1000 * [tCO2e/MWh] + tCO2e
+		I think only direct emission from ICE cars should be counted here. \
+		Emissions from energy mix is accounted for where e-production takes place. \
+		Therefore deleted: "Energy demand from car charging/Unit kWh per MWh*Grid \
+		intensity of electricity + "
+	|
+
+Renewable elec intensity=
+	0.035
+	~	tCO2e/MWh
+	~		|
+
+Fossil elec intensity=
+	0.65
+	~	tCO2e/MWh
+	~		|
+
+Unit 1 km per Year=
+	1
+	~	1/Year
+	~		|
+
+Unit kWh per MWh=
+	1000
+	~	kWh/MWh
+	~		|
+
+renewable capacity= INTEG (
+	new renewable capacity-renewables decommission,
+		49.3*PJ per Year to MW)
+	~	MW
+	~		|
+
+current base electricity demand per year=
+	369
+	~	PJ/Year
+	~	constant electricity demand including all other sectors
+	|
+
+fossil capacity= INTEG (
+	(new fossil cap-fossil capacity decommission),
+		(el coal+el gas+el oil)*PJ per Year to MW)
+	~	MW
+	~		|
+
+renewables decommission=
+	DELAY1I(new renewable capacity,lifetime renewable plants,renewable capacity/lifetime renewable plants\
+		)
+	~	MW/Year
+	~		|
+
+Grid intensity of electricity=
+	(Renewable elec intensity*renewable capacity+Fossil elec intensity*fossil capacity)/\
+		(fossil capacity+renewable capacity)
+	~	tCO2e/MWh
+	~	Based on 35kg/MWh for renewables (mostly wind) and 650 kg/MWh for a mix of gas and \
+		coal (tendency towards gas)
+		
+		Assumes that all electricity sources operate 365days/24h
+	|
+
+PJ per Year to MW=
+	31.71
+	~	MW/PJ
+	~		|
+
+Energy demand from car charging=
+	Avg energy efficiency EV*Distance required to be travelled*Number of EVs*per Vehicle
+	~	kWh
+	~	[kWh/km]*[km]*[#]+[kWh]
+	|
+
+Price of electricity=
+	0.19
+	~	Euros/kWh
+	~	Should be a function of demand (which could be smoothed out by the smart grid) and \
+		concentration of that demand
+		
+		0.18 EUR/kWh for June 2018 from \
+		https://www.globalpetrolprices.com/Netherlands/electricity_prices/
+	|
+
+electricity deficit=
+	electricity deficit without batteries+battery buffer feed in
+	~	PJ/Year
+	~		|
+
+new fossil cap=
+	demand for new capacity*(1-new electricity building rate)
+	~	MW/Year
+	~		|
+
+Number of EVs= INTEG (
+	New electric cars-Retired electric cars,
+		43762)
+	~	Vehicles
+	~		|
+
+Lifetime cost EV=
+	Avg Cost of EV sale + Distance required to be travelled*Avg energy efficiency EV*Price of electricity\
+		*Car retirement age - Electric car subsidy
+	~	Euros
+	~		|
+
+Perceived 'greeness' of electric cars=
+	1-Grid intensity of electricity/0.6
+	~	Dmnl
+	~	Assumes grid intensity near 600 kg/MWh is the upper limit and then \
+		perceived greeness goes down **linearlly* from there
+	|
+
+citizen yearly costs=
+	HHH energy demand per HH per year*Price of electricity/3.6e+06
+	~	EUR
+	~		|
+
+new electricity building rate=
+	IF THEN ELSE( capacity factor < target share of renewables in electricity production\
+		 , 1 , 0.5 )
+	~	Dmnl
+	~		|
+
+"GHG emissions per year from electricity-production"=
+	electricity from fossil 0*Grid intensity of electricity
+	~	
+	~		|
+
+fossil capacity decommission=
+	MAX (DELAY1I(new fossil cap,lifetime fossil plants,fossil capacity/lifetime fossil plants\
+		 ), 0)
+	~	MW/Year
+	~		|
+
+Cumulative EV battery capacity=
+	Number of EVs*EV Battery capacity
+	~	kWh
+	~	Assumes car batteries will begin empty and then be charged to full
+	|
+
+increase of efficiency=
+	((dynamic efficiency+static efficiency)/2)/((Time-2004)/10)
+	~	
+	~		|
+
+Initial HHH by electricity=
+	0
+	~	
+	~		|
+
+average battery life expectancy=
+	7+technological improvement rate*(Time-2014)
+	~	
+	~		|
+
+average construction year of households=
+	Time-(0.5*average time of house use)
+	~	
+	~		|
+
+Average household size=
+	WITH LOOKUP( Time , ([(2014,2)-(2060,2.2)],(2014,2.18),(2015,2.17),(2016,2.17),(2017\
+		,2.16),(2018,2.15),(2060,2.07) ))
+	~	persons/household
+	~	CBS
+	|
+
+average time of house use=
+	120.8
+	~	years
+	~	http://www.bestaandewoningbouw.nl/wp-content/uploads/2008/01/resultaten-vra\
+		genlijst.pdf
+	|
+
+dynamic efficiency=
+	(energy efficiency of electrical heating usage+human energy behavior)/2
+	~	
+	~		|
+
+HHH by LNG= INTEG (
+	increase in HHH by LNG-Retired HH-Retrofit to HHH by electricity,
+		0.95*Initial number of households)
+	~	
+	~		|
+
+HHH energy demand per HH per year= INTEG (
+	Increase demand-Decrease demand,
+		2.4e+10)
+	~	Joule
+	~		|
+
+House batteries for backup capacity= INTEG (
+	new batteries-retired batteries,
+		0)
+	~	Joule
+	~		|
+
+LNG demand by HHH=
+	HHH by LNG * HHH energy demand per HH per year
+	~	Joule/Year
+	~		|
+
+new batteries=
+	human energy behavior*100*technological improvement rate*1000+House batteries for backup capacity\
+		*(1/average battery life expectancy)
+	~	Joule
+	~		|
+
+Retired households=
+	DELAY1 ( Number of households/average time of house use,average time of house use)
+	~	
+	~		|
+
+Decrease demand=
+	level of efficiency*2e+06
+	~	
+	~		|
+
+decrease in HHH by electricity=
+	Retired households * 0.2 * share of HHH by electricity
+	~	
+	~		|
+
+Number of households= INTEG (
+	New households-Retired households,
+		Initial number of households)
+	~	
+	~		|
+
+static efficiency=
+	insulation rate of households
+	~	
+	~		|
+
+level of efficiency= INTEG (
+	increase of efficiency,
+		1)
+	~	
+	~		|
+
+HHH by electricity= INTEG (
+	increase in HHH by electricity+Retrofit to HHH by electricity-decrease in HHH by electricity\
+		,
+		Initial HHH by electricity)
+	~	
+	~		|
+
+technological improvement rate=
+	0.1
+	~	
+	~		|
+
+Increase demand=
+	1/Average household size*100000
+	~	
+	~		|
+
+human energy behavior=
+	Societal pressure+citizen yearly costs/10000
+	~	
+	~		|
+
+increase in HHH by LNG=
+	New households*share of HH with LNG heating
+	~	
+	~		|
+
+Electricity demand by HHH=
+	HHH by electricity*HHH energy demand per HH per year
+	~	Joule/Year
+	~		|
+
+insulation improvement investment=
+	3000*human energy behavior
+	~	E
+	~		|
+
+share of HHH by electricity=
+	HHH by electricity/(HHH by electricity+HHH by LNG)
+	~	
+	~	should be between 0 and 1
+	|
+
+Retrofit to HHH by electricity=
+	HHH by LNG*0.003*human energy behavior
+	~	
+	~		|
+
+Initial number of households=
+	7.59023e+06
+	~	
+	~		|
+
+Societal pressure=
+	(Time-2000)*0.1
+	~	
+	~		|
+
+energy efficiency of electrical heating usage=
+	0.4 * technological improvement rate * human energy behavior
+	~	
+	~	Efficiency of electrical heting equipment is effectively always 100%. \
+		However, we artificially lower this rate because it is not effecient to \
+		heat the air, the walls everything. Infrared heating is considered more \
+		efficient which just heats what needs to be heated. Human behaviour \
+		(buying it) en technological improvement influence the amount of this more \
+		efficient way of heating.
+	|
+
+increase in HHH by electricity=
+	IF THEN ELSE( Time<2019 , New households*0.25 , New households*0.99)
+	~	
+	~		|
+
+Retired HH=
+	Retired households * 0.8 * share of HHH by electricity
+	~	
+	~		|
+
+retired batteries=
+	House batteries for backup capacity*(1/average battery life expectancy)
+	~	Joule
+	~		|
+
+insulation rate of households=
+	(average construction year of households*0.05)-95+insulation improvement investment/\
+		2000
+	~	
+	~	RC-value, measures isolation of total construction, higher is better
+		extremely energy efficient houses have a value of ±10
+		legal condition in NL is >3.5
+	|
+
+electricity from fossil 0=
+	fossil capacity*fossilEL production factor/ PJ per Year to MW
+	~	PJ/Year
+	~		|
+
+electricity from nuclear=
+	13.91
+	~	PJ/Year
+	~		|
+
+lifetime fossil plants=
+	100
+	~	
+	~		|
+
+lifetime renewable plants=
+	30
+	~	Year
+	~		|
+
+el coal=
+	153.17
+	~	PJ
+	~		|
+
+el gas=
+	167.53
+	~	PJ p
+	~		|
+
+electricity from hydro=
+	0.33
+	~	PJ/Year
+	~		|
+
+el oil=
+	5.15
+	~	PJ
+	~		|
+
+other el=
+	7
+	~	PJ/Year
+	~		|
+
+fossilEL production factor=
+	1
+	~	
+	~		|
+
+target share of renewables in electricity production=
+	0.14
+	~	Dmnl
+	~		|
+
+Alternative transportation methods=
+	0.6
+	~	Dmnl
+	~		|
+
+Availability of charging stations=
+	1
+	~	Dmnl
+	~	The Netherlands has by far the densest electric charger network in the world, so we \
+		are just going to assume this number is 1! \
+		https://www.forbes.com/sites/niallmccarthy/2018/10/08/netherlands-top-for-e\
+		lectric-vehicle-charger-density-infographic/
+		
+		Otherwise, The Netherlands has 19.5 charging stations per 100 km, and \
+		assume that 25 is sufficient to resolve range anxiety with an inversely \
+		proportional relationship.
+	|
+
+Price of fossil fuels per km=
+	0.1353
+	~	Euros/km
+	~	1.65 Euros/Litre and the VW Golf is 8.2 L/100 km (ICCT source)... therefore
+	|
+
+Proportion of cars available with more than 400 km range= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,1)],(2014,0.2),(2018,0.3),(2022,0.3),(2030,0.436019),(2050,0.511848\
+		) ))
+	~	Dmnl
+	~	Is over 400 km?
+	|
+
+EV cost compared to to ICE=
+	IF THEN ELSE( Lifetime cost EV < Lifetime cost ICE , 1,
+	1 - (Lifetime cost EV - Lifetime cost ICE)/Lifetime cost ICE )
+	~	Dmnl
+	~	Assumes willingness to purchase is linearly proportional to the price \
+		difference
+	|
+
+Avg Cost of EV sale= INTEG (
+	-Falling cost of electric car,
+		35000)
+	~	Euros
+	~		|
+
+Avg Cost of ICE car=
+	25000
+	~	Euros
+	~	Price per vehicle
+	|
+
+Avg emission intensity electric=
+	Avg energy efficiency EV*Grid intensity of electricity/Unit kWh per MWh
+	~	tCO2e/km
+	~	[kWh/km]*[tCO2e/MWh]
+	|
+
+Avg emissions intensity ICE=
+	0.00012
+	~	tCO2e/km
+	~	120 gCO2e/km was reached by some cars, like Fiat
+		80 gCO2e/km was the EU target for 2020 at some point \
+		(https://en.wikipedia.org/wiki/ACEA_agreement; \
+		https://www.transportenvironment.org/docs/Press/2007/2007_02_12_te_letter_e\
+		nvironment_council.pdf).
+		
+		This could be turned into a lookup table!
+	|
+
+Avg energy efficiency EV=
+	0.215
+	~	kWh/km
+	~	From ICCT 2012 report Table 1 for 2012 Nissan Leaf \
+		https://www.theicct.org/sites/default/files/publications/ICCT_CalculatingEd\
+		riveGHG_082012_0.pdf
+	|
+
+Car retirement age=
+	10
+	~	years
+	~	https://www.quora.com/What-is-the-average-lifespan-of-a-car
+	|
+
+Shortage of cars=
+	Population driving*Vehicles per capita-(Number of EVs+Number of ICE cars)
+	~	Vehicles
+	~	Assume one car per driver
+		why multiply the share of people wanting to drive with share of \
+		cars/population? --> 0.4*0.44*population = 17.6% * pop ?
+	|
+
+Number of ICE cars= INTEG (
+	New ICE cars-Retired ICE cars,
+		9.19424e+06)
+	~	Vehicles
+	~		|
+
+Distance required to be travelled=
+	6000
+	~	km/Year
+	~	http://internationalcomparisons.org/environment/transportation.html
+		Lee Schipper, Improving Vehicle Fuel Economy, EMBARQ, 2007, and Automobile \
+		Fuel; "Economy and CO2 Emissions in Industrialized Countries: Troubling \
+		Trends through 2005/6," EMBARQ, 2007
+	|
+
+Population driving=
+	Population*(1-Alternative transportation methods)
+	~	persons
+	~		|
+
+Willingness to purchase electric cars=
+	(Range anxiety+Perceived 'greeness' of electric cars+EV cost compared to to ICE+EV manufacturer ratio\
+		)/4
+	~	Dmnl
+	~	Expressed as a (percent) range from 0-1 where 1 is 100% of people will purchase \
+		electric cars
+		Divided by 4 since there are 4 factors ;)
+	|
+
+Electric car subsidy= WITH LOOKUP (
+	Time,
+		([(0,0)-(3000,10)],(2014,0),(2050,0) ))
+	~	Euros
+	~		|
+
+New ICE cars=
+	MAX(0,Shortage of cars*(1-Willingness to purchase electric cars))
+	~	Vehicles/years
+	~		|
+
+Range anxiety=
+	(Proportion of cars available with more than 400 km range + MAX(1, Availability of charging stations\
+		) )/2
+	~	Dmnl
+	~	Divide by 2 to normalize the factors
+	|
+
+EV manufacturer ratio=
+	IF THEN ELSE( Gov policy of manufacturer emissions < Avg emission intensity electric\
+		, 1 , Avg emissions intensity ICE/Avg emission intensity electric - Gov policy of manufacturer emissions\
+		/Avg emission intensity electric)
+	~	Dmnl
+	~	This should go from 0-1 but will never be 1 unless the government mandate matches or \
+		is below this number (could use MAX instead to implement this requirement)
+		This also assumes that people will likely purchase if there are more \
+		electric cars being produced
+	|
+
+Falling cost of electric car=
+	Avg Cost of EV sale*Rate of falling cost of EV
+	~	Euros
+	~		|
+
+Fossil emissions from total cars=
+	Number of ICE cars * Avg emissions intensity ICE * Distance required to be travelled\
+		 * Unit 1 km per Year
+	~	tCO2e/Year
+	~		|
+
+Gov policy of manufacturer emissions=
+	0.0001
+	~	
+	~	California has successfully shaped US policy using these types of methods (e.g. \
+		overall weighted average emissions of a car company has to be >X mpg.)
+		
+		From ICCT report: "e.u. values from announced 95 g/km tailpipe standard \
+		(eucar/concaWe/jrc/ies, 2006, p. 60)"
+	|
+
+per Vehicle=
+	1
+	~	1/Vehicles
+	~		|
+
+Retired electric cars=
+	DELAY3I( New electric cars, Car retirement age , Number of EVs/Car retirement age )
+	~	Vehicles/years
+	~		|
+
+Vehicles per capita=
+	0.444
+	~	Vehicles/persons
+	~	https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita#cite_note-32
+		https://www.ceicdata.com/en/indicator/netherlands/motor-vehicle-registered
+	|
+
+New electric cars=
+	MAX( 0 , Shortage of cars*Willingness to purchase electric cars )
+	~	Vehicles/years
+	~	Cannot be negative
+	|
+
+Lifetime cost ICE=
+	Avg Cost of ICE car + Price of fossil fuels per km*Distance required to be travelled\
+		*Car retirement age
+	~	Euros
+	~		|
+
+Population= WITH LOOKUP (
+	Time,
+		([(2014,0)-(2050,2e+07)],(2014,1.6868e+07),(2015,1.69249e+07),(2020,1.71851e+07),(2035\
+		,1.77155e+07),(2040,1.774e+07),(2045,1.76863e+07),(2050,1.76016e+07) ))
+	~	persons
+	~	https://www.populationpyramid.net/netherlands/2035/
+	|
+
+Retired ICE cars=
+	DELAY3I( New ICE cars, Car retirement age , Number of ICE cars/Car retirement age )
+	~	Vehicles/years
+	~		|
+
+Rate of falling cost of EV=
+	0.02
+	~	Dmnl
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 2050
+	~	Year
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 2014
+	~	Year
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Year [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.03125
+	~	Year [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*merged
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,75,0
+10,1,Time,-205,125,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+12,2,0,1938,-349,393,28,3,135,0,4,-1,0,0,0,-1--1--1,0-255-0,|12||0-0-0
+Transportation Model (Preliminary)
+10,3,Number of EVs,1999,-107,40,20,3,3,0,0,0,0,0,0
+10,4,Number of ICE cars,2051,194,40,20,3,3,0,0,0,0,0,0
+10,5,Energy demand from car charging,2238,-161,53,14,8,3,0,0,0,0,0,0
+10,6,direct GHG Emissions per year from transportation,2421,-28,58,21,8,131,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+10,7,Price of electricity,-144,735,47,8,8,3,0,0,0,0,0,0
+10,8,Price of fossil fuels per km,1280,-78,44,24,8,131,0,0,0,0,0,0
+10,9,EV cost compared to to ICE,1618,-86,47,14,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,10,Avg Cost of ICE car,1470,-3,51,8,8,131,0,0,0,0,0,0
+12,11,48,1877,-226,10,8,0,3,0,0,-1,0,0,0
+1,12,14,3,4,0,0,22,0,0,0,-1--1--1,,1|(1879,-107)|
+1,13,14,11,100,0,0,22,2,0,0,-1--1--1,|12||0-0-0,1|(1879,-212)|
+11,14,48,1879,-199,6,8,34,3,0,0,2,0,0,0
+10,15,New electric cars,1836,-199,44,8,40,131,0,0,-1,0,0,0
+12,16,48,1838,198,10,8,0,3,0,0,-1,0,0,0
+1,17,19,4,4,0,0,22,0,0,0,-1--1--1,,1|(1981,197)|
+1,18,19,16,100,0,0,22,0,0,0,-1--1--1,,1|(1894,197)|
+11,19,48,1946,197,6,8,34,3,0,0,1,0,0,0
+10,20,New ICE cars,1946,222,36,8,40,131,0,0,-1,0,0,0
+12,21,48,2264,195,10,8,0,3,0,0,-1,0,0,0
+1,22,24,21,4,0,0,22,0,0,0,-1--1--1,,1|(2222,192)|
+1,23,24,4,100,0,0,22,0,0,0,-1--1--1,,1|(2132,192)|
+11,24,48,2182,192,8,6,33,3,0,0,1,0,0,0
+10,25,Retired ICE cars,2182,217,42,8,40,131,0,0,-1,0,0,0
+12,26,48,2212,-56,10,8,0,3,0,0,-1,0,0,0
+1,27,29,26,4,0,0,22,0,0,0,-1--1--1,,1|(2170,-62)|
+1,28,29,3,100,0,0,22,0,0,0,-1--1--1,,1|(1999,-62)|
+11,29,48,2130,-62,8,6,33,3,0,0,1,0,0,0
+10,30,Retired electric cars,2130,-39,50,8,40,131,0,0,-1,0,0,0
+10,31,Proportion of cars available with more than 400 km range,1377,22,64,21,8,131,0,0,0,0,0,0
+10,32,Range anxiety,1455,100,37,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,33,31,32,0,0,0,0,0,128,0,-1--1--1,,1|(1417,62)|
+10,34,Willingness to purchase electric cars,1719,-75,55,14,8,3,0,0,0,0,0,0
+1,35,32,34,0,0,0,0,0,128,0,-1--1--1,,1|(1576,19)|
+1,36,9,34,1,0,0,0,0,128,0,-1--1--1,,1|(1700,-66)|
+10,37,Population driving,1801,35,40,14,8,131,0,0,0,0,0,0
+10,38,Shortage of cars,1952,8,41,8,8,131,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+1,39,37,38,0,0,0,0,0,128,0,-1--1--1,,1|(1869,22)|
+1,40,4,38,0,0,0,0,0,128,0,-1--1--1,,1|(2001,101)|
+1,41,3,38,0,0,0,0,0,128,0,-1--1--1,,1|(1975,-49)|
+1,42,38,15,1,0,0,0,0,128,0,-1--1--1,,1|(1854,-71)|
+1,43,38,20,0,0,0,0,0,128,0,-1--1--1,,1|(1949,107)|
+1,44,34,15,0,0,0,0,0,128,0,-1--1--1,,1|(1775,-134)|
+1,45,34,20,1,0,0,0,0,128,0,-1--1--1,,1|(1735,138)|
+10,46,Grid intensity of electricity,1801,1142,43,14,8,3,0,0,0,0,0,0
+10,47,Perceived 'greeness' of electric cars,1707,-227,52,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+1,48,47,34,0,0,0,0,0,128,0,-1--1--1,,1|(1711,-157)|
+10,49,Distance required to be travelled,1608,31,52,14,8,131,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,50,Alternative transportation methods,1800,98,36,21,8,3,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+1,51,50,37,0,0,0,0,0,128,0,-1--1--1,,1|(1800,70)|
+10,52,EV manufacturer ratio,1559,247,56,8,8,3,0,0,0,0,0,0
+10,53,Gov policy of manufacturer emissions,1381,394,36,21,8,131,0,2,0,0,0,0,-1--1--1,0-0-0,|12||0-128-0
+10,54,Avg emissions intensity ICE,1428,267,38,14,8,131,0,0,0,0,0,0
+10,55,Avg emission intensity electric,1584,314,43,14,8,3,0,0,0,0,0,0
+1,56,53,52,0,0,0,0,0,128,0,-1--1--1,,1|(1472,318)|
+10,57,Electric car subsidy,1578,-256,50,8,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-128-0
+10,58,Time,1584,-298,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,59,58,57,0,0,0,0,0,64,0,-1--1--1,,1|(1582,-283)|
+10,60,Avg Cost of EV sale,1471,-230,40,20,3,3,0,0,0,0,0,0
+12,61,48,1471,-113,10,8,0,3,0,0,-1,0,0,0
+1,62,64,61,4,0,0,22,0,0,0,-1--1--1,,1|(1472,-137)|
+1,63,64,60,100,0,0,22,0,0,0,-1--1--1,,1|(1472,-187)|
+11,64,48,1472,-159,8,6,33,3,0,0,2,0,0,0
+10,65,Falling cost of electric car,1427,-159,37,14,40,3,0,0,-1,0,0,0
+1,66,60,65,0,0,0,0,0,64,0,-1--1--1,,1|(1450,-197)|
+10,67,FINAL TIME,1359,-147,43,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,68,INITIAL TIME,1375,-171,47,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,69,Time,1367,-187,21,8,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,70,Rate of falling cost of EV,1373,-217,37,14,8,3,0,0,-1,0,0,0
+1,71,70,65,0,0,0,0,0,64,0,-1--1--1,,1|(1394,-193)|
+10,72,Population,1806,-19,28,8,8,3,0,0,-1,0,0,0
+1,73,72,37,0,0,0,0,0,64,0,-1--1--1,,1|(1804,-1)|
+10,74,Time,1304,-27,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,75,74,31,0,0,0,0,0,64,0,-1--1--1,,1|(1324,-13)|
+10,76,Availability of charging stations,1427,177,44,14,8,3,0,0,-1,0,0,0
+1,77,76,32,0,0,0,0,0,64,0,-1--1--1,,1|(1439,142)|
+10,78,Fossil emissions from total cars,2197,314,43,14,8,3,0,0,-1,0,0,0
+10,79,Time,1796,-45,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,80,79,72,0,0,0,0,0,64,0,-1--1--1,,1|(1798,-38)|
+10,81,Car retirement age,2212,58,47,8,8,3,0,0,0,0,0,0
+1,82,81,30,0,0,0,0,0,128,0,-1--1--1,,1|(2175,14)|
+1,83,81,25,0,0,0,0,0,128,0,-1--1--1,,1|(2198,130)|
+1,84,15,30,1,0,0,0,0,128,0,-1--1--1,,1|(2022,-144)|
+1,85,20,25,1,0,0,0,0,128,0,-1--1--1,,1|(2055,228)|
+1,86,54,52,0,0,0,0,0,128,0,-1--1--1,,1|(1479,259)|
+10,87,Avg energy efficiency EV,1514,406,36,14,8,3,0,0,0,0,0,0
+1,88,87,55,0,0,0,0,0,128,0,-1--1--1,,1|(1544,365)|
+1,89,55,52,0,0,0,0,0,128,0,-1--1--1,,1|(1572,283)|
+10,90,Vehicles per capita,1913,52,48,8,8,131,0,0,-1,0,0,0
+1,91,52,34,0,0,0,0,0,64,0,-1--1--1,,1|(1633,95)|
+10,92,Lifetime cost EV,1524,-147,44,8,8,3,0,0,0,0,0,0
+10,93,Lifetime cost ICE,1499,-48,45,8,8,3,0,0,0,0,0,0
+1,94,81,92,0,0,0,0,0,64,0,-1--1--1,,1|(1874,-42)|
+1,95,49,92,0,0,0,0,0,64,0,-1--1--1,,1|(1567,-54)|
+1,96,10,93,0,0,0,0,0,64,0,-1--1--1,,1|(1480,-19)|
+1,97,81,93,0,0,0,0,0,64,0,-1--1--1,,1|(1861,6)|
+1,98,49,93,0,0,0,0,0,64,0,-1--1--1,,1|(1555,-7)|
+1,99,8,93,0,0,0,0,0,64,0,-1--1--1,,1|(1382,-63)|
+1,100,92,9,0,0,0,0,0,64,0,-1--1--1,,1|(1560,-123)|
+1,101,93,9,0,0,0,0,0,64,0,-1--1--1,,1|(1542,-61)|
+1,102,3,30,0,0,0,0,0,64,0,-1--1--1,,1|(2069,-70)|
+1,103,4,25,0,0,0,0,0,64,0,-1--1--1,,1|(2108,203)|
+10,104,Battery power capacity,998,100,40,14,8,3,0,0,0,0,0,0
+1,105,3,5,0,0,0,0,0,128,0,-1--1--1,,1|(2105,-130)|
+1,106,87,5,0,0,0,0,0,128,0,-1--1--1,,1|(1869,126)|
+1,107,49,5,0,0,0,0,0,128,0,-1--1--1,,1|(1915,-62)|
+10,108,per Vehicle,2137,-183,29,8,8,3,0,0,-1,0,0,0
+1,109,108,5,0,0,0,0,0,64,0,-1--1--1,,1|(2168,-176)|
+1,110,54,78,0,0,0,0,0,64,0,-1--1--1,,1|(1803,289)|
+1,111,4,78,0,0,0,0,0,64,0,-1--1--1,,1|(2121,252)|
+1,112,49,78,0,0,0,0,0,64,0,-1--1--1,,1|(1895,169)|
+1,113,78,6,0,0,0,0,0,128,0,-1--1--1,,1|(2302,152)|
+1,114,60,92,0,0,0,0,0,128,0,-1--1--1,,1|(1496,-188)|
+10,115,"Household E-demand 0",243,429,59,8,8,3,0,0,0,0,0,0
+10,116,"Transportation E-demand 0",2438,-186,38,14,8,3,0,0,0,0,0,0
+10,117,total electricity production 0,1357,825,39,14,8,3,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+10,118,electricity from fossil 0,1444,1177,58,8,8,3,0,0,0,0,0,0
+1,119,118,117,0,0,0,0,0,128,0,-1--1--1,,1|(1403,1010)|
+10,120,"electricity from renewable sources, excl. hydro",1551,921,49,21,8,3,0,0,0,0,0,0
+1,121,120,117,0,0,0,0,0,128,0,-1--1--1,,1|(1453,872)|
+10,122,electricity from hydro,1728,700,55,8,8,3,0,0,0,0,0,0
+10,123,el gas,1716,1398,16,8,8,3,0,0,0,0,0,0
+10,124,el oil,1676,1390,14,8,8,3,0,0,0,0,0,0
+10,125,total electricity demand,773,772,59,8,8,3,0,0,0,0,0,0
+10,126,electricity from nuclear,1698,651,59,8,8,3,0,0,0,0,0,0
+10,127,other el,1739,673,20,8,8,3,0,0,0,0,0,0
+1,128,123,141,0,0,0,0,0,128,1,-1--1--1,,1|(1717,1365)|
+1,129,124,141,0,0,0,0,0,128,1,-1--1--1,,1|(1691,1361)|
+10,130,el coal,1756,1388,18,8,8,3,0,0,0,0,0,0
+1,131,130,141,0,0,0,0,0,128,1,-1--1--1,,1|(1743,1360)|
+1,132,122,120,0,0,0,0,0,128,0,-1--1--1,,1|(1648,798)|
+10,133,electricity deficit,991,875,43,8,8,3,0,0,0,0,0,0
+10,134,target share of renewables in electricity production,2184,1118,63,21,8,3,0,4,0,0,0,0,-1--1--1,0-192-255,|12||0-0-0
+10,135,new electricity building rate,1637,1101,39,14,8,3,0,0,0,0,0,0
+10,136,demand for new capacity,1201,1133,42,14,8,3,0,0,0,0,0,0
+1,137,136,146,0,0,0,0,0,128,0,-1--1--1,,1|(1417,1229)|
+1,138,136,159,0,0,0,0,0,128,0,-1--1--1,,1|(1451,1064)|
+1,139,135,146,0,0,0,0,0,128,0,-1--1--1,,1|(1635,1209)|
+1,140,135,159,0,0,0,0,0,128,0,-1--1--1,,1|(1667,1050)|
+10,141,fossil capacity,1720,1308,40,20,3,3,0,0,0,0,0,0
+12,142,48,1544,1311,10,8,0,3,0,0,-1,0,0,0
+1,143,145,141,4,0,0,22,0,0,0,-1--1--1,,1|(1660,1310)|
+1,144,145,142,100,0,0,22,0,0,0,-1--1--1,,1|(1591,1310)|
+11,145,48,1634,1310,6,8,34,3,0,0,1,0,0,0
+10,146,new fossil cap,1634,1326,37,8,40,3,0,0,-1,0,0,0
+12,147,48,1894,1306,10,8,0,3,0,0,-1,0,0,0
+1,148,150,147,4,0,0,22,0,0,0,-1--1--1,,1|(1856,1306)|
+1,149,150,141,100,0,0,22,0,0,0,-1--1--1,,1|(1788,1306)|
+11,150,48,1822,1306,6,8,34,3,0,0,1,0,0,0
+10,151,fossil capacity decommission,1822,1322,37,14,40,3,0,0,-1,0,0,0
+1,152,141,151,1,0,0,0,0,128,0,-1--1--1,,1|(1756,1263)|
+1,153,141,118,0,0,0,0,0,128,0,-1--1--1,,1|(1576,1240)|
+10,154,renewable capacity,1789,978,40,20,3,3,0,0,0,0,0,0
+12,155,48,1655,978,10,8,0,3,0,0,-1,0,0,0
+1,156,158,154,4,0,0,22,0,0,0,-1--1--1,,1|(1729,979)|
+1,157,158,155,100,0,0,22,0,0,0,-1--1--1,,1|(1681,979)|
+11,158,48,1704,979,6,8,34,3,0,0,1,0,0,0
+10,159,new renewable capacity,1704,995,60,8,40,3,0,0,-1,0,0,0
+12,160,48,1914,977,10,8,0,3,0,0,-1,0,0,0
+1,161,163,160,4,0,0,22,0,0,0,-1--1--1,,1|(1888,977)|
+1,162,163,154,100,0,0,22,0,0,0,-1--1--1,,1|(1844,977)|
+11,163,48,1866,977,6,8,34,3,0,0,1,0,0,0
+10,164,renewables decommission,1866,999,37,14,40,3,0,0,-1,0,0,0
+1,165,154,120,0,0,0,0,0,128,0,-1--1--1,,1|(1681,952)|
+10,166,lifetime renewable plants,1895,858,44,14,8,3,0,0,0,0,0,0
+10,167,lifetime fossil plants,1927,1226,51,8,8,3,0,0,0,0,0,0
+1,168,166,164,0,0,0,0,0,128,0,-1--1--1,,1|(1882,921)|
+1,169,167,151,0,0,0,0,0,128,0,-1--1--1,,1|(1883,1266)|
+10,170,fossilEL production factor,1586,1197,45,14,8,3,0,0,-1,0,0,0
+1,171,170,118,0,0,0,0,0,64,0,-1--1--1,,1|(1527,1189)|
+1,172,5,116,0,0,0,0,0,128,0,-1--1--1,,1|(2338,-173)|
+10,173,Number of households,-161,-413,40,20,3,3,0,0,0,0,0,0
+12,174,48,-360,-410,10,8,0,3,0,0,-1,0,0,0
+1,175,177,173,4,0,0,22,0,0,0,-1--1--1,,1|(-235,-410)|
+1,176,177,174,100,0,0,22,0,0,0,-1--1--1,,1|(-315,-410)|
+11,177,48,-275,-410,6,8,34,3,0,0,1,0,0,0
+10,178,New households,-275,-394,42,8,40,3,0,4,-1,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+12,179,48,55,-414,10,8,0,3,0,0,-1,0,0,0
+1,180,182,179,4,0,0,22,0,0,0,-1--1--1,,1|(5,-414)|
+1,181,182,173,100,0,0,22,0,0,0,-1--1--1,,1|(-84,-414)|
+11,182,48,-41,-414,6,8,34,3,0,0,1,0,0,0
+10,183,Retired households,-41,-398,48,8,40,3,0,0,-1,0,0,0
+10,184,average time of house use,-41,-499,41,14,8,3,0,0,0,0,0,0
+1,185,184,182,0,0,0,0,0,128,0,-1--1--1,,1|(-41,-459)|
+10,186,Shortage of households,-275,-499,59,8,8,3,0,0,0,0,0,0
+1,187,186,177,0,0,0,0,0,128,0,-1--1--1,,1|(-275,-460)|
+10,188,Average household size,-397,-623,59,8,8,3,0,0,0,0,0,0
+1,189,188,186,1,0,0,0,0,128,0,-1--1--1,,1|(-320,-586)|
+10,190,static efficiency,243,-215,40,8,8,3,0,0,0,0,0,0
+10,191,dynamic efficiency,243,-44,48,8,8,3,0,0,0,0,0,0
+10,192,insulation rate of households,500,-215,44,14,8,131,0,0,0,0,0,0
+1,193,192,190,0,0,0,0,0,128,0,-1--1--1,,1|(376,-215)|
+10,194,human energy behavior,500,-7,59,8,8,3,0,0,0,0,0,0
+1,195,194,191,1,0,0,0,0,128,0,-1--1--1,,1|(380,-37)|
+10,196,Societal pressure,596,84,43,8,8,3,0,0,0,0,0,0
+1,197,196,194,1,0,0,0,0,128,0,-1--1--1,,1|(521,39)|
+10,198,energy efficiency of electrical heating usage,500,-122,60,14,8,131,0,0,0,0,0,0
+1,199,198,191,1,0,0,0,0,128,0,-1--1--1,,1|(370,-76)|
+10,200,average construction year of households,500,-352,54,14,8,3,0,0,0,0,0,0
+10,201,Time,417,-504,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,202,201,200,0,0,0,0,0,128,0,-1--1--1,,1|(453,-437)|
+1,203,184,200,1,0,0,0,0,128,0,-1--1--1,,1|(245,-480)|
+1,204,200,192,0,0,0,0,0,128,0,-1--1--1,,1|(500,-290)|
+10,205,insulation improvement investment,692,-122,35,21,8,131,0,0,0,0,0,0
+1,206,205,192,0,0,0,0,0,128,0,-1--1--1,,1|(598,-166)|
+1,207,194,198,0,0,0,0,0,128,0,-1--1--1,,1|(500,-54)|
+10,208,citizen yearly costs,335,213,48,8,8,131,0,0,0,0,0,0
+1,209,194,205,1,0,0,0,0,128,0,-1--1--1,,1|(579,-58)|
+10,210,HHH by LNG,-403,-36,40,20,3,3,0,0,0,0,0,0
+10,211,HHH by electricity,-59,-36,40,20,3,3,0,0,0,0,0,0
+12,212,48,160,-36,10,8,0,3,0,0,-1,0,0,0
+1,213,215,212,4,0,0,22,0,0,0,-1--1--1,,1|(104,-36)|
+1,214,215,211,100,0,0,22,0,0,0,-1--1--1,,1|(13,-36)|
+11,215,48,52,-36,6,8,34,3,0,0,1,0,0,0
+10,216,decrease in HHH by electricity,52,-14,45,14,40,3,0,0,-1,0,0,0
+12,217,48,-60,237,10,8,0,3,0,0,-1,0,0,0
+1,218,220,211,4,0,0,22,0,0,0,-1--1--1,,1|(-59,42)|
+1,219,220,217,100,0,0,22,0,0,0,-1--1--1,,1|(-59,173)|
+11,220,48,-59,109,6,8,34,3,0,0,1,0,0,0
+10,221,increase in HHH by electricity,-59,131,44,14,40,3,0,0,-1,0,0,0
+12,222,48,-607,-36,10,8,0,3,0,0,-1,0,0,0
+1,223,225,210,4,0,0,22,0,0,0,-1--1--1,,1|(-481,-36)|
+1,224,225,222,100,0,0,22,0,0,0,-1--1--1,,1|(-564,-36)|
+11,225,48,-525,-36,6,8,34,3,0,0,1,0,0,0
+10,226,increase in HHH by LNG,-525,-14,44,14,40,3,0,0,-1,0,0,0
+10,227,share of HHH by electricity,-253,85,44,14,8,3,0,0,0,0,0,0
+1,228,210,227,1,0,0,0,0,128,0,-1--1--1,,1|(-366,33)|
+1,229,211,227,1,0,0,0,0,128,0,-1--1--1,,1|(-191,41)|
+10,230,Initial HHH by electricity,-20,-116,40,14,8,3,0,0,0,0,0,0
+1,231,230,211,1,0,0,0,0,128,1,-1--1--1,,1|(-51,-92)|
+12,232,0,492,-588,40,20,3,7,0,5,-1,0,0,0,255-160-0,255-255-0,|12||0-0-0
+HHH = HouseHoldHeating
+12,233,0,495,-537,40,20,3,7,0,5,-1,0,0,0,255-160-0,255-255-0,|12||0-0-0
+LNG = Natural Gas
+10,234,technological improvement rate,1039,30,46,14,8,131,0,0,0,0,0,0
+1,235,234,198,1,0,0,0,0,128,0,-1--1--1,,1|(741,-23)|
+1,236,238,211,4,0,0,22,0,0,0,-1--1--1,,1|(-150,-36)|
+1,237,238,210,100,0,0,22,0,0,0,-1--1--1,,1|(-288,-36)|
+11,238,3628,-207,-36,6,8,34,3,0,0,1,0,0,0
+10,239,Retrofit to HHH by electricity,-207,-14,50,14,40,3,0,0,-1,0,0,0
+12,240,48,-403,-298,10,8,0,3,0,0,-1,0,0,0
+1,241,243,240,4,0,0,22,0,0,0,-1--1--1,,1|(-403,-221)|
+1,242,243,210,100,0,0,22,0,0,0,-1--1--1,,1|(-403,-98)|
+11,243,48,-403,-147,8,6,33,3,0,0,4,0,0,0
+10,244,Retired HH,-365,-147,30,8,40,3,0,0,-1,0,0,0
+1,245,194,238,1,0,0,0,0,128,0,-1--1--1,,1|(132,-170)|
+10,246,House batteries for backup capacity,977,198,40,20,3,3,0,0,0,0,0,0
+12,247,48,1209,195,10,8,0,3,0,0,-1,0,0,0
+1,248,250,247,4,0,0,22,0,0,0,-1--1--1,,1|(1156,195)|
+1,249,250,246,100,0,0,22,0,0,0,-1--1--1,,1|(1059,195)|
+11,250,48,1108,195,6,8,34,3,0,0,1,0,0,0
+10,251,retired batteries,1108,211,40,8,40,3,0,0,-1,0,0,0
+10,252,average battery life expectancy,976,304,50,14,8,3,0,0,0,0,0,0
+1,253,252,250,1,0,0,0,0,128,0,-1--1--1,,1|(1079,272)|
+12,254,48,787,194,10,8,0,3,0,0,-1,0,0,0
+1,255,257,246,4,0,0,22,0,0,0,-1--1--1,,1|(905,194)|
+1,256,257,254,100,0,0,22,0,0,0,-1--1--1,,1|(829,194)|
+11,257,48,867,194,6,8,34,3,0,0,1,0,0,0
+10,258,new batteries,867,210,34,8,40,3,0,0,-1,0,0,0
+1,259,194,258,1,0,0,0,0,128,0,-1--1--1,,1|(722,77)|
+1,260,234,258,1,0,0,0,0,128,0,-1--1--1,,1|(870,100)|
+1,261,246,257,1,0,0,0,0,128,0,-1--1--1,,1|(915,158)|
+1,262,252,257,1,0,0,0,0,128,0,-1--1--1,,1|(899,272)|
+1,263,173,186,1,0,0,0,0,128,0,-1--1--1,,1|(-175,-462)|
+1,264,183,178,1,0,0,0,0,128,0,-1--1--1,,1|(-155,-358)|
+1,265,173,183,1,0,0,0,0,64,0,-1--1--1,,1|(-119,-460)|
+1,266,234,252,1,0,0,0,0,128,0,-1--1--1,,1|(1158,312)|
+10,267,Time,557,147,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,268,267,196,0,0,0,0,0,64,0,-1--1--1,,1|(572,121)|
+1,269,178,226,1,0,0,0,0,64,0,-1--1--1,,1|(-393,-212)|
+10,270,Time,-529,50,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,271,Initial number of households,-208,-245,44,14,8,3,0,0,-1,0,0,0
+1,272,271,173,0,0,0,0,0,64,1,-1--1--1,,1|(-187,-319)|
+1,273,271,210,0,0,0,0,0,64,1,-1--1--1,,1|(-297,-148)|
+1,274,178,221,1,0,0,0,0,64,0,-1--1--1,,1|(-140,32)|
+10,275,Time,-94,191,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,276,275,221,0,0,0,0,0,64,0,-1--1--1,,1|(-82,169)|
+1,277,210,239,1,0,0,0,0,64,0,-1--1--1,,1|(-291,-70)|
+10,278,LNG demand by HHH,-324,201,57,8,8,3,0,0,0,0,0,0
+1,279,210,278,1,0,0,0,0,64,0,-1--1--1,,1|(-392,84)|
+10,280,Electricity demand by HHH,66,150,49,14,8,3,0,0,0,0,0,0
+1,281,211,280,1,0,0,0,0,128,0,-1--1--1,,1|(18,37)|
+1,282,183,244,1,0,0,0,0,64,0,-1--1--1,,1|(-146,-238)|
+1,283,183,216,0,0,0,0,0,64,0,-1--1--1,,1|(2,-215)|
+1,284,246,251,1,0,0,0,0,64,0,-1--1--1,,1|(1041,156)|
+10,285,Time,-288,377,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,286,208,194,1,0,0,0,0,128,0,-1--1--1,,1|(388,161)|
+10,287,level of efficiency,123,-329,40,20,3,3,0,0,0,0,0,0
+12,288,48,309,-332,10,8,0,3,0,0,-1,0,0,0
+1,289,291,287,4,0,0,22,0,0,0,-1--1--1,,1|(200,-332)|
+1,290,291,288,100,0,0,22,0,0,0,-1--1--1,,1|(274,-332)|
+11,291,48,243,-332,6,8,34,3,0,0,1,0,0,0
+10,292,increase of efficiency,243,-316,54,8,40,3,0,0,-1,0,0,0
+1,293,191,292,1,0,0,0,0,64,0,-1--1--1,,1|(184,-165)|
+1,294,190,292,0,0,0,0,0,64,0,-1--1--1,,1|(243,-258)|
+10,295,HHH energy demand per HH per year,-84,322,40,20,3,3,0,0,0,0,0,0
+12,296,48,-445,316,10,8,0,3,0,0,-1,0,0,0
+1,297,299,295,4,0,0,22,0,0,0,-1--1--1,,1|(-213,323)|
+1,298,299,296,100,0,0,22,0,0,0,-1--1--1,,1|(-374,323)|
+11,299,48,-308,323,6,8,34,3,0,0,1,0,0,0
+10,300,Increase demand,-308,339,43,8,40,3,0,0,-1,0,0,0
+12,301,48,109,318,10,8,0,3,0,0,-1,0,0,0
+1,302,304,301,4,0,0,22,0,0,0,-1--1--1,,1|(71,320)|
+1,303,304,295,100,0,0,22,0,0,0,-1--1--1,,1|(-6,320)|
+11,304,48,38,320,6,8,34,3,0,0,1,0,0,0
+10,305,Decrease demand,38,336,45,8,40,3,0,0,-1,0,0,0
+1,306,188,300,1,0,0,0,0,64,0,-1--1--1,,1|(-640,-76)|
+1,307,287,305,1,0,0,0,0,64,0,-1--1--1,,1|(154,123)|
+1,308,295,278,1,0,0,0,0,64,0,-1--1--1,,1|(-192,278)|
+1,309,295,280,1,0,0,0,0,64,0,-1--1--1,,1|(28,262)|
+1,310,295,208,1,0,0,0,0,64,0,-1--1--1,,1|(184,385)|
+1,311,227,216,1,0,0,0,0,64,0,-1--1--1,,1|(-97,60)|
+1,312,227,244,0,0,0,0,0,64,0,-1--1--1,,1|(-306,-27)|
+10,313,Time,243,-369,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,314,313,292,0,0,0,0,0,64,0,-1--1--1,,1|(243,-349)|
+10,315,Time,980,358,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,316,315,252,0,0,0,0,0,64,0,-1--1--1,,1|(979,340)|
+1,317,280,115,0,0,0,0,0,128,0,-1--1--1,,1|(151,286)|
+1,318,246,104,1,0,0,0,0,128,0,-1--1--1,,1|(983,150)|
+10,319,Price of electricity,483,269,53,8,8,2,0,0,0,0,0,0
+1,320,319,208,0,0,0,0,0,128,0,-1--1--1,,1|(415,243)|
+10,321,Price of electricity,1296,-135,53,8,8,2,0,0,0,0,0,0
+1,322,321,92,0,0,0,0,0,128,0,-1--1--1,,1|(1407,-140)|
+10,323,"Transportation E-demand 0",722,539,42,14,8,2,0,0,0,0,0,0
+1,324,323,125,0,0,0,0,0,128,0,-1--1--1,,1|(746,651)|
+10,325,"Household E-demand 0",573,588,35,14,8,2,0,0,0,0,0,0
+1,326,325,125,0,0,0,0,0,128,0,-1--1--1,,1|(670,678)|
+10,327,Cumulative EV battery capacity,2408,-107,41,14,8,3,0,0,0,0,0,0
+1,328,3,327,0,0,0,0,0,128,0,-1--1--1,,1|(2196,-107)|
+10,329,Cumulative EV battery capacity,1245,43,45,14,8,2,0,0,0,0,0,0
+1,330,329,104,0,0,0,0,0,128,0,-1--1--1,,1|(1125,69)|
+10,331,"GHG emissions per year from electricity-production",1265,1255,63,21,8,3,0,0,0,0,0,0
+10,332,GHG emissions per year from HHH,-295,509,51,14,8,3,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+1,333,278,332,0,0,0,0,0,128,0,-1--1--1,,1|(-310,345)|
+1,334,118,331,0,0,0,0,0,128,0,-1--1--1,,1|(1375,1206)|
+10,335,GHG emissions per year from HHH,135,767,54,14,8,2,0,0,0,0,0,0
+10,336,"GHG emissions per year from electricity-production",471,771,67,21,8,2,0,0,0,0,0,0
+10,337,direct GHG Emissions per year from transportation,303,768,61,21,8,130,0,0,0,0,0,0
+10,338,Battery power capacity,1430,602,43,14,8,2,0,0,0,0,0,0
+10,339,total electricity production 0,1015,765,43,14,8,2,0,0,0,0,0,0
+10,340,electricity deficit,1031,1054,50,8,8,2,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+1,341,340,136,0,0,0,0,0,128,0,-1--1--1,,1|(1102,1087)|
+10,342,capacity factor,1775,1061,38,8,8,3,0,4,0,0,0,0,-1--1--1,255-0-0,|12||0-0-0
+1,343,154,342,0,0,0,0,0,128,0,-1--1--1,,1|(1782,1018)|
+1,344,134,135,0,0,0,0,0,128,0,-1--1--1,,1|(1905,1109)|
+1,345,342,135,0,0,0,0,0,128,0,-1--1--1,,1|(1718,1077)|
+10,346,Grid intensity of electricity,1071,1297,43,14,8,2,0,0,0,0,0,0
+1,347,346,331,0,0,0,0,0,128,0,-1--1--1,,1|(1151,1279)|
+10,348,Grid intensity of electricity,1782,-291,43,14,8,2,0,0,0,0,0,0
+1,349,348,47,0,0,0,0,0,128,0,-1--1--1,,1|(1749,-263)|
+10,350,Grid intensity of electricity,2550,51,43,14,8,2,0,0,0,0,0,0
+10,351,Grid intensity of electricity,1639,490,43,14,8,2,0,0,0,0,0,0
+1,352,351,55,0,0,0,0,0,128,0,-1--1--1,,1|(1613,408)|
+1,353,154,46,0,0,0,0,0,128,0,-1--1--1,,1|(1794,1056)|
+1,354,141,46,0,0,0,0,0,128,0,-1--1--1,,1|(1758,1228)|
+10,355,current base electricity demand per year,930,686,58,21,8,3,0,0,0,0,0,0
+1,356,355,125,0,0,0,0,0,128,0,-1--1--1,,1|(845,732)|
+1,357,154,164,1,0,0,0,0,128,0,-1--1--1,,1|(1837,951)|
+10,358,PJ per Year to MW,1321,1381,48,8,8,3,0,0,0,0,0,0
+1,359,358,141,0,0,0,0,0,128,1,-1--1--1,,1|(1515,1345)|
+1,360,358,154,0,0,0,0,0,128,1,-1--1--1,,1|(1542,1190)|
+1,361,358,120,0,0,0,0,0,128,0,-1--1--1,,1|(1429,1163)|
+1,362,358,118,0,0,0,0,0,64,0,-1--1--1,,1|(1378,1284)|
+1,363,358,136,0,0,0,0,0,64,0,-1--1--1,,1|(1265,1266)|
+1,364,159,164,1,0,0,0,0,64,0,-1--1--1,,1|(1768,915)|
+1,365,146,151,1,0,0,0,0,64,0,-1--1--1,,1|(1718,1445)|
+10,366,EV Battery capacity,2537,-109,51,8,8,3,0,0,-1,0,0,0
+1,367,366,327,0,0,0,0,0,64,0,-1--1--1,,1|(2474,-108)|
+1,368,57,92,0,0,0,0,0,64,0,-1--1--1,,1|(1554,-207)|
+1,369,87,92,1,0,0,0,0,64,0,-1--1--1,,1|(1323,121)|
+10,370,Unit 1 km per Year,2202,366,48,8,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||160-160-160
+1,371,370,78,0,0,0,0,0,64,0,-1--1--1,,1|(2200,349)|
+1,372,90,38,0,0,0,0,0,64,0,-1--1--1,,1|(1927,35)|
+10,373,Renewable elec intensity,2001,1009,41,14,8,3,0,0,-1,0,0,0
+1,374,373,46,0,0,0,0,0,64,0,-1--1--1,,1|(1906,1071)|
+10,375,Fossil elec intensity,2067,1042,50,8,8,3,0,0,-1,0,0,0
+1,376,375,46,0,0,0,0,0,64,0,-1--1--1,,1|(1948,1086)|
+10,377,Unit kWh per MWh,1709,369,51,8,8,3,0,2,-1,0,0,0,0-0-0,0-0-0,|12||160-160-160
+1,378,377,55,0,0,0,0,0,64,0,-1--1--1,,1|(1659,347)|
+10,379,Unit kWh per MWh,2428,80,45,25,8,130,0,2,-1,0,0,0,0-0-0,0-0-0,|12||160-160-160
+10,380,Renewable overcapacity factor,1714,860,50,14,8,3,0,0,0,0,0,0
+1,381,358,342,0,0,0,0,0,128,0,-1--1--1,,1|(1541,1225)|
+1,382,117,342,0,0,0,0,0,128,0,-1--1--1,,1|(1564,942)|
+10,383,Population,-170,-618,35,8,8,2,0,0,-1,0,0,0
+1,384,383,186,1,0,0,0,0,128,0,-1--1--1,,1|(-243,-551)|
+10,386,Units J to kWh,806,649,38,8,8,3,0,0,0,0,0,0
+10,387,Units J to kWh,1158,93,45,8,8,2,0,0,0,0,0,0
+1,388,387,104,0,0,0,0,0,128,0,-1--1--1,,1|(1082,95)|
+10,389,Car and House battery contribution factor,1330,614,58,14,8,3,0,0,-1,0,0,0
+1,390,389,419,0,0,0,0,0,64,0,-1--1--1,,1|(1327,651)|
+1,392,386,125,0,0,0,0,0,64,0,-1--1--1,,1|(791,703)|
+10,393,Time,-268,-636,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,394,393,188,0,0,0,0,0,64,0,-1--1--1,,1|(-306,-631)|
+10,395,share of HH with LNG heating,-556,-139,45,14,8,3,0,0,-1,0,0,0
+1,396,395,226,0,0,0,0,0,64,0,-1--1--1,,1|(-542,-83)|
+10,397,Time,-568,-181,21,8,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,398,397,395,0,0,0,0,0,64,0,-1--1--1,,1|(-565,-169)|
+10,399,new HH construction time,-397,-464,45,14,8,3,0,0,0,0,0,0
+10,400,time to find new areas to build HH,-465,-413,46,14,8,3,0,0,0,0,0,0
+1,401,380,159,0,0,0,0,0,128,0,-1--1--1,,1|(1709,923)|
+10,402,renewableEL production factor,1661,816,44,14,8,3,0,0,-1,0,0,0
+1,403,402,120,0,0,0,0,0,128,0,-1--1--1,,1|(1615,860)|
+10,407,Units J to kWh,2480,-269,45,8,8,2,0,0,0,0,0,0
+1,409,407,116,0,0,0,0,0,128,0,-1--1--1,,1|(2463,-236)|
+10,410,Battery power capacity,909,563,43,14,8,2,0,0,0,0,0,0
+1,411,410,125,0,0,0,0,0,128,0,-1--1--1,,1|(842,664)|
+10,414,electricity from other sources,1614,696,40,14,8,3,0,0,0,0,0,0
+1,415,126,414,0,0,0,0,0,128,0,-1--1--1,,1|(1668,667)|
+1,416,127,414,0,0,0,0,0,128,0,-1--1--1,,1|(1693,680)|
+1,417,122,414,0,0,0,0,0,128,0,-1--1--1,,1|(1670,698)|
+1,418,414,117,0,0,0,0,0,128,0,-1--1--1,,1|(1491,757)|
+10,419,battery buffer feed in,1324,696,53,8,8,3,0,0,0,0,0,0
+1,420,338,419,0,0,0,0,0,128,0,-1--1--1,,1|(1379,647)|
+10,421,electricity deficit,1536,622,50,8,8,2,1,0,0,0,0,0
+1,422,399,178,0,0,0,0,0,64,0,-1--1--1,,1|(-336,-429)|
+1,423,400,178,0,0,0,0,0,128,0,-1--1--1,,1|(-374,-404)|
+10,424,ton co2e emissions of LNG per MWh,-126,484,49,14,8,3,0,0,0,0,0,0
+1,425,424,332,1,0,0,0,0,128,0,-1--1--1,,1|(-278,494)|
+10,426,Units J to kWh,-66,522,45,8,8,2,0,0,0,0,0,0
+1,427,426,332,0,0,0,0,0,128,0,-1--1--1,,1|(-170,515)|
+10,430,Unit kWh per MWh,-311,604,45,25,8,130,0,2,-1,0,0,0,0-0-0,0-0-0,|12||160-160-160
+1,431,430,332,0,0,0,0,0,128,0,-1--1--1,,1|(-303,557)|
+10,432,Total GHGs per Year,179,905,53,8,8,3,0,0,0,0,0,0
+1,433,335,432,0,0,0,0,0,128,0,-1--1--1,,1|(155,832)|
+1,434,337,432,0,0,0,0,0,128,0,-1--1--1,,1|(239,837)|
+1,435,336,432,0,0,0,0,0,128,0,-1--1--1,,1|(317,841)|
+10,436,electricity deficit without batteries,873,835,44,14,8,3,0,0,-1,0,0,0
+1,437,436,133,0,0,0,0,0,64,0,-1--1--1,,1|(933,855)|
+1,438,125,436,0,0,0,0,0,64,0,-1--1--1,,1|(811,796)|
+1,439,339,436,0,0,0,0,0,128,0,-1--1--1,,1|(950,796)|
+1,440,419,133,0,0,0,0,0,64,0,-1--1--1,,1|(1163,782)|
+10,441,electricity deficit without batteries,1473,652,47,14,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,442,441,419,0,0,0,0,0,128,0,-1--1--1,,1|(1395,674)|
+10,443,Units J to PJ,437,430,32,8,8,3,0,0,0,0,0,0
+1,444,443,115,0,0,0,0,0,64,0,-1--1--1,,1|(360,429)|
+1,445,443,116,0,0,0,0,0,64,0,-1--1--1,,1|(1424,126)|
+1,446,443,125,0,0,0,0,0,64,0,-1--1--1,,1|(599,596)|
+1,447,443,104,0,0,0,0,0,64,0,-1--1--1,,1|(705,271)|
+///---\\\
+:L<%^E!@
+1:/Users/borditewig/Downloads/SD-EnergyTransition-master-3/Current.vdf
+9:Current
+22:$,Dollar,Dollars,$s
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+22:Day,Days
+15:0,0,0,5,0,0
+19:75,0
+27:0,
+34:0,
+4:Time
+5:GHG emissions per year from HHH
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:0
+41:0
+42:1
+24:2014
+25:2050
+26:2050
