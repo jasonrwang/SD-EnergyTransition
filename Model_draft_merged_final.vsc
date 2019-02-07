@@ -1,0 +1,11 @@
+200,M,1234,,0
+EV Battery capacity=RANDOM_UNIFORM(50,200)
+Avg energy efficiency EV=RANDOM_UNIFORM(0.17,0.4)
+Fossil electricity intensity=RANDOM_UNIFORM(0.3,0.65)
+lifetime fossil plants=RANDOM_UNIFORM(50,100)
+Price of electricity=RANDOM_UNIFORM(0.1,0.4)
+Price of fossil fuels per km=RANDOM_UNIFORM(0.1,0.2)
+Avg Cost of ICE car=RANDOM_UNIFORM(10000,40000)
+Rate of falling cost of EV=RANDOM_UNIFORM(0.01,0.05)
+Renewable electricity intensity=RANDOM_UNIFORM(0.02,0.04)
+average time of house use=RANDOM_UNIFORM(30,120)
