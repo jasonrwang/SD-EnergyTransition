@@ -484,7 +484,7 @@ share of HHH by electricity=
 	|
 
 Retrofit to HHH by electricity=
-	HHH by LNG*0.003*human energy behavior
+	HHH by LNG*0.01*human energy behavior
 	~	
 	~		|
 
@@ -1322,7 +1322,7 @@ Summary electricity demand vs supply
 27:0,
 34:0,
 4:Time
-5:HHH by electricity
+5:Retrofit to HHH by electricity
 35:Date
 36:YYYY-MM-DD
 37:2000
