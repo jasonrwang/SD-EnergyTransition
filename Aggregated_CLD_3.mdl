@@ -1,0 +1,92 @@
+{UTF-8}
+Dutch GHG Emissions  = A FUNCTION OF( High Carbon Energy Sources,Low Carbon Energy Sources\
+		)
+	~	
+	~		|
+
+High Carbon Energy Sources  = A FUNCTION OF( More Energy Demand)
+	~	
+	~		|
+
+Low Carbon Energy Sources  = A FUNCTION OF( More Energy Demand)
+	~	
+	~		|
+
+More Energy Demand  = A FUNCTION OF( Dutch GHG Emissions,More Energy Efficiency)
+	~	
+	~		|
+
+More Energy Efficiency  = A FUNCTION OF( Dutch GHG Emissions)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP 
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+10,1,Dutch GHG Emissions,548,305,58,8,8,3,0,0,0,0,0,0
+10,2,More Energy Demand,198,126,40,18,8,131,0,0,0,0,0,0
+10,3,More Energy Efficiency,440,52,34,14,8,3,0,0,0,0,0,0
+1,4,1,2,1,0,43,0,0,128,0,-1--1--1,,1|(308,91)|
+1,5,1,3,1,0,43,0,0,128,0,-1--1--1,,1|(519,100)|
+10,6,Low Carbon Energy Sources,225,432,41,14,8,3,0,0,0,0,0,0
+10,7,High Carbon Energy Sources,222,327,41,14,8,3,0,0,0,0,0,0
+1,8,2,6,1,0,43,0,0,128,0,-1--1--1,,1|(179,402)|
+1,9,2,7,1,0,43,0,0,128,0,-1--1--1,,1|(190,268)|
+1,10,7,1,1,0,43,0,0,128,0,-1--1--1,,1|(491,347)|
+1,11,6,1,1,0,45,0,0,128,0,-1--1--1,,1|(528,347)|
+1,12,3,2,1,0,45,0,0,128,0,-1--1--1,,1|(264,67)|
+///---\\\
+:L<%^E!@
+9:Current
+22:$,Dollar,Dollars,$s
+22:Day,Days
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:Dutch GHG Emissions
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:0
+26:0
