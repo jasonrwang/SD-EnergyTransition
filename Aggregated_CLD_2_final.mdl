@@ -1,0 +1,137 @@
+{UTF-8}
+Electricity use in transport and heating  = A FUNCTION OF( Consumer Energy Efficiency\
+		,Electric transport and heating technologies)
+	~	
+	~		|
+
+Electric transport and heating technologies  = A FUNCTION OF( Consumers Who Want Change\
+		,Government Green Policies)
+	~	
+	~		|
+
+Traditional Heating and Transportation Technologies  = A FUNCTION OF( Consumers Who Want Change\
+		,Government Green Policies)
+	~	
+	~		|
+
+Traditional Heating and Transportation Demand  = A FUNCTION OF( Consumer Energy Efficiency\
+		,Traditional Heating and Transportation Technologies)
+	~	
+	~		|
+
+Consumer Energy Efficiency  = A FUNCTION OF( Consumers Who Want Change,Government Green Policies\
+		)
+	~	
+	~		|
+
+Consumers Who Want Change  = A FUNCTION OF( Dutch GHG Emissions)
+	~	
+	~		|
+
+Dutch GHG Emissions  = A FUNCTION OF( Fossil fuel use in transport heating)
+	~	
+	~		|
+
+Fossil fuel use in transport heating  = A FUNCTION OF( Electricity use in transport and heating\
+		,Traditional Heating and Transportation Demand)
+	~	
+	~		|
+
+Government Green Policies  = A FUNCTION OF( Consumers Who Want Change,Dutch GHG Emissions\
+		)
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-255|0-0-255|-1--1--1|-1--1--1|72,72,100,0
+10,1,Dutch GHG Emissions,671,488,58,8,8,3,0,0,0,0,0,0
+10,2,Fossil fuel use in transport heating,436,575,44,14,8,3,0,0,0,0,0,0
+10,3,Electricity use in transport and heating,254,482,55,14,8,3,0,0,0,0,0,0
+10,4,Government Green Policies,532,348,38,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||0-0-255
+10,5,Consumers Who Want Change,681,125,43,14,8,3,0,2,0,0,0,0,0-0-0,0-0-0,|12||255-0-0
+10,6,Consumer Energy Efficiency,217,91,47,14,8,3,0,0,0,0,0,0
+1,7,5,4,1,0,43,0,1,128,0,255-0-0,|12||0-0-0,1|(555,307)|
+1,8,1,5,1,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(711,179)|
+1,9,1,4,1,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(598,407)|
+1,10,5,6,1,0,43,0,1,128,0,255-0-0,|12||0-0-0,1|(352,53)|
+1,11,2,1,1,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(628,510)|
+1,12,3,2,1,0,45,0,1,128,0,0-0-0,|12||0-0-0,1|(342,545)|
+10,13,Traditional Heating and Transportation Demand,103,375,61,14,8,3,0,0,0,0,0,0
+1,14,13,2,1,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(342,580)|
+1,15,4,6,1,0,43,0,0,128,0,-1--1--1,,1|(299,114)|
+10,16,Traditional Heating and Transportation Technologies,254,236,61,21,8,3,0,0,0,0,0,0
+10,17,Electric transport and heating technologies,302,390,55,14,8,3,0,0,0,0,0,0
+1,18,5,16,1,0,45,0,1,128,0,255-0-0,|12||0-0-0,1|(304,203)|
+1,19,5,17,1,0,43,0,1,128,0,255-0-0,|12||0-0-0,1|(325,349)|
+1,20,4,17,1,0,43,0,0,128,0,-1--1--1,,1|(383,369)|
+1,21,4,16,1,0,45,0,0,128,0,-1--1--1,,1|(317,257)|
+1,22,16,13,1,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(132,336)|
+1,23,17,3,0,0,43,0,1,128,0,0-0-0,|12||0-0-0,1|(281,429)|
+1,24,6,13,1,0,45,0,3,128,0,0-128-0,|12||-1--1--1,1|(96,331)|
+1,25,6,3,1,0,45,0,3,128,0,0-128-0,|12||-1--1--1,1|(226,443)|
+12,26,0,450,451,22,22,5,135,0,1,-1,0,0,0,0-0-255,0-0-0,|0||0-0-0
+–
+12,27,0,439,91,22,22,5,135,0,1,-1,0,0,0,255-0-0,0-0-0,|0||0-0-0
+–
+12,28,0,226,342,9,9,5,135,0,1,-1,0,0,0,0-128-0,0-0-0,|0||0-0-0
++
+12,29,0,162,427,24,24,5,135,0,1,-1,0,0,0,0-128-0,0-0-0,|0||0-0-0
++
+12,30,0,447,276,20,20,5,7,0,0,-1,0,0,0
++
+///---\\\
+:L<%^E!@
+9:Current
+22:$,Dollar,Dollars,$s
+22:Day,Days
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+15:0,0,0,0,0,0
+19:100,0
+27:0,
+34:0,
+5:Dutch GHG Emissions
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:2
+41:0
+42:1
+24:0
+25:0
+26:0
